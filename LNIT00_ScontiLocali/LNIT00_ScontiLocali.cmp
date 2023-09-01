@@ -1,0 +1,118 @@
+<aura:component implements="force:hasSObjectName,force:lightningQuickActionWithoutHeader,force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride,lightning:availableForFlowScreens,lightning:availableForFlowActions"
+    controller="APIT00_ScontiLocaliController" access="global">
+
+    <aura:attribute name="data_past" type="List" />
+    <aura:attribute name="data_present" type="List" />
+    <aura:attribute name="data_future" type="List" />
+    <aura:attribute name="columns" type="List" />
+    <aura:attribute name="gruppoEconomico" type="Boolean" />
+    <aura:attribute name="viewAllBool" type="Boolean" default="true" />
+    <aura:attribute name="show5rows" type="Boolean" default="true" />
+    <aura:attribute name="isModalOpen" type="Boolean" default="false" />
+    <aura:attribute name="sortedBy_past" type="String" />
+    <aura:attribute name="sortedDirection_past" type="Boolean" default="true" />
+    <aura:attribute name="sortedBy_present" type="String" />
+    <aura:attribute name="sortedDirection_present" type="Boolean" default="true" />
+    <aura:attribute name="sortedBy_future" type="String" />
+    <aura:attribute name="sortedDirection_present_future" type="Boolean" default="true" />
+
+    <aura:handler name="init" value="{! this }" action="{! c.init }" />
+
+    <aura:if isTrue="{! v.show5rows }">
+        <lightning:card>
+            <lightning:tabset selectedTabId="one">
+                <lightning:tab label="Sconti presenti" id="one">
+                    <!--<div class="slds-m-around_x-small" style="padding-left:5px"><b>Sconti presenti</b></div>-->
+                    <div class="slds-m-around_x-small " style="height:160px;">
+                        <lightning:datatable aura:id="datatable_present" columns="{! v.columns }" data="{! v.data_present }" keyField="Id" hideCheckboxColumn="true" onsort="{!c.updateColumnSorting_present}" sortedBy="{!v.sortedBy_present}" sortedDirection="{!v.sortedDirection_present}"
+                            onrowaction="{!c.getBarcode}" />
+                    </div>
+                    <aura:if isTrue="{! v.viewAllBool }">
+                        <p style="text-align: center"><a onclick="{!c.openAll}">View All</a></p>
+                    </aura:if>
+                </lightning:tab>
+                <lightning:tab label="Sconti passati" id="two">
+                    <!--<div class="slds-m-around_x-small" style="padding-left:5px"><b>Sconti passati</b></div>-->
+                    <div class="slds-m-around_x-small slds-scrollable" style="height:160px;">
+                        <lightning:datatable aura:id="datatable_past" columns="{! v.columns }" data="{! v.data_past }" keyField="Id" hideCheckboxColumn="true" onsort="{!c.updateColumnSorting_past}" sortedBy="{!v.sortedBy_past}" sortedDirection="{!v.sortedDirection_past}" onrowaction="{!c.getBarcode}"
+                        />
+                    </div>
+                    <aura:if isTrue="{! v.viewAllBool }">
+                        <p style="text-align: center"><a onclick="{!c.openAll}">View All</a></p>
+                    </aura:if>
+                </lightning:tab>
+                <lightning:tab label="Sconti futuri" id="three">
+                    <!--<div class="slds-m-around_x-small" style="padding-left:5px"><b>Sconti futuri</b></div>-->
+                    <div class="slds-m-around_x-small slds-scrollable" style="height:160px;">
+                        <lightning:datatable aura:id="datatable_future" columns="{! v.columns }" data="{! v.data_future }" keyField="Id" hideCheckboxColumn="true" onsort="{!c.updateColumnSorting_future}" sortedBy="{!v.sortedBy_future}" sortedDirection="{!v.sortedDirection_future}"
+                            onrowaction="{!c.getBarcode}" />
+                    </div>
+                    <aura:if isTrue="{! v.viewAllBool }">
+                        <p style="text-align: center"><a onclick="{!c.openAll}">View All</a></p>
+                    </aura:if>
+                </lightning:tab>
+            </lightning:tabset>
+
+        </lightning:card>
+
+        <aura:set attribute="else">
+            <lightning:card>
+                <lightning:tabset selectedTabId="one">
+                    <lightning:tab label="Sconti presenti" id="one">
+                        <!--<div class="slds-m-around_x-small" style="padding-left:5px"><b>Sconti presenti</b></div>-->
+                        <div class="slds-m-around_x-small ">
+                            <lightning:datatable aura:id="datatable_present" columns="{! v.columns }" data="{! v.data_present }" keyField="Id" hideCheckboxColumn="true" onsort="{!c.updateColumnSorting_present}" sortedBy="{!v.sortedBy_present}" sortedDirection="{!v.sortedDirection_present}"
+                                onrowaction="{!c.getBarcode}" />
+                        </div>
+                        <aura:if isTrue="{! v.viewAllBool }">
+                            <p style="text-align: center"><a onclick="{!c.openAll}">View All</a></p>
+                        </aura:if>
+                    </lightning:tab>
+                    <lightning:tab label="Sconti passati" id="two">
+                        <!--<div class="slds-m-around_x-small" style="padding-left:5px"><b>Sconti passati</b></div>-->
+                        <div class="slds-m-around_x-small slds-scrollable">
+                            <lightning:datatable aura:id="datatable_past" columns="{! v.columns }" data="{! v.data_past }" keyField="Id" hideCheckboxColumn="true" onsort="{!c.updateColumnSorting_past}" sortedBy="{!v.sortedBy_past}" sortedDirection="{!v.sortedDirection_past}" onrowaction="{!c.getBarcode}"
+                            />
+                        </div>
+                        <aura:if isTrue="{! v.viewAllBool }">
+                            <p style="text-align: center"><a onclick="{!c.openAll}">View All</a></p>
+                        </aura:if>
+                    </lightning:tab>
+                    <lightning:tab label="Sconti futuri" id="three">
+                        <!--<div class="slds-m-around_x-small" style="padding-left:5px"><b>Sconti futuri</b></div>-->
+                        <div class="slds-m-around_x-small slds-scrollable">
+                            <lightning:datatable aura:id="datatable_future" columns="{! v.columns }" data="{! v.data_future }" keyField="Id" hideCheckboxColumn="true" onsort="{!c.updateColumnSorting_future}" sortedBy="{!v.sortedBy_future}" sortedDirection="{!v.sortedDirection_future}"
+                                onrowaction="{!c.getBarcode}" />
+                        </div>
+                        <aura:if isTrue="{! v.viewAllBool }">
+                            <p style="text-align: center"><a onclick="{!c.openAll}">View All</a></p>
+                        </aura:if>
+                    </lightning:tab>
+                </lightning:tabset>
+
+            </lightning:card>
+        </aura:set>
+    </aura:if>
+    <aura:if isTrue="{!v.isModalOpen}">
+        <!--###### MODAL BOX Start######-->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- ###### MODAL BOX HEADER Start ######-->
+                <header class="slds-modal__header">
+                    <!-- Close button-->
+                    <lightning:buttonIcon class="slds-button slds-button_icon slds-button__icon_large slds-modal__close slds-button_icon-inverse" iconName="utility:close" onclick="{! c.exitModal }" alternativeText="close"></lightning:buttonIcon>
+                </header>
+                <!--###### MODAL BOX BODY Part Start######-->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    Documento non presente in Indicom
+                </div>
+                <!--###### MODAL BOX FOOTER Part Start ######-->
+                <footer class="slds-modal__footer">
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+        <!--###### MODAL BOX Part END Here ######-->
+    </aura:if>
+
+</aura:component>

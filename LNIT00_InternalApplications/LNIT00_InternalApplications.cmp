@@ -1,0 +1,71 @@
+<aura:component controller="APIT00_InternalApplications" implements="flexipage:availableForAllPageTypes,lightning:isUrlAddressable,force:hasRecordId,force:hasSObjectName" access="global">
+	 
+	<aura:handler name="init" value="{!this}" action="{!c.init}" />
+	
+	<lightning:workspaceAPI aura:id="workspaceAPI" />
+
+	<aura:attribute name="configs" type="Object" />
+	<aura:attribute name="options" type="Object" />
+	<aura:attribute name="groups" type="Array" />
+    <aura:attribute name="isCard" type="Boolean" />
+	<aura:attribute name="spinner" type="Boolean" />
+	<aura:attribute name="profileName" type="String"/>
+	<aura:attribute name="onSelectFinancialCode" type="Object" />
+
+	<aura:if isTrue="{!v.spinner }">
+		<lightning:spinner alternativeText="Loading" size = "medium"/>
+    </aura:if>
+
+	<div class="slds-card">
+	    <div class="slds-p-left_medium slds-p-top_medium slds-p-bottom_medium">
+			<aura:if isTrue="{!v.sObjectName == 'Account'}">
+	       		<div style="margin-bottom: 15px;">
+		    		<c:LNIT00_FinancialCenterSelect aura:id="finacial-center" recordId="{!v.recordId}" onChangeCallback="{!v.onSelectFinancialCode}"/>
+				</div>
+    		</aura:if>
+		    <aura:iteration items="{!v.groups}" var="group">
+		       	<div class="slds-text-heading_small" style="margin-bottom: 15px;"><b>{!group.Name}</b></div>
+		    	<aura:iteration items="{!group.links}" var="link">
+		       		<div style="margin-bottom: 15px;">
+
+						<aura:if isTrue="{!v.profileName == 'IT Sales Expendia'}">
+							<aura:if isTrue="{!link.IT_Label__c == 'Portale Intesa'}">
+								<a onclick="{!c.onClick}" data-record-id="{!link.Id}">{!link.IT_Label__c}</a>
+							</aura:if>
+							<aura:if isTrue="{!or(link.IT_Label__c == 'Expendia',link.IT_Label__c == 'Chopin')}">
+								<a onclick="{!c.onClick}" data-record-id="{!link.Id}">{!link.IT_Label__c}</a>
+							</aura:if>
+							<aura:if isTrue="{!or(link.IT_Label__c == 'Billing System',link.IT_Label__c == 'Sistema di Fatturazione')}">
+								<a onclick="{!c.onClick}" data-record-id="{!link.Id}">{!link.IT_Label__c}</a>
+							</aura:if>
+						</aura:if>
+
+
+						<aura:if isTrue="{!v.profileName == 'IT FMIT'}">
+							<aura:if isTrue="{!link.IT_Label__c == 'Portale Intesa'}">
+								<a onclick="{!c.onClick}" data-record-id="{!link.Id}">{!link.IT_Label__c}</a>
+							</aura:if>
+							<aura:if isTrue="{!or(link.IT_Label__c == 'MYDHL',link.IT_Label__c == 'Dashboard UTA')}">
+								<a onclick="{!c.onClick}" data-record-id="{!link.Id}">{!link.IT_Label__c}</a>
+							</aura:if>
+							<aura:if isTrue="{!link.IT_Label__c == 'Galitt'}">
+								<a onclick="{!c.onClick}" data-record-id="{!link.Id}">{!link.IT_Label__c}</a>
+							</aura:if>
+						</aura:if>
+						<aura:if isTrue="{!and(v.profileName != 'IT Sales Expendia',v.profileName != 'IT FMIT')}">
+								<aura:if isTrue="{!and(link.IT_Label__c != 'MYDHL',link.IT_Label__c != 'Chopin')}">
+									<aura:if isTrue="{!and(link.IT_Label__c != 'Billing System',link.IT_Label__c != 'Galitt')}">
+										<aura:if isTrue="{!and(link.IT_Label__c != 'Dashboard UTA',link.IT_Label__c != 'Expendia')}">
+											<a onclick="{!c.onClick}" data-record-id="{!link.Id}">{!link.IT_Label__c}</a>
+										</aura:if>
+									</aura:if>
+								</aura:if>
+						</aura:if>
+		       			<!--<a onclick="{!c.onClick}" data-record-id="{!link.Id}">{!link.IT_Label__c}</a>-->
+	       			</div>
+		    	</aura:iteration>
+		    </aura:iteration>
+	    </div>
+	</div>
+	
+</aura:component>

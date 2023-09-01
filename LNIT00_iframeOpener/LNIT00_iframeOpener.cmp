@@ -1,0 +1,31 @@
+<aura:component controller="APIT21_IFrameOpenerController" implements="flexipage:availableForAllPageTypes,lightning:isUrlAddressable,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global">
+    <aura:attribute name="WindowRef" type="String[]" />
+    <aura:attribute name="calledSystem" type="String" access="public"/>
+    <aura:attribute name="tempTabId" type="String" />
+    <aura:attribute name="tabId" type="String" />
+    <aura:attribute name="Resource" type="String" access="public"/>
+    <aura:attribute name="iFrameURL" type="String" />
+    <aura:attribute name="isIframe" type="String" access="public"/>
+    <aura:attribute name="isApp" type="String" default = "" access="public"/>
+    <aura:attribute name="extUrl" type="String"  />
+    <aura:attribute name="nextUrl" type="String"  />
+    <aura:attribute name="parentTabId" type="String" />
+    <aura:attribute name="closingTabId" type="String" />
+    <aura:attribute name="jiraSubject" type="String" access="global"/>
+    <aura:attribute name="jiraDescription" type="String" access="global"/>
+    <aura:attribute name="jiraCode" type="String" access="global"/>
+    <aura:attribute name="portalVariable" type="String" access="global"/>
+    <aura:attribute name="queryString" type="String" access="global"/>
+    <aura:attribute name="isVisible" type="Boolean" access="global" default = "false"/>
+    <aura:attribute name="logoutHandler" type="Boolean" access="global" default = "true"/>
+
+    <lightning:workspaceAPI aura:id="workspace"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <aura:handler event="lightning:tabFocused" action="{!c.onTabFocused}"/>
+    <aura:handler event="lightning:tabClosed" action="{!c.onClosedHelper }"/>
+    
+	<div aura:id="hiddenFrame" class="slds-hide">
+    <iframe width="100%" height="875" style="border: 1px solid" src="{!v.extUrl}" onload="{!c.loadedFrame}" />
+	</div>
+    
+</aura:component>

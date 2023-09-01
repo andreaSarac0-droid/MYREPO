@@ -1,0 +1,17 @@
+<aura:component implements="force:appHostable,lightning:isUrlAddressable,flexipage:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName" 
+                access="global" 
+                controller="APIT00_SyncQuoteAndOpportunity">
+	<lightning:notificationsLibrary aura:id="notifLib"/>
+    
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    
+    <lightning:button class="slds-button slds-button--neutral" 
+                      label="Sync Quote" 
+                      title="Sync" 
+                      onclick="{!c.onClick}"/>
+    <div>
+        <aura:if isTrue="{! v.loaded }">
+            <lightning:spinner alternativeText="Loading" />
+        </aura:if>
+    </div>
+</aura:component>

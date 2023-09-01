@@ -1,0 +1,23 @@
+/*.THIS .custom-box {
+    text-align: center;
+    background-color: #f4f6f9;
+    padding: 1rem;
+    border: 3px solid #d8dde6;
+}*/
+.THIS .floater{
+    float:right;
+}
+
+.THIS .customButtons {
+    float : right;
+    padding: 1rem;
+}
+
+.THIS .slds-dropdown_fluid {
+    float : left;
+    position : relative;
+}
+
+.THIS .pippo {
+    padding-left : .5rem;
+}

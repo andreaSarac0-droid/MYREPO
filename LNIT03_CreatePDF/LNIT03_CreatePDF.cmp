@@ -1,0 +1,21 @@
+<aura:component Controller="APIT09_CreatePDFController" implements="force:lightningQuickActionWithoutHeader,force:hasRecordId,force:hasSObjectName,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride"  access="global">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <lightning:workspaceAPI aura:id="workspace" />
+    <aura:attribute name="templateListName" type="List" />
+    <aura:attribute name="idTemplateHtml" type="String"/>
+    
+    
+    <lightning:select name="Template" label="Select Template" aura:id="TemplateId" value="{!v.idTemplateHtml}">
+        <option text="-- none --" value=""/>
+        <aura:iteration items="{!v.templateListName}" var="option">
+            <option text="{!option.strLabel}" value="{!option.strValue}"/>
+        </aura:iteration>
+    </lightning:select>
+
+    <div class="customButtons" draggable="false" >
+        <div class="slds-m-top_medium">
+            <lightning:button  variant="brand" name="CreatePdf" label="Create Pdf" onclick="{!c.invoke}"/>
+        </div>
+    </div>
+
+</aura:component>

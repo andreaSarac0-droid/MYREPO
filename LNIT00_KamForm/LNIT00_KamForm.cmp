@@ -1,0 +1,53 @@
+<aura:component implements="force:hasRecordId,force:hasSObjectName">
+	
+	<aura:attribute name="sections" type="Array"/>
+	
+	<lightning:accordion>
+		<aura:iteration items="{!v.sections}" var="section">
+			<lightning:accordionSection name="{!section.label}" label="{!section.label}">
+				<aura:iteration items="{!section.fields}" var="field">
+					<aura:if isTrue="{!field.type == 'select'}">
+						<lightning:select 
+							name="{!field.developerName}" 
+							label="{!field.label}" 
+							required="{!field.required}"
+							readonly="{!field.readOnly}"
+							value="{!field.value}"
+						>
+							<aura:iteration items="{!field.domains}" var="domain">
+								<option value="{!domain}">{!domain}</option>
+							</aura:iteration>
+						</lightning:select>
+				
+						<aura:set attribute="else">
+                            <aura:if isTrue="{!field.type == 'number'}">
+                                <lightning:input 
+                                    name="{!field.developerName}" 
+                                    label="{!field.label}" 
+                                    type="{!field.type}"
+                                    required="{!field.required}"
+                                    readonly="{!field.readOnly}"
+                                    value="{!field.value}"
+                                    checked="{!field.value}"
+                                    step=".01"
+                                                 />
+                           <aura:set attribute="else">
+                                <lightning:input 
+                                    name="{!field.developerName}" 
+                                    label="{!field.label}" 
+                                    type="{!field.type}"
+                                    required="{!field.required}"
+                                    readonly="{!field.readOnly}"
+                                    value="{!field.value}"
+                                    checked="{!field.value}"
+                                                 />
+                           </aura:set>
+                                </aura:if>
+						</aura:set>
+
+					</aura:if>
+				</aura:iteration>
+			</lightning:accordionSection>
+		</aura:iteration>
+	</lightning:accordion>
+</aura:component>

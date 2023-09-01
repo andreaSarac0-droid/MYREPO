@@ -1,0 +1,9 @@
+<design:component>
+	    <design:attribute name="objectName" label="objectName" />
+        <design:attribute name="fieldName" label="fieldName" />
+        <design:attribute name="label" label="label" />
+        <design:attribute name="iconName" label="iconName" />
+        <design:attribute name="AdditionalFilter" label="AdditionalFilter" />
+    	<design:attribute name="selectedRecord" label="Selected Record" /> 
+    <design:attribute name="fieldToShow" label="Field to show" /> 
+</design:component>

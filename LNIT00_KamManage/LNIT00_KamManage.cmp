@@ -1,0 +1,98 @@
+<aura:component controller="APIT00_KamPdfController" implements="force:hasRecordId,force:hasSObjectName">
+	
+	<ltng:require scripts="{!$Resource.kamEngine + '/static/js/bundle.js'}" afterScriptsLoaded="{!c.doInit}"/>
+	<!-- <ltng:require scripts="https://dev.edenred.com:3000/static/js/bundle.js" afterScriptsLoaded="{!c.doInit}"/> -->
+	
+	<aura:attribute name="spinner" type="Boolean" default="true"/>
+	<aura:attribute name="template" type="String"/>
+	<aura:attribute name="title" type="String"/>
+    <aura:attribute name="createExcel" type="Boolean" default="false"/>
+
+	<aura:attribute name="rows" type="Integer" default="36"/>
+	<aura:attribute name="columns" type="Integer" default="5"/>
+
+	<aura:attribute name="file" type="Object"/>
+	<aura:attribute name="form" type="Object"/>
+	<aura:attribute name="source" type="Object"/>
+	<aura:attribute name="next" type="Object"/>
+	
+	<aura:attribute name="showDebug" type="Boolean"/>
+	<aura:attribute name="showPreview" type="Boolean"/>
+
+	<aura:attribute name="debug" type="Boolean"/>
+	<aura:attribute name="debugJson" type="String"/>
+
+	<aura:if isTrue="{!v.spinner}">
+		<lightning:spinner alternativeText="Loading" size = "medium"/>
+	</aura:if>
+
+	<div>
+		<lightning:card title="{!v.title}">
+			<c:LNIT00_KamForm recordId="{!v.recordId}"  sObjectName="{!v.sObjectName}" sections="{!v.form.sections}"/>
+			
+			<div class="slds-text-align_right">
+                <aura:if isTrue="{!v.createExcel}">
+                	<lightning:button variant="success" label="Genera Excel" title="Genera Excel" onclick="{!c.onGeneratePdf }" />	
+                    <aura:set attribute="else">
+                    	<lightning:button variant="success" label="Genera PDF" title="Genera PDF" onclick="{!c.onGeneratePdf }"/>
+                    </aura:set>
+                </aura:if>
+			</div>
+		</lightning:card>
+
+		<aura:if isTrue="{!v.debug}">
+			<input type="file" style="display: none;" onchange="{!c.onChangeFile}" aura:id="uploadFile"/>
+			
+			<lightning:card title="Debug">
+				<div class="slds-button-group" role="group">
+					<button class="slds-button slds-button_neutral" onclick="{!c.onUpload}">Upload Excel</button>
+					<button class="slds-button slds-button_neutral" onclick="{!c.onDebug}">Debug</button>
+					<button class="slds-button slds-button_neutral" onclick="{!c.onPreview}">Preview</button>
+				</div>
+			</lightning:card>
+
+			<aura:if isTrue="{!v.showPreview}">
+				<section role="dialog" tabindex="-1" aria-labelledby="modal-preview" aria-modal="true" aria-describedby="modal-preview" class="slds-modal slds-fade-in-open slds-modal_large">
+					<div class="slds-modal__container">
+						<header class="slds-modal__header">
+							<lightning:buttonIcon iconName="utility:close"
+								onclick="{!c.onClose}"
+							 	alternativeText="close"
+							 	variant="bare-inverse"
+							 	class="slds-modal__close"/>
+							<h2 class="slds-modal__title slds-hyphenate">Preview</h2>
+						</header>
+
+						<div class="slds-modal__content slds-p-around_medium" id="modal-preview">
+							<div aura:id="preview"></div>
+						</div>
+					</div>
+				</section>
+				<div class="slds-backdrop slds-backdrop_open"></div>
+			</aura:if>
+		
+			<aura:if isTrue="{!v.showDebug}">
+				<section role="dialog" tabindex="-1" aria-labelledby="modal-debug" aria-modal="true" aria-describedby="modal-debug" class="slds-modal slds-fade-in-open slds-modal_large">
+					<div class="slds-modal__container">
+						<header class="slds-modal__header">
+							<lightning:buttonIcon iconName="utility:close"
+								onclick="{!c.onClose}"
+							 	alternativeText="close"
+							 	variant="bare-inverse"
+							 	class="slds-modal__close"/>
+							<h2 class="slds-modal__title slds-hyphenate">Debug</h2>
+						</header>
+
+						<div class="slds-modal__content slds-p-around_medium" id="modal-debug">
+							<pre>
+								{!v.debugJson}
+							</pre>
+						</div>
+					</div>
+				</section>
+				<div class="slds-backdrop slds-backdrop_open"></div>
+			</aura:if>
+		</aura:if>
+	</div>
+	
+</aura:component>

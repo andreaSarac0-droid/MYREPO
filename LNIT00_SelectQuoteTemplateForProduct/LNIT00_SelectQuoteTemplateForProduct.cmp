@@ -1,0 +1,29 @@
+<aura:component implements ="force:lightningQuickActionWithoutHeader,force:hasRecordId,lightning:actionOverride,flexipage:availableForAllPageTypes" controller="APIT00_QuoteTemplateAssociatedToProduct">
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    <aura:attribute name="options" type="List" access="PRIVATE"/>
+    <aura:attribute name="templateIDandName" type="Object[]"/>
+     <aura:attribute name="selectedValue" type="String"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:html tag="style">
+        .genpdf {
+            display: flex;
+             margin-top: 3rem;
+            justify-content: center;
+        }
+        
+    </aura:html>
+     <div class="modal-header slds-modal__header slds-size_1-of-1">
+        <h4 class="title slds-text-heading--medium" >Select Quote Template</h4>
+    </div>
+    <aura:handler name="change" value="{!v.status}" action="{!c.handleChange}"/>
+    <lightning:select name="templateID" label="" aura:id="templateID" onchange="{!c.onChangeSelect}" value="{!v.selectedValue}">
+       <option value="">Please choose one option</option>
+        <aura:iteration items="{!v.templateIDandName}" var="singleT">
+            <option text="{!singleT.quoteName}" value="{!singleT.quoteID}"/>
+        </aura:iteration>
+    </lightning:select>
+    <div id="buttongeneratepdf" class="genpdf" style="visibility: hidden">
+    <lightning:button  variant="brand" label="Generate PDF" title="Generate PDF" onclick="{! c.handleClick }" />
+    </div>
+    </aura:component>

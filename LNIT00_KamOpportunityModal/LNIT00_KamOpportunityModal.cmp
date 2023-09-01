@@ -1,0 +1,29 @@
+<aura:component implements="force:appHostable,lightning:isUrlAddressable,flexipage:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName" access="global">
+
+	<aura:attribute name="show" type="Boolean"/>
+	<aura:attribute name="debug" type="Boolean"/>
+	
+	<lightning:button class="slds-button slds-button--neutral" label="Business Plan" title="Genera Business Plan" onclick="{!c.onOpen}"/>
+
+	<aura:if isTrue="{!v.show}">
+		<section role="dialog" tabindex="-1" aria-labelledby="modal-find-associate" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open slds-modal_large">
+			<div class="slds-modal__container">
+				<header class="slds-modal__header">
+					<lightning:buttonIcon iconName="utility:close"
+						onclick="{!c.onClose}"
+					 	alternativeText="close"
+					 	variant="bare-inverse"
+					 	class="slds-modal__close"/>
+				</header>
+				<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+					<c:LNIT00_KamOpportunity 
+						recordId="{!v.recordId}" 
+						sObjectName="{!v.sObjectName}" 
+						debug="{!v.debug}"
+					/>
+				</div>
+			</div>
+		</section>
+		<div class="slds-backdrop slds-backdrop_open"></div>
+	</aura:if>
+</aura:component>

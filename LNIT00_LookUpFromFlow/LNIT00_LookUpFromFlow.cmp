@@ -1,0 +1,21 @@
+<aura:component implements="lightning:availableForFlowScreens" >
+            <aura:attribute name="objectName" type="String" /> 
+            <aura:attribute name="fieldName" type="String" /> 
+            <aura:attribute name="label" type="String" /> 
+            <aura:attribute name="iconName" type="String" /> 
+            <aura:attribute name="AdditionalFilter" type="String" default=""/>
+            <aura:attribute name="selectedRecord" type="String" /> 
+    		<aura:attribute name="fieldToShow" 	type="string" default="" description="API name of the field to be displayed in the list. By default it is Name." />
+     <aura:handler name="oSelectedRecordEvent" event="c:LNIT00_LookupEvent" action="{!c.handleComponentEvent}"/>
+	        <c:LNIT00_CustomLookup 
+            	objectName="{!v.objectName}" 
+                fieldName="{!v.fieldName}" 
+                label="{!v.label}" 
+                iconName="{!v.iconName}" 
+                placeholder="Enter Value" 
+                AdditionalFilter="{!v.AdditionalFilter}" 
+                value="{!v.selectedRecord}"
+                fieldToShow="{!v.fieldToShow}"
+             />
+    
+</aura:component>

@@ -1,0 +1,61 @@
+<aura:component implements="force:hasRecordId,force:hasSObjectName" controller="APIT00_KamReportController">
+	<ltng:require scripts="{!$Resource.kamEngine + '/static/js/bundle.js'}" afterScriptsLoaded="{!c.doInit}"/>
+	
+	<aura:attribute name="spinner" type="Boolean" default="true"/>
+	<aura:attribute name="reaload" type="Boolean"/>
+	<aura:attribute name="debug" type="Boolean"/>
+
+	<aura:attribute name="configs" type="Array"/>
+	<aura:attribute name="products" type="Array"/>
+	<aura:attribute name="regions" type="Array"/>
+	<aura:attribute name="productInfo" type="Array"/>
+    
+	<aura:attribute name="productSelect" type="String"/>
+	<aura:attribute name="regionSelect" type="String"/>
+	<aura:attribute name="configSelect" type="Object"/>
+
+	<aura:attribute name="template" type="String"/>
+	<aura:attribute name="title" type="String"/>
+
+	<aura:if isTrue="{!v.spinner}">
+		<lightning:spinner alternativeText="Loading" size = "medium"/>
+	</aura:if>
+	
+	<div>
+		<!--<lightning:card title="Seleziona Prodotto / Regione">
+			<lightning:select name="products" label="Prodotto" required="true" value="{!v.productSelect}" onchange="{!c.onSelect}">
+				<option value="">-</option>
+				<aura:iteration items="{!v.products}" var="product">
+					<option value="{!product}">{!product}</option>
+				</aura:iteration>
+			</lightning:select>
+
+			<lightning:select name="regions" label="Regione" required="true" value="{!v.regionSelect}" onchange="{!c.onSelect}">
+				<option value="">-</option>
+				<aura:iteration items="{!v.regions}" var="region">
+					<option value="{!region}">{!region}</option>
+				</aura:iteration>
+			</lightning:select>
+		</lightning:card>-->
+		<lightning:card >
+            <p class="slds-text-heading_small"> 
+            	Prodotto: {!v.productSelect}
+            </p>
+            <p class="slds-text-heading_small"> 
+            	Regione: {!v.regionSelect}
+            </p>
+            
+        </lightning:card>
+		<aura:if isTrue="{!v.reaload}">
+			<c:LNIT00_KamManage 
+				recordId="{!v.recordId}" 
+				sObjectName="{!v.sObjectName}" 
+				source="{!v.configSelect}"
+				template="{!v.template}"
+				title="{!v.title}"
+				debug="{!v.debug}"
+				rows="80"
+			/>
+		</aura:if>
+	</div>
+</aura:component>

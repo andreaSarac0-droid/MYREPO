@@ -1,0 +1,31 @@
+<design:component>
+    <design:attribute name="recordId" label="Record Id" />
+    <design:attribute name="sObjectName" label="Object Name" />
+    <design:attribute name="updateIdString" label="ID Update String" />
+    <design:attribute name="newAddressId" label="New Address Id" />
+    <design:attribute name="stringaConctatena" label="stringaConctatena" />
+    <design:attribute name="isFlow" label="is Flow" />
+
+    <design:attribute name="flowProvince" label="flowProvince" />
+    <design:attribute name="flowProvinceCode" label="flowProvinceCode"/>
+    <design:attribute name="flowCity" label="flowCity" />
+    <design:attribute name="flowCityCode" label="flowCityCode"/>
+    <design:attribute name="flowStreet" label="flowStreet" />
+    <design:attribute name="flowStreetCode" label="flowStreetCode" />
+    <design:attribute name="flowLocAgg" label="flowLocAgg"/>
+    <design:attribute name="flowCAP" label="flowCAP"/>
+    <design:attribute name="flowMetRefX" label="flowMetRefX" />
+    <design:attribute name="flowMetRefY" label="flowMetRefY" />
+    <design:attribute name="flowGeoRefX" label="flowGeoRefX" />
+    <design:attribute name="flowGeoRefY" label="flowGeoRefY" />
+    <design:attribute name="flowToponym" label="flowToponym" />
+    <design:attribute name="flowRegionDesc" label="flowRegionDesc" />
+    <design:attribute name="flowRegionRef" label="flowRegionRef" />
+    <design:attribute name="flowHamlet" label="flowHamlet" />
+    <design:attribute name="flowHamletCode" label="flowHamletCode" />
+    <design:attribute name="flowDistrictCode" label="flowDistrictCode" />
+    <design:attribute name="flowExtraSpec" label="flowExtraSpec" />
+    <design:attribute name="flowGeoQualita" label="flowGeoQualita" />
+    <design:attribute name="flowCivicoNumerico" label="flowCivicoNumerico" />
+
+</design:component>

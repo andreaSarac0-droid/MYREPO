@@ -1,0 +1,36 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:appHostable,force:LightningQuickAction,lightning:isUrlAddressable" 
+                controller="APIT00_GetCervedDocs">
+    <!--   <lightning:button label="Modifica Indirizzo" title="Modifica Indirizzo" onclick="{! c.handleClick }"/>-->
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    
+    <aura:attribute name="selectedDocumentId" type="string"/>
+    <aura:attribute name="hasModalOpen" type="boolean" default="false"/>
+    <aura:attribute name="valid" type="boolean" default="false"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/> 
+    <!--  <table>
+       <tr>   
+           <td >       -->
+    <ui:button class="slds-button slds-button--neutral" label="Lince" press="{!c.Call}" disabled="{!v.valid}"  />  
+    <!--     </td>
+        </tr>     
+    </table> -->
+    
+    <aura:if isTrue="{!v.hasModalOpen}">
+        <section onclick="{!c.closeModel}"
+                 role="dialog"
+                 aria-modal="true"
+                 class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__content slds-p-around_medium slds-text-align_center"
+                     style="background: transparent;">
+                    <div style="width: 50%; margin: 0 auto; text-align: left">
+                        <!--<lightning:fileCard> to preview file using content document Id -->
+                        <lightning:fileCard fileId="{!v.selectedDocumentId}"/>
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+</aura:component>

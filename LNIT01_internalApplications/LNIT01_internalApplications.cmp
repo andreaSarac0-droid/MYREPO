@@ -1,0 +1,168 @@
+<!-- 
+Need to insert record types to see this properly -->
+<aura:component controller="APIT05_GetRecordType" implements="flexipage:availableForAllPageTypes,lightning:isUrlAddressable,force:hasRecordId" access="global">
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <lightning:workspaceAPI aura:id="workspaceAPI" />
+    <lightning:navigation aura:id="navigationService" />
+    <aura:attribute name="rType" type="String"/>
+    <aura:attribute name="portalVariable" type="String"/>
+    <aura:attribute name="circCD" type="String"/>
+    <aura:attribute name="serviceType" type="String"/>
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+    <aura:attribute name="jiraProjects" type="List" />
+    <aura:attribute name="jiraIssueTypes" type="List" />
+    <aura:attribute name="selectedProject" type="String"/>
+    <aura:attribute name="ProfileName" type="String"/>
+    <div class="slds-card">
+        <div class="slds-p-left_medium slds-p-top_medium slds-p-bottom_medium">
+            <div class="slds-text-heading_small"><b >{!$Label.c.LABS_IT_Portals}</b></div>
+            <br/>
+            <aura:if isTrue="{!v.ProfileName == 'IT Sales Expendia'}">
+                <p><a onclick="{!c.handleClick5}">Portale Intesa</a></p>
+                <br/>
+                <p><a onclick="{!c.handleClickJIRA}">JIRA</a></p>
+                <br/>
+                <p><a onclick="{!c.handleClickExpendia}">Portale Expendia</a></p>
+                <br/>
+                <p><a onclick="{!c.handleClickChopin}">Chopin</a></p>
+                <br/> 
+            </aura:if>
+            <aura:if isTrue="{!v.ProfileName == 'IT FMIT'}">
+                <p><a onclick="{!c.handleClick5}">Portale Intesa</a></p>
+                <br/>
+                <p><a onclick="{!c.handleClickJIRA}">JIRA</a></p>
+                <br/>
+                <p><a onclick="{!c.handleClickDHL}">MYDHL</a></p>
+                <br/>
+                <p><a onclick="{!c.handleClickDashboardUTA}">Dashboard UTA</a></p>
+                <br/>
+                <p><a onclick="{!c.handleClickGalitt}">Galitt</a></p>
+                <br/>
+            </aura:if>
+            <aura:if isTrue="{!and(v.ProfileName != 'IT FMIT',v.ProfileName != 'IT Sales Expendia')}">
+                <p><a onclick="{!c.handleClick5}">Portale Intesa</a></p>
+                <br/>
+                <p><a onclick="{!c.handleClickJIRA}">JIRA</a></p>
+                <br/>
+                <p><a onclick="{!c.handleClick}">{!$Label.c.LABS_IT_Customer_Portal}</a></p>
+                <br/>
+                <p><a onclick = "{!c.handleClickBenef}">{!$Label.c.LABS_IT_Beneficiary_Portal}</a></p>
+                <br/>
+                <p><a onclick="{!c.handleClickTNT}">MYTNT</a></p>
+                <br/>
+            </aura:if>
+
+
+            <!--<aura:if isTrue="{!or(v.rType == 'IT_Client_Support_Case_RT' , v.rType == 'IT_Client_Welfare_Provisioning_Case_RT')}">  
+                <p><a onclick="{!c.handleClick}">{!$Label.c.LABS_IT_Customer_Portal}</a></p>
+                
+            </aura:if>
+            <aura:if isTrue="{!v.rType == 'IT_Client_Support_Case_RT'}">
+                <br/>
+                <p><a>Affiliate Portal</a></p>
+            </aura:if>
+             <aura:if isTrue="{!v.rType == 'IT_Client_Welfare_Provisioning_Case_RT'}">
+                <p><a onclick="{!c.handleClick}">Portale Clienti</a></p>
+            </aura:if> -->
+            <!--<aura:if isTrue="{!v.rType == 'IT_Client_Support_Case_RT'}">   
+                <br/>-->
+
+            <!--<aura:if isTrue="{!v.serviceType == 'ticket'}">
+                <br/>
+                <p><a onclick = "{!c.handleClickCarte}">Portale Clienti Cartaceo</a></p> 
+            </aura:if>
+                <br/>-->
+                <!--<p><a onclick="{!c.handleClick5}">Portale Intesa</a></p>
+                <br/>-->
+
+                <!--<p><a onclick="{!c.handleClickDHL}">MYDHL</a></p>-
+                <br/>-->
+                <!--<p><a onclick="{!c.handleClickJIRA}">JIRA</a></p>-->
+                <aura:if isTrue="{!v.isModalOpen}">
+                    <!-- Modal/Popup Box starts here-->
+                    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                        <div class="slds-modal__container">
+                            <!-- Modal/Popup Box Header Starts here-->
+                            <header class="slds-modal__header">
+                                <lightning:buttonIcon iconName="utility:close"
+                                                      onclick="{! c.closeModel }"
+                                                      alternativeText="close"
+                                                      variant="bare-inverse"
+                                                      class="slds-modal__close"/>
+                                <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Jira Issue Creation</h2>
+                            </header>
+                            <!--Modal/Popup Box Body Starts here-->
+                            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                                <lightning:select name="jiraProject" label="Select Jira Project:" aura:id="jiraProject" value="{!v.selectedProject}">
+                                    <aura:iteration items="{!v.jiraProjects}" var="item">
+                                        <option text="{!item.label}" value="{!item.value}" selected="{!item.selected}"/>
+                                    </aura:iteration>
+                                </lightning:select>    
+                                <lightning:select name="jiraIssueType" label="Select Jira Issue Type:" aura:id="jiraIssueType" value="{!v.selectedType}">
+                                    <aura:iteration items="{!v.jiraIssueTypes}" var="item">
+                                        <option text="{!item.label}" value="{!item.value}" selected="{!item.selected}"/>
+                                    </aura:iteration>
+                                </lightning:select>
+                            </div>
+                            <!--Modal/Popup Box Footer Starts here-->
+                            <footer class="slds-modal__footer">
+                                <lightning:button variant="neutral"
+                                                  label="Annulla"
+                                                  title="Annulla"
+                                                  onclick="{! c.closeModel }"/>
+                                <lightning:button variant="brand"
+                                                  label="Conferma"
+                                                  title="Conferma"
+                                                  onclick="{!c.handleClickJIRA}"/>
+                            </footer>
+                        </div>
+                    </section>
+                    <div class="slds-backdrop slds-backdrop_open"></div>
+            </aura:if>
+            <!--<aura:if isTrue="{!v.ProfileName == 'IT Sales Expendia'}">-->
+
+                <!--<p><a onclick="{!c.handleClickExpendia}">Portale Expendia</a></p>
+                <br/>-->
+                <!--<p><a onclick="{!c.handleClickChopin}">Chopin</a></p>-->
+                <!--<p><a onclick="{!c.handleClickDashboardUTA}">Dashboard UTA</a></p>
+                <br/>-->
+                <!--<p><a onclick="{!c.handleClickGalitt}">Galitt</a></p>-->
+            <!--</aura:if>-->
+                <!--</aura:if> -->
+            <br/>
+            <div class="slds-text-heading_small"><b >{!$Label.c.LABS_IT_Internal_Applications}</b></div>
+            <!--<aura:if isTrue="{!or(v.rType == 'IT_Client_Support_Case_RT' , v.rType == 'IT_Client_Welfare_Provisioning_Case_RT')}">-->
+                <aura:if isTrue="{!v.ProfileName == 'IT Sales Expendia'}">
+                    <br/>
+                    <p><a onclick="{!c.handleClick3}">{!$Label.c.LABS_IT_Billing_System}</a></p>
+                </aura:if>
+                <aura:if isTrue="{!and(v.ProfileName != 'IT FMIT',v.ProfileName != 'IT Sales Expendia')}">
+                    <br/>
+                    <p><a onclick="{!c.handleClick3}">{!$Label.c.LABS_IT_Billing_System}</a></p>
+                    <br/>
+                    <p><a onclick="{!c.handleClick2}">{!$Label.c.LABS_IT_Electronic_Orders_Management}</a></p> 
+                    <br/>
+                    <p><a onclick="{!c.handleClick4}">{!$Label.c.LABS_IT_Paper_Orders_Management}</a></p>
+
+                <!--</aura:if>-->
+                 <!-- <aura:if isTrue="{!v.rType == 'IT_Client_Welfare_Provisioning_Case_RT'}">
+                <br/>
+                <p><a onclick="{!c.handleClick2}">Gestione Ordini Elettronici</a></p> 
+                <br/>
+                <p><a onclick="{!c.handleClick4}">Gestione Ordini Cartacei</a></p>  
+                </aura:if>  --> 
+                <!--<aura:if isTrue="{!v.rType == 'IT_Client_Support_Case_RT'}">-->
+                    <!--<br/>
+                    <p><a onclick="{!c.handleClick3}">{!$Label.c.LABS_IT_Billing_System}</a></p>-->
+                <!--</aura:if>-->
+                <br/>
+                <p><a onclick="{!c.handleClickDOC}">Recupero Crediti</a></p>
+                <br/>
+                <p><a onclick="{!c.handleClickOperations}">Operations</a></p>
+                <br/>
+                <p><a onclick="{!c.handleClickApex}">Apex</a></p>
+            </aura:if>
+        </div>
+    </div>
+    
+</aura:component>

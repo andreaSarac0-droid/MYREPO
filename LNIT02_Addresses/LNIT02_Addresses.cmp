@@ -1,0 +1,247 @@
+<aura:component  controller="APIT03_Addresses_Getter" implements="force:hasSObjectName,force:lightningQuickActionWithoutHeader,force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride,lightning:availableForFlowScreens,lightning:availableForFlowActions"  access="global">
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/> 
+    <lightning:workspaceAPI aura:id="workspace" />
+    <aura:attribute name="setVisiblity" type="Boolean" />
+    <aura:attribute name="acco" type="Account"/>
+    <aura:attribute name="newAcco" type="Account" default="{ 'sobjectType': 'Account',
+                                                           'Id': '',
+                                                           'BillingStreet': '',
+                                                           'BillingState': '',
+                                                           'BillingPostalCode': '',
+                                                           'BillingCountry': '',                                   
+                                                           'BillingCity': '' }"/>
+    <aura:attribute name="predictions" type="List" default="[]"/>
+    <aura:attribute name="predictionsCityEstero" type="List" default="[]"/>
+    <aura:attribute name="predictionsStreetEstero" type="List" default="[]"/>
+    <aura:attribute name="listaCitta" type="String[]" />
+    <aura:attribute name="listaVie" type="String[]" />
+    <aura:attribute name="provinceMap" type="List" />
+    <aura:attribute name="provinceMapTEST" type="List" />
+    <aura:attribute name="countryMap" type="Object[]"/>
+    <aura:attribute name="elements" type="List" />
+    <aura:attribute name="streetsBoolean" type="Boolean" default = "true"/>
+    <aura:attribute name="firstProvChange" type="Boolean" default = "true"/>
+    <aura:attribute name="firstStreetChange" type="Boolean" default = "true"/>
+    <aura:attribute name="validated" type="Boolean" default = "false"/>
+    <aura:attribute name="municipalityMap" type="List" />
+    <aura:attribute name="locAggMap" type="List" />
+    <aura:attribute name="Civico" type="String" /> 
+    <aura:attribute name="shortProvince" type="String" /> 
+    <aura:attribute name="provinceKey" type="String" /> 
+    <aura:attribute name="cityKey" type="String" />
+    <aura:attribute name="countryKey" type="String" />
+    <aura:attribute name="updateIdString" type="String" />
+    <aura:attribute name="newAddressId" type="String" />
+    <aura:attribute name="actualProvince" type="String" />
+    <aura:attribute name="provinceWrap" type="String" />
+    <aura:attribute name="cityWrap" type="String" />
+    <aura:attribute name="streetWrap" type="String" default = ""/>
+    <aura:attribute name="countryWrap" type="String"/>
+    <aura:attribute name="streetInput" type="String" default = ""/>
+    <aura:attribute name="regionDesc" type="String" default = ""/>
+    <aura:attribute name="regionRef" type="String" default = ""/>
+    <aura:attribute name="fullAddress" type="String" default = ''/>
+    <aura:attribute name="stringaConctatena" type="String" />
+    <aura:attribute name="LocAgg" type="String" default = ''/>
+    <aura:attribute name="metRefX" type="String" default = ''/>
+    <aura:attribute name="metRefY" type="String" default = ''/>
+    <aura:attribute name="geoRefX" type="String" default = ''/>
+    <aura:attribute name="geoRefY" type="String" default = ''/>
+    <aura:attribute name="toponym" type="String" default = ''/>
+    <aura:attribute name="extraSpecs" type="String" default = ''/>
+    <aura:attribute name="hamletMap" type="String" default = ''/>
+    <aura:attribute name="hamlet" type="String" default = ''/>
+    <aura:attribute name="shortStreet" type="String" default = ''/>
+    <aura:attribute name="esteroCity" type="String" default = ''/>
+    <aura:attribute name="esteroStreet" type="String" default = ''/>
+    <aura:attribute name="geoQualita" type="String" default = ''/>
+    
+    <!--FLOW VARIABLES-->
+    <aura:attribute name="flowProvince" type="String" />
+    <aura:attribute name="flowProvinceCode" type="String" />
+    <aura:attribute name="flowCity" type="String" />
+    <aura:attribute name="flowCityCode" type="String"/>
+    <aura:attribute name="flowStreet" type="String" />
+    <aura:attribute name="flowStreetCode" type="String" />
+    <aura:attribute name="flowHamlet" type="String" />
+    <aura:attribute name="flowHamletCode" type="String" />
+    <aura:attribute name="flowDistrictCode" type="String" />
+    <aura:attribute name="flowExtraSpec" type="String" />
+    <aura:attribute name="flowLocAgg" type="String"/>
+    <aura:attribute name="flowCAP" type="String"/>
+    <aura:attribute name="flowMetRefX" type="String" />
+    <aura:attribute name="flowMetRefY" type="String" />
+    <aura:attribute name="flowGeoRefX" type="String" />
+    <aura:attribute name="flowGeoRefY" type="String" />
+    <aura:attribute name="flowToponym" type="String" />
+    <aura:attribute name="flowRegionDesc" type="String" />
+    <aura:attribute name="flowRegionRef" type="String" />
+    <aura:attribute name="flowGeoQualita" type="String" />
+    <aura:attribute name="flowCivicoNumerico" type="Integer" />
+    <aura:attribute name="isInAuraComponent" type="Boolean" default ="false"/>
+    <!--END FLOW VARIABLES-->
+    <aura:attribute name="opportunityType" type="String" default = 'Billing' />
+    <aura:attribute name="newInsert" type="Boolean" />
+    <aura:attribute name="accrocchio" type="Boolean" />
+    <aura:attribute name="isConsole" type="Boolean" />
+    <aura:attribute name="locAggReadOnly" type="Boolean" default = "true" />
+    <aura:attribute name="isFlow" type="Boolean" default = "false"/>
+    <aura:attribute name="civicoValid" type="Boolean" default = "true"/>
+    <aura:attribute name="CAP" type="String"/> 
+    <aura:attribute name="esteroCAP" type="String" default = '00000' />
+    <aura:attribute name="listaProvincie" type="String[]" default="--Select a value--,Cremona,Milano,Napoli,Estero"/>
+    <aura:attribute name="hamletRequired" type="Boolean" default = "false" />
+    <lightning:navigation aura:id="navService"/>
+
+
+    <lightning:layout>
+        <lightning:layoutItem padding="around-big" size="12">
+            <div aria-labelledby="newitemform">
+        <lightning:recordEditForm                
+                                    aura:id="editForm"
+                                    
+                                    recordId="{!v.recordId}"
+                                    objectApiName="Account">
+            <div class="custom-box">
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_2-of-2">
+                        <lightning:select aura:id = "provinceList" name="select" label="{!$Label.c.LABS_IT_Province}" onfocus="{!c.provinceChangeStradarioFOCUS}" onchange="{!c.provinceChangeStradario}" value = "{!v.provinceWrap}"> 
+                            <aura:iteration  items="{!v.provinceMap}" var="Provincia">
+                                <option value="{!Provincia.key +'§'+ Provincia.value+'§'+Provincia.regionRef}" text = "{!Provincia.value}" selected="{!Provincia.key == v.provinceKey}"></option>
+                            </aura:iteration>
+                        </lightning:select>     
+                    <aura:if isTrue="{!v.provinceWrap == '0§ESTERO§0'}">
+                        
+                        <aura:if isTrue="{!(!v.isFlow)}">
+                            
+                            <lightning:select aura:id = "countriesList" name="select" label="Nazione" value = "{!v.countryWrap}"> 
+                                <aura:iteration  items="{!v.countryMap}" var="country">
+                                    <option text="{!country.label}" value="{!country.label +'§'+ country.value}" selected="{!country.value == v.countryKey}"/>
+                                </aura:iteration>
+                            </lightning:select> 
+                        </aura:if>
+                        <!--FOREIGN ADDRESS START-->
+                        <lightning:input name="City" value = "{!v.esteroCity}" label="{!$Label.c.LABS_IT_City}" onchange = "{!c.getForeignCities}" onfocus = "{!c.getForeignCities}"/>
+                        <aura:if isTrue="{!v.predictionsCityEstero.length > 0}">
+                            <div class="slds-grid">
+                                <ul class="slds-dropdown slds-dropdown_fluid">
+                                    <aura:iteration items="{!v.predictionsCityEstero}" var="prediction">
+                                        <div class="pippo">
+                                        <li class="slds-listbox__item">
+                                            <a onclick="{!c.getForeignCityDetails}" data-placeid="{!prediction.key + '§' + prediction.value }">{!prediction.value}</a>
+                                        </li>
+                                    </div>
+                                    </aura:iteration>
+                                </ul> 	 
+                            </div>
+                        </aura:if>
+                            
+                        <div class="slds-grid slds-wrap row">
+                            <div class="slds-col slds-size_4-of-6 slds-col_bump-right">
+                            
+                                <lightning:input  name="Street" value="{!v.esteroStreet}" label="Street" onchange = "{!c.getForeignStreets}" onfocus = "{!c.getForeignStreets}"/> 
+                                <aura:if isTrue="{!v.predictionsStreetEstero.length > 0}">		 
+                                    <ul class="slds-dropdown slds-dropdown_fluid">
+                                        <aura:iteration items="{!v.predictionsStreetEstero}" var="prediction">
+                                            <div class="pippo">
+                                            <li class="slds-listbox__item">
+                                                <a onclick="{!c.getForeignStreetDetails}" data-placeid="{!prediction.key + '§' + prediction.value }">{!prediction.value}</a>
+                                            </li>
+                                        </div>
+                                        </aura:iteration>
+                                    </ul> 	 
+                                </aura:if>
+                            </div>
+                            <lightning:input aura:id ='civicoEstero' class="slds-col slds-size_1-of-6 " name="Civico" value="{! v.Civico }" label="Number" onblur = "{!c.civicoBlur2}" onchange = "{!c.civicoBlur2}"/>
+                        </div>
+                        <lightning:input name="Cap" value="{!v.esteroCAP }" label="Postal Code" readonly = "true"/>
+                        <lightning:input name="Additional Location" value="{!v.LocAgg }" label="Additional Location"/>
+                        <!--END FOREIGN ADDRESS-->
+                        <aura:set attribute="else">
+                        
+                            <lightning:select aura:id = "cityList" name="select" label="{!$Label.c.LABS_IT_City}" onchange="{!c.onPicklistChange}" value = "{!v.cityWrap}">
+                                <aura:iteration items="{!v.municipalityMap}" var="citta">
+                                    <option value="{!citta.key + '§' + citta.value}" text="{!citta.value}" selected="{!citta.key == v.cityKey}" ></option>
+                                </aura:iteration>
+                             </lightning:select>
+                        
+                        <div class="slds-grid slds-wrap row">
+                        
+                            <!--<lightning:select class="slds-col slds-size_4-of-6 slds-col_bump-right" name="select2" label="Street" value="{!v.newAddress.IT_Street__c}" onchange = "{!c.streetChange}" onfocus = "{!c.streetChange}">
+                                <aura:iteration items="{!v.listaVie}" var="via">
+                                    <option value="{!via}" text="{!via}"></option>
+                                </aura:iteration>
+                            </lightning:select> 
+                            <div class="slds-col slds-size_1-of-6 slds-col_bump-right">
+                                <lightning:input style = "float:right" name="Toponym" value="{!v.toponym}"  label="Toponimo" readonly="true"/>
+                            </div>-->
+                            <div class="slds-col slds-size_4-of-6 slds-col_bump-right">
+                                <lightning:input aura:id="location"  name="select2" value="{!v.streetInput}" label="{!$Label.c.LABS_IT_Street_Square}" onchange = "{!c.getStreets}" onfocus = "{!c.getStreets}" maxlength="40" messageWhenTooLong="La via può essere di massimo 50 caratteri."/>
+                            <aura:if isTrue="{!v.predictions.length > 0}">		 
+                                <ul class="slds-dropdown slds-dropdown_fluid">
+                                    <aura:iteration items="{!v.predictions}" var="prediction">
+                                        <div class="pippo">
+                                        <li class="slds-listbox__item">
+                                            <a onclick="{!c.getStreetDetails}" data-placeid="{!prediction.key + '§' + prediction.value +'§'+ prediction.toponym }">{!prediction.toponym +' '+prediction.value}</a>
+                                        </li>
+                                    </div>
+                                    </aura:iteration>
+                                </ul> 	 
+                            </aura:if>
+                        </div>
+                        <aura:if isTrue="{!not(v.isInAuraComponent)}">
+                            <lightning:input aura:id = 'civico' class="slds-col slds-size_1-of-6 " name="Civico" value="{! v.Civico }" label="{!$Label.c.LABS_IT_Street_Number}" onblur = "{!c.civicoBlur2}" onchange = "{!c.civicoBlur2}"/>
+                        </aura:if>
+                        </div>
+                        <aura:if isTrue="{!not(v.isInAuraComponent)}">
+                            <lightning:input name="Cap" value="{! '  ' + v.CAP }" label="{!$Label.c.LABS_IT_Postal_Code}" readonly="true"/>
+                            <!--<lightning:input name="Additional Location" value="{! '  ' + v.LocAgg }" label="Additional Location" readonly="true"/>-->
+                        </aura:if>
+                            <aura:if isTrue="{!v.hamletMap.length > 0}">
+                            <lightning:select aura:id = "hamlet" name="select" label="{!$Label.c.LABS_IT_Hamlet}"  value = "{!v.hamlet}" readonly="{!v.locAggReadOnly}" required="{!v.hamletRequired}" messageWhenValueMissing="La frazione è obbligatoria">
+                                <aura:iteration items="{!v.hamletMap}" var="hamlet">
+                                    <option value="{!hamlet.key + '§' + hamlet.value}" text="{!hamlet.value}"></option>
+                                </aura:iteration>
+                            </lightning:select>
+                            </aura:if>
+                            <aura:if isTrue="{!not(v.isInAuraComponent)}">
+                                <lightning:input name="Note" value="{!v.LocAgg}" label="{!$Label.c.LABS_IT_Address_Notes}" maxlength="40"/>
+                        </aura:if>
+                        </aura:set>
+                    </aura:if>
+                    </div>
+                </div>
+            </div>
+       
+                <aura:if isTrue="{!v.isFlow}">
+                <div aura:id="actionButtonBar" class="slds-clearfix slds-p-top_medium">
+                    <div class="slds-float_right">
+                            <lightning:button aura:id="BACK" label="Previous"
+                            variant="neutral" onclick="{!c.onButtonPressed}" />
+                          <lightning:button aura:id="NEXT" label="Next" 
+                             variant="brand" onclick="{!c.onButtonPressed}" />
+                    </div>
+                 </div>
+                 </aura:if>
+                 <aura:if isTrue="{!not(v.isInAuraComponent)}">
+                <aura:if isTrue="{!not(v.isFlow)}">
+                <div class="customButtons" draggable="false">
+                    <div class="slds-m-top_medium">
+                        <lightning:button  variant="brand" name="Salva" label="Salva" onclick="{!c.NewSubmitStradario}"/>
+                    </div>
+                </div>
+                </aura:if>
+                 </aura:if>
+            <!--<lightning:combobox name="general" label="Many Provincie" placeholder="Seleziona una provincia" options="{! v.provinceMapTEST }" onfocus="{!c.provinceChangeStradarioFOCUS}" onchange="{!c.provinceChangeStradario}" value = "{!v.provinceKey}"/>
+            <div class="customButtons" draggable="false">
+                <div class="slds-m-top_medium">
+                    <lightning:button  variant="brand" name="AGGIORNA CITTA" label="AGGIORNA CITTA" onclick="{!c.aggiornaProvincia}"/>
+                </div>
+            </div>-->
+        </lightning:recordEditForm>
+</div>
+</lightning:layoutItem>
+</lightning:layout>
+</aura:component>
