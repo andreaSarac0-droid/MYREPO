@@ -1,0 +1,78 @@
+<aura:component implements="force:hasRecordId,force:hasSObjectName,force:lightningQuickActionWithoutHeader,force:appHostable,lightning:actionOverride,lightning:availableForFlowScreens,lightning:availableForFlowActions"
+                access="global" controller="APIT113_FieldPicklistOppFC">
+    <!--Aura Attribute-->
+    <aura:attribute name="recordId" type="String" access="public"/>
+    <lightning:recordViewForm recordId="{! v.RecordId }" objectApiName="Opportunity"/>
+    <aura:attribute name="sObjectName" type="String"/>
+    <aura:attribute name="accountCompanyType" type="String"/>
+    <aura:attribute name="options" type="String[]"/>
+    <aura:attribute name="selectedValue" type="String" access="PRIVATE"/>
+    <aura:attribute name="InserimentoManuale" type="Boolean" default="false"/>
+    <aura:attribute name="ManualString" type="String"/>
+    <!--Design Attribute-->
+    <aura:attribute name="fieldName" type="String"/>
+    <aura:attribute name="fieldName2" type="String"/>
+    <aura:attribute name="objectName" type="String"/>
+    <aura:attribute name="label" type="String"/>
+    <aura:attribute name="where" type="String"/>
+    <aura:attribute name="distinct" type="Boolean"/>
+    <aura:attribute name="addTextEntry" type="String"/>
+    <aura:attribute name="textEntryLenght" type="Integer"/>
+    <aura:attribute name="textEntryValue" type="String"/>
+    <aura:attribute name="fcRecords" type="ER_Financial_Center__c[]" />
+    <aura:attribute name="contactRoleRecords" type="ER_Contact_Role__c[]" />
+    <aura:attribute name="contactDetailRecords" type="IT_Contact_Detail__c[]" />
+    <aura:attribute name="outputString" type="String" default=""/>
+    <aura:attribute name="OppFlow" type="Opportunity"/>
+    <!--Init-->
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+        <div>
+            <lightning:select name="Scegli" label="{!v.label}" aura:id="Scegli" value="{!v.selectedValue}" onchange="{!c.onHeaderChange}">
+                <aura:iteration items="{!v.options}" var="option">
+                    <option text="{!option}" value="{!option}" ></option>
+                </aura:iteration>
+            </lightning:select>
+        </div>
+    <!--<aura:if isTrue="{!and(v.fieldName == 'IT_Office_Code__c',v.accountCompanyType != 'Private')}">
+        <div>
+            <lightning:select name="Scegli" label="{!v.label}" aura:id="Scegli" value="{!v.selectedValue}" onchange="{!c.onHeaderChange}">
+                <aura:iteration items="{!v.options}" var="option">
+                    <option text="{!option}" value="{!option}" ></option>
+                </aura:iteration>
+            </lightning:select>
+        </div>
+    </aura:if>
+    <aura:if isTrue="{!v.fieldName == 'IT_PEC_Mail__c'}">
+        <div>
+            <lightning:select name="Scegli" label="{!v.label}" aura:id="Scegli" value="{!v.selectedValue}" onchange="{!c.onHeaderChange}">
+                <aura:iteration items="{!v.options}" var="option">
+                    <option text="{!option}" value="{!option}" ></option>
+                </aura:iteration>
+            </lightning:select>
+        </div>
+    </aura:if>-->
+    <div>
+        <aura:if isTrue="{!v.objectName == 'ER_Contact_Role__c'}">
+                <lightning:checkboxGroup name="Checkbox Group"
+                label="{!v.label}"
+                options="{!v.options}"
+                value="{!v.value }"
+                onchange="{! c.handleChange }"/>
+        </aura:if>
+
+    </div>
+    <aura:if isTrue="{!v.InserimentoManuale}">
+        <div>
+            <lightning:input aura:id="field"
+            name="native"
+            value="{!v.ManualString}"
+            label="{!v.label}"
+            maxlength="{!v.textEntryLenght}"
+            messageWhenTooLong="You have exceeded the limit"
+            onfocus="{!c.handleChange}"
+            onblur="{!c.handleBlur }"
+            />
+        </div>
+    </aura:if>
+    
+</aura:component>

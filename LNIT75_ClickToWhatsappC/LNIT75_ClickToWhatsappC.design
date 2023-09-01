@@ -1,0 +1,4 @@
+<design:component>
+	<design:attribute name="objName" label="Object Name"/>
+    <design:attribute name="fieldName" label="Field Name (full lookup field ex: IT_Account__r.Phone)"/>
+</design:component>

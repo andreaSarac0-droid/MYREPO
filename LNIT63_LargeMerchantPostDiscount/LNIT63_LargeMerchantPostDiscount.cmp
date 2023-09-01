@@ -1,0 +1,181 @@
+<aura:component controller='APIT100_LargeMerchantPostDiscount' implements="force:hasSObjectName,force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride,lightning:availableForFlowScreens,lightning:availableForFlowActions,force:lightningQuickAction"  access="global" >
+<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>	
+<aura:attribute name="data" type="Object[]"/>      
+<aura:attribute name="data2" type="Object[]"/>   
+<aura:attribute name="data3" type="Object[]"/> 
+<aura:attribute name="data4" type="Object[]"/>        
+<aura:attribute name="columns1" type="List"/>  
+<aura:attribute name="columns2" type="List"/>   
+<aura:attribute name="columns3" type="List"/>        
+<aura:attribute name="recordId" type="String"/>    
+
+  
+
+ <aura:iteration items="{!v.data}" var="data">
+     
+<table style="width:40% ; float: left">
+   
+    
+  <thead> 
+      
+  <tr>
+  <th  style=" padding: 5px">Barcode Contratto:</th>
+  <td  style=" padding: 5px"><lightning:formattedText value="{!data.barcode_contract}" /></td>
+  </tr>
+      
+  <tr>
+  <th  style=" padding: 5px">Locale:</th>
+  <td  style=" padding: 5px"><lightning:formattedText value="{!data.store_ref}" /> </td>
+  </tr>
+ 
+  
+  <tr>
+  <th  style=" padding: 5px">URL:</th>
+  <td  style=" padding: 5px"><lightning:formattedText value="{!data.service_url}" /> </td>
+  </tr> 
+      
+  <tr>
+      <th  style=" padding: 5px">Tipo Servizio:</th>
+      <td  style=" padding: 5px"><lightning:formattedText value="{!data.service_type}"/> </td>
+  </tr>      
+    
+  <tr>
+  <th  style=" padding: 5px">Iban:</th>
+  <td  style=" padding: 5px"><lightning:formattedText value="{!data.iban}"/> </td>
+  </tr> 
+      
+   
+      
+</thead>  
+       
+</table>
+  &nbsp;
+     
+    
+<table style="width:40%">
+ 
+    <thead>
+        
+    <tr>
+    <th  style=" padding: 5px">Data Inzio:</th>
+    <td  style=" padding: 5px"><lightning:formattedDateTime value="{!data.start_date}" /></td>
+    </tr>
+        
+    <tr>
+    <th  style=" padding: 5px">Data Fine:</th>
+    <td  style=" padding: 5px"><lightning:formattedDateTime value="{!data.end_date}" /></td>
+    </tr>
+  
+    <tr>
+    <th style=" padding: 5px" >Prom. Personalizzata:</th>
+    <aura:if isTrue="{!data.flg_custom_promotion == true}">      
+    <td  style=" padding: 5px"><lightning:formattedText value="✔" /> </td>
+    <aura:set attribute="else">   
+    <td  style=" padding: 5px"><lightning:formattedText value="" /> </td>  
+    </aura:set>  
+    </aura:if>    
+    </tr> 
+        
+    <tr>
+    <th  style=" padding: 5px">Attivo:</th>
+    <aura:if isTrue="{!data.flg_status_active == true}">      
+    <td  style=" padding: 5px" ><lightning:formattedText value="✔" /> </td>
+    <aura:set attribute="else">    
+    <td  style=" padding: 5px" ><lightning:formattedText value="" /> </td>  
+    </aura:set>  
+    </aura:if>     
+    </tr> 
+        
+    <tr>
+      <th  style=" padding: 5px"></th>
+      <td  style=" padding: 5px"> </td>
+  	</tr>
+        
+    <tr>
+      <th  style=" padding: 5px"></th>
+      <td  style=" padding: 5px"> </td>
+    </tr>  
+    
+    <tr>
+      <th  style=" padding: 5px"></th>
+      <td  style=" padding: 5px"> </td>
+  	</tr>
+        
+    <tr>
+      <th  style=" padding: 5px"></th>
+      <td  style=" padding: 5px"> </td>
+    </tr>
+        
+    <tr>
+      <th  style=" padding: 5px"></th>
+      <td  style=" padding: 5px"> </td>
+  	</tr>
+        
+    <tr>
+      <th  style=" padding: 5px"></th>
+      <td  style=" padding: 5px"> </td>
+    </tr>    
+   
+   </thead> 
+  
+</table>    
+
+</aura:iteration>    
+    
+
+    
+    
+    <div >
+        <label style="margin:0.5rem; font-weight:bold; font-size: 12pt">Condizioni Economiche</label>
+        <br/>
+            <lightning:datatable
+                                 
+                                 aura:id="TabellaEconomic"
+                                 keyField="Id"
+                                 data="{!v.data2}"
+                                 columns="{!v.columns1}"                                         
+                                 minColumnWidth = "160"
+                                 hideCheckboxColumn = "true"
+      
+                                 />
+            
+        </div> 
+    	<br/>
+    	&nbsp;
+    
+    <div class="myUniqueTable">
+        <label style="margin:0.5rem; font-weight:bold; font-size: 12pt">Orari </label>
+        <br/>     
+            <lightning:datatable
+                                 aura:id="TabellaActivity"
+                                 keyField="Id"
+                                 data="{!v.data3}"
+                                 columns="{!v.columns2}"                                         
+                                 
+                                 hideCheckboxColumn = "true"
+      
+                                 />
+            
+        </div>   
+    	<br/>
+     &nbsp;
+    
+     <div>
+        <label style="margin:0.5rem; font-weight:bold; font-size: 12pt">POS associati</label> 
+        <br/> 
+            <lightning:datatable
+                                 aura:id="TabellaPos"
+                                 keyField="Id"
+                                 data="{!v.data4}"
+                                 columns="{!v.columns3}"                                         
+                                 minColumnWidth = "160"
+                                 hideCheckboxColumn = "true"
+      
+                                 />
+            
+        </div>   
+    
+    
+    
+	
+</aura:component>

@@ -1,0 +1,14 @@
+<aura:component implements="lightning:availableForFlowScreens,force:hasRecordId">
+    <aura:attribute name="RecordId" type="String"/>
+    <aura:attribute name="AccountId" type="String"/>
+    <aura:attribute name="cbaseURL" type="String"/>
+    <!-- <lightning:navigation aura:id="navService"/> -->
+    <lightning:workspaceAPI aura:id="workspace"/>
+    <div class="buttonBar">  
+        <!-->
+        <aura:if isTrue="{! not(v.onStartPage) }">
+             <lightning:button  class="button" label="{!v.previousButtonLabel}" name="ButtonPrev" onclick="{!c.handleClick}" />                   		
+        </aura:if><!-->
+        <lightning:button  class="button" label="Nuovo Referente" name="NewRef" onclick="{!c.handleClick}" />
+    </div>      
+</aura:component>

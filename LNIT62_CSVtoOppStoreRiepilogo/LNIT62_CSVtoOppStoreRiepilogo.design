@@ -1,0 +1,7 @@
+<design:component>
+	
+     <design:attribute name="OppIniziale" label="OppIniziale"  />    
+     <design:attribute name="documentoid" label="documentoid"  />   
+    
+    
+</design:component>

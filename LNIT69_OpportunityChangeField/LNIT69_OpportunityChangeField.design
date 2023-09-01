@@ -1,0 +1,16 @@
+<design:component >
+    <design:attribute name="fieldName" label="Field Name"/>
+    <design:attribute name="fieldName2" label="Field Name2"/>
+    <design:attribute name="objectName" label="Object Name"/>
+    <design:attribute name="label" label="Label"/>
+    <design:attribute name="where" label="Where Condition"/>
+    <design:attribute name="distinct" label="Distinct"/>
+    <design:attribute name="addTextEntry" label="Add Text Entry"/>
+    <design:attribute name="textEntryLenght" label="Text Entry Lenght"/>
+    <design:attribute name="textEntryValue" label="Text Entry Value"/>
+    <design:attribute name="fcRecords" label="List of FC"/>
+    <design:attribute name="contactRoleRecords" label="List of Contact Roles"/>
+    <design:attribute name="contactDetailRecords" label="List of Contact Details"/>
+    <design:attribute name="outputString" label="Output"/>
+    <design:attribute name="OppFlow" label="OppFlow"/>
+</design:component>

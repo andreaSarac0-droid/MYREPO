@@ -1,0 +1,167 @@
+<aura:component controller="APIT91_CallAgreements" implements="force:hasSObjectName,force:lightningQuickActionWithoutHeader,force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride,lightning:availableForFlowScreens,lightning:availableForFlowActions"  access="global" >
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+
+    <aura:attribute name="columnsFirst" type="List"/>
+    <aura:attribute name="dataFirst" type="Object[]"/>
+    <aura:attribute name="columnsSecond" type="List"/>
+    <aura:attribute name="columnsPdf" type="List"/>
+    <aura:attribute name="dataSecond" type="Object[]"/>
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    <aura:attribute name="error" type="String" default=""/>
+    <aura:attribute name="viewAllBool" type="Boolean" default="true" />
+    <aura:attribute name="boolDataCounter" type="Boolean" default="true" />
+    <aura:attribute name="LinkBarcode" type="String"/>
+    <aura:attribute name="blankSpace" type="String" default=""/>
+    <lightning:workspaceAPI aura:id="workspace" />
+
+    <aura:if isTrue="{! !empty(v.error)}">
+        <div class="slds-notify slds-theme_error field">
+            <span class="slds-assistive-text">error</span>
+            <div class="slds-notify__content">
+                <h5 class="slds-text-heading_small slds-align_absolute-center">Error Message </h5>
+                <br/>
+                <p class="slds-align_absolute-center">{!v.error}</p>                
+            </div>
+        </div>
+    </aura:if>
+
+    <div style="border: 1px solid rgb(176, 173, 171); border-radius: 3px">
+        <aura:if isTrue="{! v.loaded }">
+            <aura:if isTrue="{!not(empty(v.dataFirst))}">
+                <div class="slds-modal__content" style="border-radius: 0.25rem; border-color: rgb(221, 219, 218);">
+                    <div class="slds-page-header"
+                        style="padding-bottom : 0.75rem;padding-top : 0.75rem;background-color : rgb(243, 242, 242);">
+                        <div class="slds-grid slds-wrap row">
+                            <div class="slds-col slds-size_1-of-2 slds-float_left">
+                                <lightning:icon size="small" iconName="utility:info" alternativeText="Contacts" />
+                                <b style="margin-left:0.7rem;font-size:14px;">Info Generali</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+                <div>
+                    <aura:iteration items="{!v.dataFirst}" var="data">
+                        <table style="width:50% ; float: left" class="slds-table slds-table_cell-buffer slds-table_bordered">    
+                            <thead>     
+                            <tr>
+                                <th  style=" padding: 5px">Data Abilitazione:</th>
+                                <td  style=" padding: 5px"><lightning:formattedText value="{!data.enabling_date}" /></td>
+                            </tr>     
+                            
+                            <tr>
+                                <th  style=" padding: 5px">Commissione:</th>
+                                <td  style=" padding: 5px"><lightning:formattedText value="{!data.corresponding}" /> </td>
+                            </tr> 
+                            <tr>
+                                <th  style=" padding: 5px">Condizione Pagamento Desc:</th>
+                                <td  style=" padding: 5px"><lightning:formattedText value="{!data.payment_condition_desc}"/> </td>
+                            </tr>  
+                            <tr>
+                                <th  style=" padding: 5px">Importo:</th>
+                                <td  style=" padding: 5px"><lightning:formattedText value="{!data.threshold}" /></td>
+                            </tr>
+                            <tr>
+                                <th  style=" padding: 5px">Commissione sopra la soglia:</th>
+                                <td  style=" padding: 5px"><lightning:formattedText value="{!data.above_threshold_fee}" /></td>
+                            </tr>    
+                            <tr>
+                                <th  style=" padding: 5px">Commissione sotto la soglia:</th>
+                                <td  style=" padding: 5px"><lightning:formattedText value="{!data.below_threshold_fee}" /></td>
+                            </tr>  
+                            <tr>
+                                <th  style=" padding: 5px">Barcode</th>
+                                <td  style=" padding: 5px"><lightning:formattedText value="{!data.barcode}" /></td>
+                            </tr>   
+                            </thead>     
+                        </table>     
+                        <table style="width:50%" class="slds-table slds-table_cell-buffer slds-table_bordered">    
+                            <thead>  
+                            <tr>
+                                <th  style=" padding: 5px">Data Decorrenza:</th>
+                                <td  style=" padding: 5px"><lightning:formattedText value="{!data.start_date}" /> </td>
+                            </tr>
+                            <tr>
+                                <th  style=" padding: 5px">Data Disabilitazione:</th>
+                                <td  style=" padding: 5px"><lightning:formattedText value="{!data.disabling_date}"/> </td>
+                            </tr> 
+                            <tr>
+                                <th  style=" padding: 5px">Data Modifica:</th>
+                                <td  style=" padding: 5px"><lightning:formattedText value="{!data.modified_date}"/> </td>
+                            </tr>      
+                            <tr>
+                                <th  style=" padding: 5px">Commissione sopra la soglia %: </th>
+                                <td  style=" padding: 5px"><lightning:formattedText value="{!data.above_threshold_fee_percentage}" /></td>
+                            </tr>   
+                            <tr>
+                                <th  style=" padding: 5px">Commissione sotto la soglia %:</th>
+                                <td  style=" padding: 5px"><lightning:formattedText value="{!data.below_threshold_fee_percentage}" /></td>
+                            </tr> 
+                            <tr>
+                                <th  style=" padding: 5px;height: 25px"></th>
+                            </tr> 
+                            <tr>
+                                <lightning:button label="PDF" onclick="{!c.downloaPdf}" />
+                            </tr>    
+                        </thead> 
+                        </table>    
+                    </aura:iteration>
+                    <!--<lightning:datatable
+                                         keyField="id"
+                                         data="{! v.dataFirst }"
+                                         columns="{! v.columnsFirst }"
+                                         hideCheckboxColumn="true"
+                                         /> -->
+                </div>
+                <aura:set attribute="else">
+                    <div style = "text-align: center">
+                        <p>Nessun contratto da visualizzare</p>
+                        <br></br>
+                    </div>
+                </aura:set>
+            </aura:if>
+            <aura:set attribute="else">
+                <div>
+                    <lightning:spinner alternativeText="Loading" size = "medium"/>
+                </div>
+            </aura:set>
+        </aura:if>
+    </div>
+
+    <!--<div style="border: 1px solid rgb(176, 173, 171); border-radius: 3px">
+        <aura:if isTrue="{! v.loaded }">
+            <aura:if isTrue="{!not(empty(v.dataSecond))}">
+                <div class="slds-modal__content" style="border-radius: 0.25rem; border-color: rgb(221, 219, 218);">
+                    <div class="slds-page-header"
+                        style="padding-bottom : 0.75rem;padding-top : 0.75rem;background-color : rgb(243, 242, 242);">
+                        <div class="slds-grid slds-wrap row">
+                            <div class="slds-col slds-size_1-of-2 slds-float_left">
+                                <lightning:icon size="small" iconName="utility:store" alternativeText="Contacts" />
+                                <b style="margin-left:0.7rem;font-size:14px;">Elenco Locali</b>
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+                <div>
+                    <lightning:datatable
+                                        keyField="id"
+                                        data="{! v.dataSecond }"
+                                        columns="{! v.columnsSecond }"
+                                        hideCheckboxColumn="true"
+                                        /> 
+                </div>
+                <aura:set attribute="else">
+                    <div style = "text-align: center">
+                        <p>Nessun contratto da visualizzare</p>
+                        <br></br>
+                    </div>
+                </aura:set>
+            </aura:if>
+            <aura:set attribute="else">
+                <div>
+                    <lightning:spinner alternativeText="Loading" size = "medium"/>
+                </div>
+            </aura:set>
+        </aura:if>
+    </div>-->
+	
+</aura:component>

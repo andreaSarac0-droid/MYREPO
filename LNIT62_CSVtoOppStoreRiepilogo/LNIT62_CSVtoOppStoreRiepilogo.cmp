@@ -1,0 +1,24 @@
+<aura:component controller="APIT98_CSVtoOppStoreRiepilogo" implements="lightning:availableForFlowScreens" access="global">
+<aura:handler name="init" value="{! this }" action="{! c.init }"/> 
+<aura:attribute name="data" type="Object"/>
+<aura:attribute name="columns" type="List"/>   
+  
+
+
+<aura:attribute name="OppIniziale" type="String" />
+<aura:attribute name="documentoid" type="String" />    
+    
+    
+    <div>
+        <lightning:datatable
+                             keyField="id"
+                             data="{! v.data }"
+                             columns="{! v.columns }"
+                             hideCheckboxColumn = "true"
+                             
+                             />
+    </div>    
+    
+    
+	
+</aura:component>

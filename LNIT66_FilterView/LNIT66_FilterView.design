@@ -1,0 +1,3 @@
+<design:component label="">
+    <design:attribute name="FiletrType" label="Filter Type" description="Object Filter" datasource="ER_Financial_Center__c,Contact,Opportunity" />
+</design:component>

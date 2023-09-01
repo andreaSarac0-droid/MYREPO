@@ -1,0 +1,39 @@
+<aura:component implements="lightning:isUrlAddressable,force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName" 
+                access="global"
+                controller="APIT00_OpportunityActivation">
+                
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    <aura:attribute name="merchant" type="Boolean" default="false" />
+    <aura:attribute name="disable" type="boolean" default="false"/>
+    <aura:attribute name="disable2" type="boolean" default="true"/>
+    <aura:attribute name="disable3" type="boolean" default="true"/>
+    <aura:attribute name="disableDocu" type="boolean" default="false"/>
+    <aura:attribute name="activationVar" type="boolean" default="false"/>
+    <aura:attribute name="revisioneVar" type="boolean" default="false"/>
+    <aura:attribute name="revisioneMerchantVar" type="boolean" default="false"/>
+    <aura:attribute name="buttonLabel" type="String" default="{!$Label.c.IT_Email_Onboarding_Button}" />
+    <aura:attribute name="buttonLabelDocu" type="String" default="{!$Label.c.IT_Invia_Contratto_Docusign}" />
+    <aura:attribute name="showDocuSignButton" type="boolean"/>
+    <aura:attribute name="SendLink" type="boolean" default="false"/>
+    <aura:attribute name="ResendLink" type="boolean" default="false"/>
+    <aura:attribute name="DocuSign" type="boolean" default="false"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <div class="slds-button-group" role="group" >      
+            <aura:if isTrue="{!v.showDocuSignButton}">
+                <lightning:button class="slds-button slds-button-neutral" 
+                      label="{!v.buttonLabelDocu}" 
+                      title="Docusign" 
+                      onclick="{!c.onClickDocu}"
+                      disabled="{!v.disableDocu}"
+                      aura:id="buttonDocu"/>
+        </aura:if>
+    </div>
+    <div>
+        <aura:if isTrue="{! v.loaded }">
+            <lightning:spinner alternativeText="Loading" />
+        </aura:if>
+    </div>
+</aura:component>

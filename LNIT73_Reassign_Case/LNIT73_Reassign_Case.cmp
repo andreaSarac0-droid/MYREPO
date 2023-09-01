@@ -1,0 +1,47 @@
+<aura:component implements="force:hasRecordId,force:hasSObjectName,force:lightningQuickActionWithoutHeader,force:appHostable,lightning:actionOverride,lightning:availableForFlowScreens,lightning:availableForFlowActions"
+                controller="APIT115_Reassign_Case" access="global" >
+     <aura:attribute name="options" type="List" default="[
+    {'label': 'Coda', 'value': 'coda'},
+    {'label': 'Utente', 'value': 'utente'}
+    ]"/>
+    <aura:attribute name="value" type="String"/>
+    <aura:attribute name="user" type="String"/>
+    <aura:attribute name="CodaList" type="String[]"/>
+    <aura:attribute name="fieldMap" type="Map"/>
+    <aura:attribute name="selectedPicklist" type="String"/>
+    <aura:attribute name="myBool" type="Boolean" default="false"/>
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+    <div class="divTotale " >         
+        <div class="divTitle">
+        Cambia Titolare Caso:
+        </div>
+        <div class="radioButton">
+            <lightning:radioGroup name="radioGroup"
+                            options="{! v.options }"
+                            value="{! v.value }"
+                            type="radio"/>
+        </div>
+        <aura:if isTrue="{!v.value == 'coda'}">
+            <div class="slds-m-top_small">
+                <lightning:select name="select1" label="Coda" onchange="{!c.onChange}" value="{!v.selectedPicklist}" >
+                    <aura:iteration items="{!v.fieldMap}" var="i" indexVar="key">
+                        <option text="{!i.value}" value="{!i.key}"/>
+                    </aura:iteration>
+                </lightning:select>
+            </div>	
+        </aura:if>
+        <aura:if isTrue="{!v.value == 'utente'}">
+            <div class="lookup">
+            <c:LNIT56_LookupReferentiMASTER 
+                objectName="User" 
+                fieldName="Name" 
+                label="Utente" 
+                iconName="standard:user" 
+                placeholder="Enter Value" 
+                value="{!v.user}"/>
+                <b/>
+                <!--<ui:inputCheckbox aura:id="checkbox" label="Inviare notifica email " change="{!c.onCheck}" value="{!v.myBool}"/>-->
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

@@ -1,0 +1,477 @@
+<aura:component controller="APIT91_CallAgreements" implements="force:hasSObjectName,force:lightningQuickActionWithoutHeader,force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride,lightning:availableForFlowScreens,lightning:availableForFlowActions"  access="global" >
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+    <aura:attribute name="FiletrType" type="String"/>
+    <aura:attribute name="dataFirst" type="Object[]"/>
+    <aura:attribute name="dataLast" type="Object[]"/>
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="Above_Threshold_New" type="String"/>
+    <aura:attribute name="Above_Threshold_Old" type="String"/>
+    <aura:attribute name="Above_Percentage_New" type="String"/>
+    <aura:attribute name="Above_Percentage_Old" type="String"/>
+    <aura:attribute name="Threshold_New" type="String"/>
+    <aura:attribute name="Threshold_Old" type="String"/>
+    <aura:attribute name="Below_Threshold_New" type="String"/>
+    <aura:attribute name="Below_Threshold_Old" type="String"/>
+    <aura:attribute name="Below_Percentage_New" type="String"/>
+    <aura:attribute name="Below_Percentage_Old" type="String"/>
+    <aura:attribute name="error" type="String" default=""/>
+    <aura:attribute name="options" type="List" default="[{'label': 'Opzione 1', 'value': 'option1'},{'label': 'Opzione 2', 'value': 'option2'}]"/>
+    <aura:attribute name="value" type="String" default="option1"/>
+    <aura:attribute name="Option1True" type="Boolean" default="true" />
+    <aura:attribute name="Option2True" type="Boolean" default="false" />
+    <aura:attribute name="SaveTrue" type="Boolean" default="false" />
+    <aura:attribute name="FlagContratto" type="String"/>
+    <aura:attribute name="FlagChg" type="List" default="[false,false,false,false,false]"/>
+    <aura:attribute name="fieldBlank" type="Boolean" default="true" />
+    <aura:attribute name="FlagError" type="Boolean" default="false" />
+    <!-- warning non piu gestito -->
+    <aura:attribute name="warning" type="String" default=""/>
+    <aura:attribute name="firstEntry" type="Boolean" default="false" />
+    <aura:attribute name="managerDflt" type="Boolean" default="true" />
+    <aura:attribute name="manager2Dflt" type="Boolean" default="true" />
+    
+<!-- <aura:handler name="change" value="{!v.lflgVAT}" action="{!c.VAT}"></aura:handler> -->
+
+    <aura:if isTrue="{! !empty(v.error)}">
+        <div class="slds-notify slds-theme_error field">
+            <span class="slds-assistive-text">error</span>
+            <div >
+                <h5 class="slds-text-heading_small slds-align_absolute-center">Error Message </h5>
+                <br/>
+                <p class="slds-align_absolute-center">{!v.error}</p>                
+            </div>
+        </div>
+        <aura:set attribute="else">
+            <aura:if isTrue="{! !empty(v.warning)}">
+                <div class="slds-notify slds-theme_shade field">
+                    <span class="slds-assistive-text">Warning</span>
+                    <div>
+                        <br/>
+                        <p class="slds-align_absolute-center">{!v.warning}</p>      
+                        <br/>          
+                    </div>
+                </div>
+            </aura:if>
+        </aura:set>
+    </aura:if>
+
+<!-- * intro -->
+    <div style="border: 1px solid rgb(176, 173, 171); border-radius: 3px">
+
+        <aura:if isTrue="{! v.loaded}">
+            <div class="slds-modal__content" style=" border-color: rgb(221, 219, 218);">
+                <div class="slds-grid slds-wrap row" style="background-color : rgb(243, 242, 242);">
+                    <div class="slds-col slds-size_1-of-2 slds-float_left" style="padding-top :15px;">
+                        <img  id="img1" size="xx-small" style="margin-left:0.7rem;" src="{!$Resource.SuperpranzoLogo}"/>
+                        <b id="txt1" style="margin-left:0.7rem;font-size:14px;">Condizioni Superpranzo</b>
+                    </div>
+                    <div class="slds-col slds-size_1-of-2">
+                        <div style = "float:right;margin:0.7rem;">
+                            <lightning:button variant="brand" label="Default" title="Default" class="slds-button" onclick= "{!c.callAffiService}" />
+
+                            <aura:if isTrue="{! v.managerDflt}">
+                                <lightning:button aura:id="btnSav" variant="brand" label="&nbsp;Salva&nbsp;" title="Salva" class="slds-button" onclick= "{!c.updateOpporunityLine}" />  
+                           <aura:set attribute="else">
+                                <lightning:button aura:id="btnSavb" variant="brand" label="&nbsp;Salva&nbsp;" title="Salvab" class="slds-button sp_shdBtn" onclick= "{!c.updateOpporunityLine}" />
+                            </aura:set>
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <lightning:radioGroup name="radioGroup"
+                    options="{! v.options}"
+                    value="{! v.value}"
+                    onchange="{! c.handleChange}"
+                    type="button"/>
+                </div>
+            <aura:set attribute="else">
+                <div style = "text-align: center">
+                    <p>Nessun contratto da visualizzare</p>
+                    <br></br>
+                </div>
+            </aura:set>
+            <aura:set attribute="else">
+                <div>
+                    <lightning:spinner alternativeText="Loading" size = "medium"/>
+                </div>
+            </aura:set>
+        </aura:if>
+<!-- * winpop -->
+            <!-- <div aura:id="winpop1" id="spwinpop1" class="sp_ricsav2 slds-hide">
+                <b class="sp_ricsav">Ricordarsi di salvare&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;👆&nbsp;</b>
+            </div> -->
+
+        <table class="slds-table slds-table_cell-buffer slds-table_header-hidden " aria-label=" Example headless table of Opportunities with no borders " >
+
+            <tr class="slds-line-height_reset slds-truncate" style="background-color: rgb(243, 243, 243);">
+                <th class="slds-size_1-of-4" >
+                    <div class="slds-truncate" style="margin-top: .4rem; margin-bottom: .4rem;" ><b>&nbsp;</b></div>
+                </th>
+                <th class="slds-size_1-of-4" >
+                    <div class="slds-truncate" style="margin-left: .5rem;"><b>Attuale</b></div>
+                </th>
+                <th class="slds-size_1-of-4" >
+                    <div class="slds-truncate" style="margin-left: .5rem;"><b>Nuovo</b></div>
+                </th>
+                <th class="slds-size_1-of-4" >
+                    <div class="slds-truncate" ></div>
+                </th>
+
+            </tr>
+        </table>
+
+
+<!-- ! Option1 -->
+        <aura:if isTrue="{!v.Option1True}">
+
+            <table class="slds-table slds-table_cell-buffer slds-table_header-hidden " aria-label=" Example headless table of Opportunities with no borders " >
+
+<!-- * desc old 1 -->
+                <td class="slds-size_1-of-4">
+                    <tr class="slds-hint-parent ">
+                        <div class="slds-truncate intes1" style="">1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Corrispettivo</div>
+                    </tr>
+                    <tr class="slds-hint-parent " style="margin-bottom: 1rem;">
+                        <div class="slds-truncate intes1" style="margin-bottom: .5rem;">&nbsp;</div>
+                    </tr>
+                </td>
+<!-- * outp old 1 -->
+                <aura:iteration items="{!v.dataFirst}" var="dataFirst">
+                    <td class="slds-size_1-of-4">
+
+                        <aura:if isTrue="{! empty(dataFirst.above_threshold_fee)}">
+                            <tr class="slds-hint-parent" style="border-bottom: 1px solid #ddd;">
+                                <div class="slds-truncate wcaO1x wcaO2x "
+                                ><b>€</b></div>
+                            </tr> 
+                            <aura:set attribute="else">
+                            <tr class="slds-hint-parent" style="border-bottom: 1px solid #ddd;">
+                                <div>
+                                    <div class="slds-truncate wcaO1x" name="Above_Threshold_Old"
+                                    >{!dataFirst.above_threshold_fee}
+                                    <p class="v_p1"><b>€</b></p>
+                                    </div>
+                                </div>
+                            </tr>
+                            </aura:set>
+                        </aura:if>
+
+                        <aura:if isTrue="{! empty(dataFirst.above_threshold_fee_percentage)}">
+                            <tr class="slds-hint-parent" style="border-bottom: 1px solid #ddd;">
+                                <div class="slds-truncate wcaO1x wcaO2x"
+                                ><b>%</b></div>
+                            </tr> 
+                            <aura:set attribute="else">
+                            <tr class="slds-hint-parent" style="border-bottom: 1px solid #ddd;">
+                                <div>
+                                    <div class="slds-truncate wcaO1x" name="Above_Percentage_Old"
+                                    >{!dataFirst.above_threshold_fee_percentage}
+                                    <p class="v_p1" ><b>%</b></p>
+                                    </div>
+                                </div>
+                            </tr>
+                            </aura:set>
+                        </aura:if>
+                    </td>
+                </aura:iteration>
+
+                <aura:if isTrue="{! empty(v.dataFirst)}">
+                    <td class="slds-size_1-of-4">
+                        <tr class="slds-hint-parent" style="border-bottom: 1px solid #ddd;">
+                            <div class="slds-truncate wcaO1x wcaO2x" 
+                            ><b>€</b></div>
+                        </tr>
+                        <tr class="slds-hint-parent" style="border-bottom: 1px solid #ddd;">
+                            <div class="slds-truncate wcaO1x wcaO2x" 
+                            ><b>%</b></div>
+                        </tr>
+                    </td>
+                </aura:if>
+
+<!-- ! IMP 1 -->
+                <aura:iteration items="{!v.dataLast}" var="dataLast">
+                    <td class="slds-size_1-of-4">
+                        <div >
+                            <aura:if isTrue="{! v.managerDflt}">
+                                <tr class="slds-hint-parent slds-cell-edit slds-cell-error bobosl" >
+                                    <input style="padding: .4rem; border-style: none;" 
+                                    type="number" aura:id="lname1" id="lname1" name="Above_Threshold_New" value="{!dataLast.above_threshold_fee}" 
+                                    onchange="{!c.updateWrapperNew}" onfocus="{!c.cmpOnFcs}" onblur="{!c.cmpOnBlr}"/> <b> €</b>
+                                </tr>
+                            <aura:set attribute="else">
+                                <tr class="slds-hint-parent slds-cell-edit slds-cell-error bobosl" >
+                                    <input style="padding: .4rem; border-style: none;" class="sp_inpBgYel"
+                                    type="number" aura:id="lname1b" id="lname1b" name="Above_Threshold_New" value="{!dataLast.above_threshold_fee}" 
+                                    onchange="{!c.updateWrapperNew}" onfocus="{!c.cmpOnFcs}" onblur="{!c.cmpOnBlr}"/> <b> €</b>
+                                </tr>
+                            </aura:set>
+                            </aura:if>                        
+                        </div>
+
+                        <div>
+                            <aura:if isTrue="{! v.managerDflt}">
+                                <tr class="slds-hint-parent slds-cell-edit slds-cell-error bobosl" >
+                                    <input style="padding: .4rem; border-style: none;"
+                                    type="number" aura:id="lname2" id="lname2" name="Above_Percentage_New" value="{!dataLast.above_threshold_fee_percentage}"
+                                    onchange="{!c.updateWrapperNew}" onfocus="{!c.cmpOnFcs}" onblur="{!c.cmpOnBlr}"/> <b> %</b>
+                                </tr>
+                            <aura:set attribute="else">
+                                <tr class="slds-hint-parent slds-cell-edit slds-cell-error bobosl" >
+                                    <input style="padding: .4rem; border-style: none;" class="sp_inpBgYel"
+                                    type="number" aura:id="lname2b" id="lname2b" name="Above_Percentage_New" value="{!dataLast.above_threshold_fee_percentage}"
+                                    onchange="{!c.updateWrapperNew}" onfocus="{!c.cmpOnFcs}" onblur="{!c.cmpOnBlr}"/> <b> %</b>
+                                </tr>
+                            </aura:set>
+                            </aura:if>
+                        </div>
+                    </td>
+                </aura:iteration>
+
+                <td class="slds-size_1-of-4">
+                    <tr class="slds-hint-parent ">
+                        <div class="slds-truncate intes1" >&nbsp;</div>
+                    </tr>
+                    <tr class="slds-hint-parent ">
+                        <div class="slds-truncate intes1" >&nbsp;</div>
+                    </tr>
+                </td>                
+
+            </table>
+        </aura:if>
+
+<!-- ! Option2 -->
+        <aura:if isTrue="{!v.Option2True}">
+ 
+            <table class="slds-table slds-table_cell-buffer slds-table_header-hidden" aria-label=" Example headless table of Opportunities with no borders ">
+<!-- * desc old 2 -->
+                <td class="slds-size_1-of-4">
+                    <tr class="slds-hint-parent">
+                        <div class="slds-truncate intes1" style="margin-top: .1rem;">1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Valore transazione</div>
+                    </tr>
+                    <tr class="slds-hint-parent">
+                        <div class="slds-truncate intes1" >2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Se Inferiore o uguale</div>
+                    </tr>
+                    <tr class="slds-hint-parent">
+                        <div class="slds-truncate intes1" >&nbsp;</div>
+                    </tr>                    
+                    <tr class="slds-hint-parent">
+                        <div class="slds-truncate intes1" >3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Se superiore</div>
+                    </tr>
+                    <tr class="slds-hint-parent">
+                        <div class="slds-truncate intes1" style="margin-bottom: .5rem;">&nbsp;</div>
+                    </tr>
+                </td>
+
+<!-- * outp old 2  -->
+                <aura:iteration items="{!v.dataFirst}" var="dataFirst">
+                    <td class="slds-size_1-of-4">
+<!-- x campi nn valorizzati ablencamento in cmp -->
+                        <aura:if isTrue="{! empty(dataFirst.threshold)}">
+                            <tr class="slds-hint-parent" style="border-bottom: 1px solid #ddd;">
+                                <div class="slds-truncate wcaO1x wcaO2x "
+                                ><b>€</b></div>
+                            </tr> 
+                            <aura:set attribute="else">
+                            <tr class="slds-hint-parent "  style="border-bottom: 1px solid #ddd;">
+                                <div>
+                                    <div class="slds-truncate wcaO1x"  name="Threshold_Old" 
+                                    >{!dataFirst.threshold}
+                                    <p class="v_p1"><b>€</b></p>
+                                    </div>
+                                </div>    
+                            </tr>
+                            </aura:set>
+                        </aura:if>
+
+                        <aura:if isTrue="{! empty(dataFirst.below_threshold_fee)}">
+                            <tr class="slds-hint-parent" style="border-bottom: 1px solid #ddd;">
+                                <div class="slds-truncate wcaO1x wcaO2x "
+                                ><b>€</b></div>
+                            </tr> 
+                            <aura:set attribute="else">
+                            <tr class="slds-hint-parent " style="border-bottom: 1px solid #ddd;">
+                                <div>
+                                    <div class="slds-truncate wcaO1x" name="Below_Threshold_Old"
+                                    >{!dataFirst.below_threshold_fee}
+                                    <p class="v_p1" ><b>€</b></p>
+                                    </div>
+                                </div>
+                            </tr>
+                            </aura:set>
+                        </aura:if>
+
+                        <aura:if isTrue="{! empty(dataFirst.below_threshold_fee_percentage)}">
+                            <tr class="slds-hint-parent" style="border-bottom: 1px solid #ddd;">
+                                <div class="slds-truncate wcaO1x wcaO2x"
+                                ><b>%</b></div>
+                            </tr> 
+                            <aura:set attribute="else">
+                            <tr class="slds-hint-parent " style="border-bottom: 1px solid #ddd;">
+                                <div>
+                                    <div class="slds-truncate wcaO1x" name="Below_Percentage_Old"
+                                    >{!dataFirst.below_threshold_fee_percentage}
+                                    <p class="v_p1" ><b>%</b></p>
+                                    </div>
+                                </div>
+                            </tr>
+                            </aura:set>
+                        </aura:if>
+
+                        <aura:if isTrue="{! empty(dataFirst.above_threshold_fee)}">
+                            <tr class="slds-hint-parent" style="border-bottom: 1px solid #ddd;">
+                                <div class="slds-truncate wcaO1x wcaO2x"
+                                ><b>€</b></div>
+                            </tr> 
+                            <aura:set attribute="else">
+                            <tr class="slds-hint-parent" style="border-bottom: 1px solid #ddd;">
+                                <div>
+                                    <div class="slds-truncate wcaO1x" name="Above_Threshold_Old"
+                                    >{!dataFirst.above_threshold_fee}
+                                    <p class="v_p1" ><b>€</b></p>
+                                    </div>
+                                </div>
+                            </tr>
+                            </aura:set>
+                        </aura:if>
+
+                        <aura:if isTrue="{! empty(dataFirst.above_threshold_fee_percentage)}">
+                            <tr class="slds-hint-parent" style="border-bottom: 1px solid #ddd;">
+                                <div class="slds-truncate wcaO1x wcaO2x"
+                                ><b>%</b></div>
+                            </tr> 
+                            <aura:set attribute="else">
+                            <tr class="slds-hint-parent" style="border-bottom: 1px solid #ddd;">
+                                <div>
+                                    <div class="slds-truncate wcaO1x" name="Above_Percentage_Old"
+                                    >{!dataFirst.above_threshold_fee_percentage}
+                                    <p class="v_p1" ><b>%</b></p>
+                                    </div>
+                                </div>
+                            </tr>
+                            </aura:set>
+                        </aura:if>
+                    </td>
+                </aura:iteration>
+
+                <aura:if isTrue="{! empty(v.dataFirst)}">
+                    <td class="slds-size_1-of-4">
+                        <tr class="slds-hint-parent" style="border-bottom: 1px solid #ddd;">
+                            <div class="slds-truncate wcaO1x  wcaO2x" 
+                            ><b>€</b></div>
+                        </tr>
+                        <tr class="slds-hint-parent" style="border-bottom: 1px solid #ddd;">
+                            <div class="slds-truncate wcaO1x wcaO2x" 
+                            ><b>€</b></div>
+                        </tr>
+                        <tr class="slds-hint-parent" style="border-bottom: 1px solid #ddd;">
+                            <div class="slds-truncate wcaO1x wcaO2x" 
+                            ><b>%</b></div>
+                        </tr>
+                        <tr class="slds-hint-parent" style="border-bottom: 1px solid #ddd;">
+                            <div class="slds-truncate wcaO1x wcaO2x" 
+                            ><b>€</b></div>
+                        </tr>
+                        <tr class="slds-hint-parent" style="border-bottom: 1px solid #ddd;">
+                            <div class="slds-truncate wcaO1x wcaO2x" 
+                            ><b>%</b></div>
+                        </tr>
+                    </td>
+                </aura:if>
+
+                <!-- ! IMP 2 -->
+                <aura:iteration items="{!v.dataLast}" var="dataLast">
+                    <td class="slds-size_1-of-4">
+                        
+                        <aura:if isTrue="{! v.manager2Dflt}">
+                            <tr class="slds-hint-parent slds-cell-edit slds-cell-error bobosl" >
+                                <input style="padding:.4rem; border-style: none; " type="number" aura:id="lname3" id="lname3" name="Threshold_New"  value="{!dataLast.threshold}" onchange="{!c.updateWrapperNew}" onfocus="{!c.cmpOnFcs}" onblur="{!c.cmpOnBlr}"/> <b> €</b> 
+                            </tr>
+                            <aura:set attribute="else">
+                                <tr class="slds-hint-parent slds-cell-edit slds-cell-error bobosl" >
+                                    <input style="padding:.4rem; border-style: none; " class="sp_inpBgYel" type="number" aura:id="lname3b" id="lname3b" name="Threshold_New"  value="{!dataLast.threshold}" onchange="{!c.updateWrapperNew}" onfocus="{!c.cmpOnFcs}" onblur="{!c.cmpOnBlr}"/> <b> €</b> 
+                                </tr>
+                            </aura:set>
+                        </aura:if>
+                        
+                        <aura:if isTrue="{! v.manager2Dflt}">
+                            <tr class="slds-hint-parent slds-cell-edit slds-cell-error bobosl" >
+                                <input style="padding:.4rem; border-style: none; " type="number" aura:id="lname4" id="lname4" name="Below_Threshold_New"  value="{!dataLast.below_threshold_fee}" onchange="{!c.updateWrapperNew}" onfocus="{!c.cmpOnFcs}" onblur="{!c.cmpOnBlr}"/> <b> €</b> 
+                            </tr>
+                            <aura:set attribute="else">
+                                <tr class="slds-hint-parent slds-cell-edit slds-cell-error bobosl" >
+                                    <input style="padding:.4rem; border-style: none; " class="sp_inpBgYel" type="number" aura:id="lname4b" id="lname4b" name="Below_Threshold_New"  value="{!dataLast.below_threshold_fee}" onchange="{!c.updateWrapperNew}" onfocus="{!c.cmpOnFcs}" onblur="{!c.cmpOnBlr}"/> <b> €</b> 
+                                </tr>
+                            </aura:set>
+                        </aura:if>
+                            
+                        <aura:if isTrue="{! v.manager2Dflt}">
+                            <tr class="slds-hint-parent slds-cell-edit slds-cell-error bobosl" >
+                                    <input style="padding:.4rem; border-style: none; " type="number" aura:id="lname5" id="lname5" name="Below_Percentage_New" value="{!dataLast.below_threshold_fee_percentage}" onchange="{!c.updateWrapperNew}" onfocus="{!c.cmpOnFcs}" onblur="{!c.cmpOnBlr}"/> <b> %</b> 
+                            </tr>
+                            <aura:set attribute="else">
+                                <tr class="slds-hint-parent slds-cell-edit slds-cell-error bobosl" >
+                                    <input style="padding:.4rem; border-style: none; "  class="sp_inpBgYel" type="number" aura:id="lname5b" id="lname5b" name="Below_Percentage_New" value="{!dataLast.below_threshold_fee_percentage}" onchange="{!c.updateWrapperNew}" onfocus="{!c.cmpOnFcs}" onblur="{!c.cmpOnBlr}"/> <b> %</b> 
+                                </tr>
+                            </aura:set>
+                        </aura:if>
+
+
+                        <!-- * -->
+                        <aura:if isTrue="{! v.managerDflt}">
+                            <tr class="slds-hint-parent slds-cell-edit slds-cell-error bobosl" >
+                            <input style="padding: .4rem; border-style: none; "
+                                type="number" aura:id="lname6" id="lname6" name="Above_Threshold_New" value="{!dataLast.above_threshold_fee}" 
+                                onchange="{!c.updateWrapperNew}" onfocus="{!c.cmpOnFcs}" onblur="{!c.cmpOnBlr}"/> <b>  €</b>
+                            </tr>
+                        <aura:set attribute="else">
+                            <tr class="slds-hint-parent slds-cell-edit slds-cell-error bobosl" >
+                            <input style="padding: .4rem; border-style: none; " class="sp_inpBgYel" 
+                                type="number" aura:id="lname6b" id="lname6b" name="Above_Threshold_New" value="{!dataLast.above_threshold_fee}" 
+                                onchange="{!c.updateWrapperNew}" onfocus="{!c.cmpOnFcs}" onblur="{!c.cmpOnBlr}"/> <b>  €</b>
+                            </tr>
+                        </aura:set>
+                        </aura:if>
+
+                        <aura:if isTrue="{! v.managerDflt}">
+                            <tr class="slds-hint-parent slds-cell-edit slds-cell-error bobosl" >
+                            <input style="padding: .4rem; border-style: none; "
+                                type="number" aura:id="lname7"  id="lname7" name="Above_Percentage_New" value="{!dataLast.above_threshold_fee_percentage}"
+                                onchange="{!c.updateWrapperNew}" onfocus="{!c.cmpOnFcs}" onblur="{!c.cmpOnBlr}"/> <b>  %</b>
+                            </tr>
+                        <aura:set attribute="else">
+                            <tr class="slds-hint-parent slds-cell-edit slds-cell-error bobosl" >
+                            <input style="padding: .4rem; border-style: none; " class="sp_inpBgYel" 
+                                type="number" aura:id="lname7b"  id="lname7b" name="Above_Percentage_New" value="{!dataLast.above_threshold_fee_percentage}"
+                                onchange="{!c.updateWrapperNew}" onfocus="{!c.cmpOnFcs}" onblur="{!c.cmpOnBlr}"/> <b>  %</b>
+                            </tr>
+                        </aura:set>                        
+                        </aura:if>
+
+                    </td>
+                </aura:iteration>
+
+                <td class="slds-size_1-of-4">
+                    <tr class="slds-hint-parent ">
+                        <div class="slds-truncate intes1" >&nbsp;</div>
+                    </tr>
+                    <tr class="slds-hint-parent ">
+                        <div class="slds-truncate intes1" >&nbsp;</div>
+                    </tr>
+                    <tr class="slds-hint-parent ">
+                        <div class="slds-truncate intes1" >&nbsp;</div>
+                    </tr>
+                    <tr class="slds-hint-parent ">
+                        <div class="slds-truncate intes1" >&nbsp;</div>
+                    </tr>
+                    <tr class="slds-hint-parent ">
+                        <div class="slds-truncate intes1" >&nbsp;</div>
+                    </tr>
+                </td>        
+
+            </table>
+        </aura:if>
+    </div>
+</aura:component>

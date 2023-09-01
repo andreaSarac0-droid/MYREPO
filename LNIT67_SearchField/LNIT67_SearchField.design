@@ -1,0 +1,6 @@
+<design:component>
+	<design:attribute name="label" label="Label" />
+    <design:attribute name="filteringOptions" label="Filtering Options (Field1,Object1;Field2,Object2;...)" />
+    <design:attribute name="additionalFilter" label="Additional Filters (Filter on Object1;Filter on Object2;...)" />
+    <design:attribute name="selectedResult" label="Selected Result" />
+</design:component>

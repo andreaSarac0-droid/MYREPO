@@ -1,0 +1,4 @@
+<design:component>
+	<design:attribute name="idRecord" label="idRecord"/>
+    <design:attribute name="sObjectName" label="Object Name"/>
+</design:component>

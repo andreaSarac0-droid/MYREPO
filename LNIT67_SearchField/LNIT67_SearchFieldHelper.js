@@ -1,0 +1,5 @@
+({
+	getRecords : function(component, event) {
+    
+	}
+})

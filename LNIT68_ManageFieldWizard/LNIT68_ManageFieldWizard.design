@@ -1,0 +1,19 @@
+<design:component>
+    <design:attribute name="recordId" label="Output Field"/>
+    <design:attribute name="Above_Threshold_New" label="Above Threshold New"/>
+    <design:attribute name="Above_Threshold_Old" label="Above Threshold Old"/>
+    <design:attribute name="Below_Threshold_New" label="Below Threshold New"/>
+    <design:attribute name="Below_Threshold_Old" label="Below Threshold Old"/>
+    <design:attribute name="Threshold_New" label="Threshold New"/>
+    <design:attribute name="Threshold_Old" label="Threshold Old"/>
+    <design:attribute name="Above_Percentage_New" label="Above Percentage New"/>
+    <design:attribute name="Above_Percentage_Old" label="Above Percentage Old"/>
+    <design:attribute name="Below_Percentage_New" label="Below Percentage New"/>
+    <design:attribute name="Below_Percentage_Old" label="Below Percentage Old"/>
+    <design:attribute name="SaveTrue" label="Hai salvato"/>
+    <design:attribute name="FlagContratto" label="Contratto Type 101 or 102"/>
+    <design:attribute name="fieldBlank" label="AllFieldBlank"/>
+    <design:attribute name="FlagError" label="Errore bloccante"/>
+    <design:attribute name="error" label="Msg Errore"/>
+    <design:attribute name="firstEntry" label="First Entry"/>
+</design:component>

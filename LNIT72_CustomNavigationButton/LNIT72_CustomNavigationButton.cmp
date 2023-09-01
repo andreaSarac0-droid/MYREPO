@@ -1,0 +1,10 @@
+<aura:component  implements="force:lightningQuickActionWithoutHeader,force:appHostable,lightning:actionOverride,lightning:availableForFlowScreens,lightning:availableForFlowActions"
+                 access="global" >
+    <aura:attribute name="label" type="String"/>
+        <div>
+        <div class="divTotale ">
+            <lightning:button label="{!v.label}" aura:id="Participate_Yes" 
+            variant="brand" onclick="{!c.handleChangeButton}"/>
+        </div>
+        </div>
+</aura:component>

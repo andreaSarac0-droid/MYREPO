@@ -1,0 +1,53 @@
+.THIS .divTitle {
+    background-color: #E8E8E8 !important;
+    color: #000000 !important;
+    font-weight: bold !important;
+    margin-top: 20px;
+    margin-left: 10px;
+    padding-top: 6px;
+}
+
+.THIS .slds-m-top_small {
+    background-color: #E8E8E8 !important;
+    color: #000000 !important;
+    margin-top: 10px !important;
+    margin-left: 10px !important;
+    margin-right: 10px;
+}
+
+.THIS .radioButton {
+    background-color: #E8E8E8 !important;
+    color: #FFFFFF !important;
+    /* margin-top: 10px !important; */
+    margin-left: 10px !important;
+    /* margin-right: 10px; */
+}
+
+.THIS .lookup {
+    background-color: #E8E8E8 !important;
+    color: #000000 !important;
+    margin-left: 10px !important;
+    margin-top: 10px !important;
+    margin-right: 10px;
+}
+
+.THIS.divTotale {
+    background-color: #E8E8E8 !important;
+    color: #000000 !important;
+    font-size: 12px;
+    border-radius: 9px;
+    /* margin-top: 100px;
+    margin-bottom: 100px;
+    margin-right: 300px;
+    margin-left: 200px; */
+    height: 200px;
+    /* width: 60%; */
+    box-sizing: border-box;
+    /* float: left; */
+    border-style:unset ;
+    border-radius: 5px;
+    /* margin-left: -6px; */
+
+    margin-right: 33%;
+    margin-left: 33%;
+}
