@@ -1,0 +1,25 @@
+<design:component label="PageCustom">
+    <flexipage:template>
+        
+        <flexipage:region name="firstHeader" defaultWidth="SMALL">
+            <flexipage:formfactor type="MEDIUM" width="SMALL"/>
+        </flexipage:region>
+        
+        <flexipage:region name="secondHeader" defaultWidth="SMALL">
+            <flexipage:formfactor type="MEDIUM" width="SMALL"/>
+        </flexipage:region>
+        
+        <flexipage:region name="left" defaultWidth="SMALL">
+            <flexipage:formfactor type="MEDIUM" width="SMALL"/>
+        </flexipage:region>
+        
+        <flexipage:region name="center" defaultWidth="SMALL" >
+            <flexipage:formfactor type="MEDIUM" width="SMALL"/>
+        </flexipage:region>
+            
+        <flexipage:region name="right" defaultWidth="SMALL">
+            <flexipage:formfactor type="MEDIUM" width="SMALL"/>
+        </flexipage:region>
+        
+    </flexipage:template>
+</design:component>

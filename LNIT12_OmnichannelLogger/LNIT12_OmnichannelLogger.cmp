@@ -1,0 +1,9 @@
+<aura:component controller="APIT05_GetRecordType" implements="flexipage:availableForAllPageTypes,force:hasRecordId" access="global">
+    <lightning:omniToolkitAPI aura:id="omniToolkit" />  
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:handler event="lightning:omniChannelLoginSuccess" action="{! c.onLoginSuccess }"/>
+    <aura:handler event="lightning:omniChannelStatusChanged" action="{! c.onStatusChanged }"/>
+    <aura:handler event="lightning:omniChannelLogout" action="{! c.onLogout }"/>
+    <aura:attribute name="alreadyLogged" type="Boolean" default = "false"/>
+    
+</aura:component>

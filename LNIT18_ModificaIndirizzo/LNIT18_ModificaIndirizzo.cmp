@@ -1,0 +1,57 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName">
+ <!--   <lightning:button label="Modifica Indirizzo" title="Modifica Indirizzo" onclick="{! c.handleClick }"/>-->
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:attribute name="show" type="Boolean" />
+    <aura:attribute name="phase" type="Integer" default = '1'/>
+    <aura:attribute name="opportunityType" type="String" default = 'Billing' />
+    <aura:attribute name="options" type="List" default="[
+    {'label': 'Billing', 'value': 'Billing'},
+    {'label': 'Shipping', 'value': 'Shipping'}
+    ]"/>
+    <aura:attribute name="setVisiblity" type="Object" />
+    
+	<ui:button class="slds-button slds-button--neutral" label="Modifica Indirizzo" press="{!c.openmodal}"  />
+    <aura:if isTrue="{!v.show}">
+            <div role="dialog" tabindex="-1" aria-labelledby="header43" aura:id="Modalbox" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header">
+                        <!--     <button class="slds-modal__close" title="Close" onclick="{!c.closeModal}">
+                        <span class="slds-assistive-text">Close</span>
+                    </button> -->
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{!c.closeModal}"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <div> 
+                            <aura:if isTrue="{!v.phase == 0}">
+                                
+                                <lightning:radioGroup name="RadioSelect"
+                                                      label="Selezionare indirizzo da modificare"
+                                                      options="{! v.options }"
+                                                      value="{! v.opportunityType }"
+                                                      type="radio"/>
+                                <br/>
+                                <div style = "float: right;">
+                                <lightning:button  variant="brand" label="Avanti" title="Brand action" onclick="{! c.handleClick }" />
+                                </div>
+                                
+                                <aura:set attribute="else">
+                                    <c:LNIT02_Addresses recordId="{!v.recordId}"  sObjectName="{!v.sObjectName}" setVisiblity="{!v.show}" opportunityType ="{!v.opportunityType}"/>
+                                </aura:set>
+                            </aura:if>
+                        </div>
+                    </div> 
+                    <div class="slds-modal__footer">
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open" aura:id="Modalbackdrop"></div>
+        
+    </aura:if>
+
+</aura:component>

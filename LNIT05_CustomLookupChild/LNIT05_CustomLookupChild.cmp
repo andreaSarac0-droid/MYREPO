@@ -1,0 +1,241 @@
+<aura:component controller="APIT10_CustomLookupController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="myContact" type="Map"/>
+    <aura:attribute name="FinCenter" type="Map"/>
+    <aura:attribute name="Circuit" type="Map"/>
+    <aura:attribute name="Contact" type="Map"/>
+    <aura:attribute name="Pos" type="Map"/>
+    <aura:attribute name="Store" type="Map"/>
+    <aura:attribute name="Asset" type="Map"/>
+    <aura:attribute name="Employee" type="Map"/>
+    <aura:attribute name="Product" type="Map"/>
+    <aura:attribute name="Individual" type="Map"/>
+    <aura:attribute name="User" type="Map"/>
+    <aura:attribute name="icon" type="String"/>
+    <aura:attribute name="object" type="String"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doinit}"/>
+    <aura:registerEvent name="LEVIT02_LookupEventToParent" type="c:LEVIT02_LookupEventToParent"/>
+    <aura:registerEvent name="LEVIT03_LookupContactEventToParent" type="c:LEVIT03_LookupContactEventToParent"/>
+    
+    <aura:if isTrue="{!v.object == 'Account'}">
+        <li role="presentation" class="slds-listbox__item " onclick ="{!c.onOptionClick}">
+            <div id="option1" class="slds-media slds-listbox__option slds-listbox__option_entity slds-media_center" role="option">
+                <span class="slds-media__figure slds-listbox__option-icon">
+                    <span class="slds-icon_container slds-icon-standard-account">
+                        <div class="slds-icon slds-icon_small" aria-hidden="true">
+                            <lightning:icon iconName="{!v.icon}" alternativeText="{!v.object}" size="small"/>
+                        </div>
+                    </span>
+                </span>
+                <span class="slds-media__body">
+                    <span class="slds-listbox">
+                        {!v.myContact.Name}                     
+                    </span>
+                </span>
+            </div>
+        </li>
+    </aura:if>
+    <aura:if isTrue="{!v.object == 'ER_Financial_Center__c'}">
+        <li role="presentation" class="slds-listbox__item " onclick ="{!c.onOptionClick}">
+            <div id="option1" class="slds-media slds-listbox__option slds-listbox__option_entity slds-media_center" role="option">
+                <span class="slds-media__figure slds-listbox__option-icon">
+                    <span class="slds-icon_container slds-icon-standard-account">
+                        <div class="slds-icon slds-icon_small" aria-hidden="true">
+                            <lightning:icon iconName="{!v.icon}" alternativeText="{!v.object}" size="small"/>
+                        </div>
+                    </span>
+                </span>
+                <span class="slds-media__body">
+
+                    <span class="slds-listbox">
+                        {!v.FinCenter.Name}
+                    </span>
+                    <aura:if isTrue="{!v.FinCenter.IT_Client_Status__c}">
+                        ({!v.FinCenter.IT_Client_Status__c})
+                    </aura:if>
+                    <aura:if isTrue="{!v.FinCenter.IT_Merchant_Status__c}">
+                        ({!v.FinCenter.IT_Merchant_Status__c})
+                    </aura:if>
+
+                </span>
+            </div>
+        </li>
+    </aura:if>
+    <aura:if isTrue="{!v.object == 'IT_Circuit__c'}">
+        <li role="presentation" class="slds-listbox__item " onclick ="{!c.onOptionClick}">
+            <div id="option1" class="slds-media slds-listbox__option slds-listbox__option_entity slds-media_center" role="option">
+                <span class="slds-media__figure slds-listbox__option-icon">
+                    <span class="slds-icon_container slds-icon-standard-account">
+                        <div class="slds-icon slds-icon_small" aria-hidden="true">
+                            <lightning:icon iconName="{!v.icon}" alternativeText="{!v.object}" size="small"/>
+                        </div>
+                    </span>
+                </span>
+                <span class="slds-media__body">
+                    <span class="slds-listbox">
+                        {!v.Circuit.Name}                     
+                    </span>
+                </span>
+            </div>
+        </li>
+    </aura:if>
+    <aura:if isTrue="{!v.object == 'Contact'}">
+        <li role="presentation" class="slds-listbox__item " onclick ="{!c.onOptionClick}">
+            <div id="option1" class="slds-media slds-listbox__option slds-listbox__option_entity slds-media_center" role="option">
+                <span class="slds-media__figure slds-listbox__option-icon">
+                    <span class="slds-icon_container slds-icon-standard-account">
+                        <div class="slds-icon slds-icon_small" aria-hidden="true">
+                            <lightning:icon iconName="{!v.icon}" alternativeText="{!v.object}" size="small"/>
+                        </div>
+                    </span>
+                </span>
+                <span class="slds-media__body">
+                    <span class="slds-listbox">
+                        {!v.Contact.Name}                     
+                    </span>
+                </span>
+            </div>
+        </li>
+    </aura:if>
+    <aura:if isTrue="{!v.object == 'ER_Store__c'}">
+        <li role="presentation" class="slds-listbox__item " onclick ="{!c.onOptionClick}">
+            <div id="option1" class="slds-media slds-listbox__option slds-listbox__option_entity slds-media_center" role="option">
+                <span class="slds-media__figure slds-listbox__option-icon">
+                    <span class="slds-icon_container slds-icon-standard-account">
+                        <div class="slds-icon slds-icon_small" aria-hidden="true">
+                            <lightning:icon iconName="{!v.icon}" alternativeText="{!v.object}" size="small"/>
+                        </div>
+                    </span>
+                </span>
+                <span class="slds-media__body">
+                    <span class="slds-listbox">
+                        {!v.Store.Name}                     
+                    </span>
+                </span>
+            </div>
+        </li>
+    </aura:if>
+    <aura:if isTrue="{!v.object == 'ER_Acceptor__c'}">
+        <li role="presentation" class="slds-listbox__item " onclick ="{!c.onOptionClick}">
+            <div id="option1" class="slds-media slds-listbox__option slds-listbox__option_entity slds-media_center" role="option">
+                <span class="slds-media__figure slds-listbox__option-icon">
+                    <span class="slds-icon_container slds-icon-standard-account">
+                        <div class="slds-icon slds-icon_small" aria-hidden="true">
+                            <lightning:icon iconName="{!v.icon}" alternativeText="{!v.object}" size="small"/>
+                        </div>
+                    </span>
+                </span>
+                <span class="slds-media__body">
+                    <span class="slds-listbox">
+                        {!v.Pos.Name}                     
+                    </span>
+                </span>
+            </div>
+        </li>
+    </aura:if>
+    <aura:if isTrue="{!v.object == 'Asset'}">
+        <li role="presentation" class="slds-listbox__item " onclick ="{!c.onOptionClick}">
+            <div id="option1" class="slds-media slds-listbox__option slds-listbox__option_entity slds-media_center" role="option">
+                <span class="slds-media__figure slds-listbox__option-icon">
+                    <span class="slds-icon_container slds-icon-standard-account">
+                        <div class="slds-icon slds-icon_small" aria-hidden="true">
+                            <lightning:icon iconName="{!v.icon}" alternativeText="{!v.object}" size="small"/>
+                        </div>
+                    </span>
+                </span>
+                <span class="slds-media__body">
+                    <aura:if isTrue="{!v.Asset.flgClr==false}">
+                        <span class="slds-listbox">
+                            {!v.Asset.Name}                     
+                        </span>
+                    <aura:set attribute="else"> 
+                        <span class="slds-listbox clsrpClr2">
+                            {!v.Asset.Name}                     
+                        </span>
+                    </aura:set>
+                    </aura:if>                
+                </span>
+
+            </div>
+        </li>
+    </aura:if>
+    <aura:if isTrue="{!v.object == 'Product'}">
+        <li role="presentation" class="slds-listbox__item " onclick ="{!c.onOptionClick}">
+            <div id="option1" class="slds-media slds-listbox__option slds-listbox__option_entity slds-media_center" role="option">
+                <span class="slds-media__figure slds-listbox__option-icon">
+                    <span class="slds-icon_container slds-icon-standard-account">
+                        <div class="slds-icon slds-icon_small" aria-hidden="true">
+                            <lightning:icon iconName="{!v.icon}" alternativeText="{!v.object}" size="small"/>
+                        </div>
+                    </span>
+                </span>
+                <span class="slds-media__body">
+                    <span class="slds-listbox">
+                        {!v.Product.Label}                    
+                    </span>
+                </span>
+            </div>
+        </li>
+    </aura:if>
+    <aura:if isTrue="{!v.object == 'ER_Employee__c'}">
+        <li role="presentation" class="slds-listbox__item " onclick ="{!c.onOptionClick}">
+            <div id="option1" class="slds-media slds-listbox__option slds-listbox__option_entity slds-media_center" role="option">
+                <span class="slds-media__figure slds-listbox__option-icon">
+                    <span class="slds-icon_container slds-icon-standard-account">
+                        <div class="slds-icon slds-icon_small" aria-hidden="true">
+                            <lightning:icon iconName="{!v.icon}" alternativeText="{!v.object}" size="small"/>
+                        </div>
+                    </span>
+                </span>
+                <span class="slds-media__body">
+                    <span class="slds-listbox">
+                        {!v.Employee.Name}                     
+                    </span>
+                </span>
+            </div>
+        </li>
+    </aura:if>
+    <aura:if isTrue="{!v.object == 'Individual'}">
+        <li role="presentation" class="slds-listbox__item " onclick ="{!c.onOptionClick}">
+            <div id="option1" class="slds-media slds-listbox__option slds-listbox__option_entity slds-media_center" role="option">
+
+            <aura:if isTrue="{!v.Individual.Name != 'New Individual'}">
+                <span class="slds-media__figure slds-listbox__option-icon">
+                    <span class="slds-icon_container slds-icon-standard-account">
+                        <div class="slds-icon slds-icon_small" aria-hidden="true">
+                            <lightning:icon iconName="{!v.icon}" alternativeText="{!v.object}" size="small"/>
+                        </div>
+                    </span>
+                </span>
+                <aura:set attribute="else"> <!-- simula voce + new individual-->
+                    <span class="piufont ">+</span>
+                </aura:set>
+            </aura:if>
+
+                <span class="slds-media__body">
+                    <span class="slds-listbox">
+                        {!v.Individual.Name}                     
+                    </span>
+                </span>
+            </div>
+        </li>
+    </aura:if>
+    <aura:if isTrue="{!v.object == 'User'}">
+        <li role="presentation" class="slds-listbox__item " onclick ="{!c.onOptionClick}">
+            <div id="option1" class="slds-media slds-listbox__option slds-listbox__option_entity slds-media_center" role="option">
+                <span class="slds-media__figure slds-listbox__option-icon">
+                    <span class="slds-icon_container slds-icon-standard-account">
+                        <div class="slds-icon slds-icon_small" aria-hidden="true">
+                            <lightning:icon iconName="{!v.icon}" alternativeText="{!v.object}" size="small"/>
+                        </div>
+                    </span>
+                </span>
+                <span class="slds-media__body">
+                    <span class="slds-listbox">
+                        {!v.User.Name}                     
+                    </span>
+                </span>
+            </div>
+        </li>
+    </aura:if>
+</aura:component>

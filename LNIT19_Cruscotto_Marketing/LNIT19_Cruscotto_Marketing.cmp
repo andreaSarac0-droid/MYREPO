@@ -1,0 +1,216 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:appHostable,force:LightningQuickAction,lightning:isUrlAddressable"
+                access="global" controller="APIT00_Cruscotto_Marketing">
+    
+    <aura:handler name="init" value="{! this }" action="{! c.doInit }"  />
+    
+    <aura:attribute name="tDetailListSize" type="Integer" default="0"/>
+    <aura:attribute name="tDetailListMinSize" type="Integer" default="5" />
+    <aura:attribute name="tDetailQueryAll" type="Boolean" default="false" />
+    <aura:attribute name="ifViewAll" type="Boolean" default="false" />
+    <aura:attribute name="options" type="List" />
+    <aura:attribute name="selectedValue" type="String" />
+    <aura:attribute name="tDetailList" type="List" />
+    <aura:attribute name="donecount" type="Integer" />
+    <aura:attribute name="todocount" type="Integer" />
+    <aura:attribute name="todoNr" type="Integer" />
+    <aura:attribute name="spinner" type="Boolean" default="true"/>
+    <aura:attribute type="List" name="acctList"/>
+    <aura:attribute type="List" name="paginatedData"/>
+    <aura:attribute name="sortedBy" type="String" />
+    <aura:attribute name="sortedDirection" type="Boolean" default="true" />
+    <aura:attribute name="mycolumns" type="List"/>
+    <aura:attribute name="pageNumber" type="Integer" default="1"/>
+    <aura:attribute name="pageSize" type="Integer" default="10"/>
+    <aura:attribute name="isLastPage" type="Boolean" default="false"/>
+    <aura:attribute name="dataSize" type="Integer" default="0"/>
+    <aura:if isTrue="{!v.spinner}">
+        <lightning:spinner alternativeText="Loading" size="medium" />
+    </aura:if>
+
+    <div class="component"  style="border: 1px solid rgb(221, 219, 218);border-radius: .25rem;">
+        <lightning:card class="sldsPadding">
+            <aura:set attribute="title">         
+                <table>       
+                    <tr>
+                        <td align="bottom"  border="0" width="5%" heigth="100%" style ="padding-top:20px" >
+                            <lightning:icon  iconName="standard:campaign" size="medium" />  
+                        </td>
+                        <td align="left" padding  ="0" border="0" width="100%" heigth="100%">
+                            <lightning:select name="Campagne" label="Campagne Marketing" aura:id="Campagne" onchange="{!c.onChangeSelect}" value="{!v.selectedValue}">
+                                <aura:iteration items="{!v.options}" var="option">
+                                    <option text="{!option.name}" value="{!option.recordId}" selected="{!option.recordId == v.selectedValue}"/>
+                                </aura:iteration>
+                            </lightning:select>
+                        </td>
+                    </tr>
+                    
+                </table> 
+                
+                <!--<table style ="margin-left: 0px;margin-top: 5px"> 
+                    <tr >  
+                        
+                        <td class="slds-cell-edit" role="gridcell">
+                            <span class="slds-truncate" title="4/10/15"> Contacts done:  {!v.donecount}</span>
+                            <div class="slds-text-body_regular"> </div>   
+                        </td>
+                        <td class="slds-cell-edit" role="gridcell">
+                            <span class="slds-truncate" title="4/10/15"> Contacts to do:  {!v.todocount}</span>
+                            <div class="slds-text-body_regular"> </div>   
+                        </td>
+                        <td class="slds-cell-edit" role="gridcell">
+                            <span class="slds-truncate" title="4/10/15"> Pending:  {!v.todoNr}</span>
+                            <div class="slds-text-body_regular"> </div>   
+                        </td>
+                        
+                        <td>
+                            <lightning:buttonIcon iconName="utility:refresh" variant="bare" onclick="{! c.doInit }" alternativeText="Refresh" title="Refresh" />
+                            
+                        </td>
+                    </tr>
+                </table> -->  
+            </aura:set>
+            <div class="slds-grid slds-wrap row">
+                <div class="slds-col slds-size_3-of-12 slds-col_bump-right">
+                    Contacts done:  {!v.donecount}
+                </div>
+                <div class="slds-col slds-size_3-of-12 slds-col_bump-right">
+                    Contacts to do:  {!v.todocount}
+                </div>
+                <div class="slds-col slds-size_3-of-12 slds-col_bump-right">
+                    Pending:  {!v.todoNr}
+                </div>
+                <div class="slds-col slds-size_3-of-12">
+                    Total:  {!v.todoNr + v.todocount + v.donecount}
+                    <div class="slds-float_right">
+                        <lightning:buttonIcon iconName="utility:refresh" variant="bare" onclick="{! c.doInit }" alternativeText="Refresh" title="Refresh" />
+                    </div>
+                </div>
+            </div>
+            <!--
+            <lightning:navigation aura:id="navService" />
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Name">Nome</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Email">Email</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Telefono">Telefono</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="BlackList">Provincia</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Elefast">Città</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Elefast">Cap</div>
+                        </th>
+                         <th class="" scope="col">
+                            <div class="slds-truncate" title="Elefast">Codice</div>
+                        </th>
+                         <th class="" scope="col">
+                            <div class="slds-truncate" title="Elefast">Issue Volume</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Elefast">Segmento</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Elefast">Esito</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Elefast">In altri cruscotti</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.tDetailList}" var="tDetail">
+                        <tr class="slds-hint-parent">
+                            <td data-label="Name">
+                               
+                                <div class="uiOutputText"  title="Cloudhub"> <a href="#" onclick="{!c.goToObject}" data-account-id="{!tDetail.Account.Id}">{!tDetail.Account.Name}</a></div>
+                            </td>
+                            <td data-label="Email">
+                                <div class="slds-truncate" title="">{!tDetail.Email}</div>
+                            </td>
+                            <td data-label="Telefono">
+                                <div class="slds-truncate" title="Location">{!tDetail.Phone}</div>
+                            </td>
+                            <td data-label="Semaforo">
+                                
+               
+                                <div class="slds-truncate" title="Location">{!tDetail.Account.BillingState}</div>
+                            </td>
+                            <td data-label="Elefast">
+                                <div class="slds-truncate" title="Location">{!tDetail.Account.BillingCity}</div>
+                            </td>
+                            <td data-label="Elefast">
+                                <div class="slds-truncate" title="Location">{!tDetail.Account.BillingPostalCode}</div>
+                            </td>
+                            <td data-label="Elefast">
+                                <div class="slds-truncate" title="Location">{!tDetail.CampaignMembers[0].IT_Client_Code__c}</div>
+                            </td>      
+                                                        <td data-label="Elefast">
+                                <div class="slds-truncate" title="Location">{!tDetail.Account.IT_Issue_Volume__c}</div>
+                            </td>  
+                                                        <td data-label="Elefast">
+
+                                                            <ui:outputRichText value="{!tDetail.Account.IT_Cluster__c}"/>
+                            </td>  
+                                                        <td data-label="Elefast">
+                                <div class="slds-truncate" title="Location">{!tDetail.CampaignMembers[0].Status}</div>
+                            </td>  
+                            <td data-label="Elefast">
+                                
+                                <div class="slds-checkbox">
+                                    <input type="checkbox" name="options" id="checkbox-unique-id-74" disabled="true" checked="{!tDetail.inOtherCampaign}" />
+                                    <label class="slds-checkbox__label" for="checkbox-unique-id-74">
+                                        <span class="slds-checkbox_faux"></span>
+                
+                                    </label>
+                                </div>
+                              </td>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+            -->
+        </lightning:card> 
+        <aura:if isTrue="{!v.pageReference.state.c__tDetailQueryAll}">
+            <div class="slds-box slds-box_xx-small">
+            </div>
+            
+            <aura:set attribute="else">      
+                
+                <div class="slds-box slds-box_xx-small">
+                </div>
+            </aura:set>
+        </aura:if>
+        
+    </div>
+    
+    <lightning:datatable data="{! v.paginatedData }" 
+                         columns="{! v.mycolumns }" 
+                         keyField="Id"
+                         onsort="{!c.updateColumnSorting}"
+                         sortedBy="{!v.sortedBy}"
+                         sortedDirection="{!v.sortedDirection}" 
+                         hideCheckboxColumn="true"/>  
+        <div class="slds-clearfix">
+            <div style ="margin-top:0.75rem;" class="slds-page-footer;" role="banner">
+                <div style = "padding-bottom : 0.75rem;padding-right : 0.5rem;" class="slds-float_right">            
+                    <lightning:button label="Prev" iconName="utility:chevronleft" iconPosition="left"
+                                      onclick="{!c.handlePrev}" disabled="{! v.pageNumber == 1}"/>
+                    <lightning:button label="Next" iconName="utility:chevronright" iconPosition="right"
+                                      disabled="{!v.isLastPage}" onclick="{!c.handleNext}"/>
+                </div>
+                <div style = "padding-left : 0.5rem;padding-top : 0.5rem;">
+                Page {!v.pageNumber} | Showing records from {! ((v.pageNumber-1)*v.pageSize)+' to '+((v.pageNumber-1)*v.pageSize+v.dataSize)}
+                </div>
+                
+            </div>
+        </div>    
+</aura:component>

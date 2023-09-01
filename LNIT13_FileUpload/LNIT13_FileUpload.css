@@ -1,0 +1,6 @@
+.THIS .slds-transition-hide {
+    transition: opacity 0.5s;
+}
+.THIS .slds-transition-show {
+    transition: opacity 0.5s;
+}

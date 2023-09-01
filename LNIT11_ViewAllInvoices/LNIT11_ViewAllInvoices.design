@@ -1,0 +1,3 @@
+<design:component label="Select Type">
+    <design:attribute name="InvoicesType" label="Invoices Type" description="Invoices Filter" datasource="Operation1,Operation4" Default="Operation1"/>
+</design:component>

@@ -1,0 +1,6 @@
+<design:component>
+	<design:attribute name="recordId" label="Record Id" />
+    <design:attribute name="showButton" label="Show button" />
+    <design:attribute name="flowName" label="Flow Name" />
+    <design:attribute name="isFlow" label="is Flow" />
+</design:component>

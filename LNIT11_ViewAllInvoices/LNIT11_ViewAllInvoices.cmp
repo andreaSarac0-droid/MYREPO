@@ -1,0 +1,78 @@
+<aura:component controller="APIT02_InvoicesListController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:isUrlAddressable">
+    
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="listSize" type="Integer"/>
+    <aura:attribute name="dataStart" type="Date"/>
+    <aura:attribute name="dataEnd" type="Date"/>
+    <aura:attribute name="CodSociety" type="String"/>
+    <aura:attribute name="caseID" type="String"/>
+    <aura:attribute name="codCli" type="String"/>
+    <aura:attribute name="societyListName" type="List"/>
+    
+    <aura:attribute name="importTotal" type="Decimal"/>
+    <aura:attribute name="scaduto" type="Decimal"/>
+    <aura:attribute name="InvoicesType" type="String" />
+    
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+    <lightning:workspaceAPI aura:id="workspace" />
+
+    <div style="border: 1px solid rgb(176, 173, 171); border-radius: 3px">
+        <div style="padding:1rem;border-top-width: 3px;border-top-color: rgb(176, 173, 171);border-top-style: solid;">
+            <div class="slds-grid slds-gutters" >
+                <div class="slds-col slds-size_0.5-of-4 header">
+                    <lightning:icon iconName="custom:custom18" alternativeText="custom:custom18" />
+                </div>
+
+                <label style="margin:0.5rem">DA</label> 
+                <ui:inputDate value="{!v.dataStart}" class="field" displayDatePicker="true"/> 
+
+                <label style="margin:0.5rem">A</label> 
+                <ui:inputDate value="{!v.dataEnd}" class="field" displayDatePicker="true"/> 
+
+                <!-- <label style="margin:0.5rem">Society Code</label> 
+                <ui:inputSelect aura:id="societyCode" class="fieldProd" value="{!v.CodSociety}" >
+                    <option text="- none -" label=""/>
+                    <aura:iteration items="{!v.societyListName}" var="option">
+                        <ui:inputSelectOption text="{!option}" label="{!option}"/>
+                    </aura:iteration>
+                </ui:inputSelect> --> 
+            
+                <div class="slds-col slds-size_0.5-of-4 header"> 
+                    <button aura:id = "collapseButton" class="slds-button slds-button_icon slds-button_icon-border-filled slds-path__trigger buttonStyle" onclick= "{!c.showInvoices}">
+                        <lightning:icon iconName="utility:refresh" alternativeText="Refresh" size="x-small" aura:id="iconRef" class="iconStyle"/>
+                        <span class="slds-assistive-text">Refresh</span>
+                    </button>
+                </div>
+                
+                <div class="slds-col slds-size_0.5-of-4 header"> 
+                    Importo Totale - <ui:outputText value="{!v.importTotal+'€'}" />
+                    <!-- <label style="margin:0.5rem">Importo Totale</label> 
+                    <ui:inputText value="{!v.importTotal}" class="field" /> -->
+                </div>
+                
+                <div class="slds-col slds-size_0.5-of-4 header"> 
+                    Scaduto - <ui:outputText value="{!v.scaduto+'€'}" />
+                    <!-- <label style="margin:0.5rem">Scaduto</label> 
+                    <ui:inputText value="{!v.scaduto}" class="field"/> -->
+                </div>
+                
+                <div class="slds-col slds-size_0.5-of-4 header"> 
+                    <lightning:button  variant="brand" name="affinaRicerca" label="Affina Ricerca" onclick = "{!c.openKiwi}"/>
+                </div>
+            </div> 
+        </div>
+
+        <br></br>
+
+        <aura:if isTrue="{!not(empty(v.data))}">
+            <div style="height: 200px;">
+                <lightning:datatable
+                        keyField="id"
+                        data="{! v.data }"
+                        columns="{! v.columns }"
+                        hideCheckboxColumn="true"/>
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

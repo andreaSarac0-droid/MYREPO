@@ -1,0 +1,146 @@
+<aura:component controller = "APIT18_FileUploadController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="uploadLabel" type="String"/>
+    <aura:attribute name="selectedRowIdOld" type="String"/>
+    <aura:attribute name="mydata" type="Object"/>
+    <aura:attribute name="mycolumns" type="List"/>
+    <aura:attribute name="currentAttachment" type="IT_Edenred_Document__c[]"/>
+    <aura:attribute name="listaMetadata" type="CMIT04_File_Type__mdt"/>
+    <aura:attribute name="selectedType" type="String"/>
+    <aura:attribute name="firstPhaseClass" type="String" default = 'slds-transition-show'/>
+    <aura:attribute name="secondPhaseClass" type="String" default = 'slds-transition-hide'/>
+    <aura:attribute name="phase" type="Integer" default = '1'/>
+    <aura:attribute name="milestonePhase" type="Integer" default = '1'/>
+    <aura:attribute name="numeroDocumenti" type="Integer" default = '1'/>
+    <aura:attribute name="hideCheckbox" type="Boolean"/>
+    <aura:attribute name="vediDettaglio" type="Boolean"/>
+    <aura:attribute name="cigFlag" type="Boolean" />
+    <aura:attribute name="ipaFlag" type="Boolean" />
+    <aura:attribute name="isAccepted" type="Boolean" default = "true"/>
+    <aura:attribute name="recievedDate" type="Date"/>
+    <aura:attribute name="otherType" type="String" default = ""/>
+    <aura:attribute name="listaTipiFile" type="String[]" default="--Select a value--,Documento,Excel,PDF,Altro"/>
+    <aura:attribute name="predictions" type="List" default="[]"/>
+    <aura:attribute name="milestoneName" type="String"/>
+    <aura:attribute name="statement" type="String"/>
+    
+    <lightning:workspaceAPI aura:id="workspace" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    
+    <div class = "slds-card" style = "padding:0.7rem; border-radius: 4px;">
+        <div class="slds-card-header">
+            <lightning:icon size="small" iconName="standard:text_template" alternativeText="Doc image" />
+            <b style = "margin-left:0.7rem;font-size:14px">Documenti Consip ({!v.numeroDocumenti})</b>
+            <div style = "float:right">
+                <lightning:button  variant="Neutral" label="Vedi tutti" title="Vedi tutti i documenti" onclick="{! c.handleClickViewAll }" />
+            </div>
+        </div><br/>
+        <div class = "{!v.firstPhaseClass}">
+            <div class = "slds-card" style = "padding:0.5rem">
+                <lightning:select  name="select" label="Tipo File" value = "{!v.selectedType}" onchange = "{!c.typeChange}">
+                    <aura:iteration aura:id = "fileTypeList" items="{!v.listaMetadata}" var="Tipo">
+                        <option value="{!Tipo.MasterLabel}" text="{!Tipo.MasterLabel}"></option>
+                    </aura:iteration>
+                </lightning:select>
+                <br/>
+                <aura:if isTrue="{!v.selectedType != '--Nessuno--'}">
+                    
+                    <aura:if isTrue="{!v.vediDettaglio}">
+                        <lightning:input name="otherType" value="{!v.otherType}" label="Inserire Tipo" onblur ="{!c.typeChange}" onchange ="{!c.getPredictions}" onfocus ="{!c.getPredictions}"/>
+                        
+                        <aura:if isTrue="{!v.predictions.length > 0}">		 
+                            <ul class="slds-dropdown slds-dropdown_fluid" >
+                                <aura:iteration items="{!v.predictions}" var="prediction">
+                                    <div style = "padding-left:.5rem; padding-right:.5rem;">
+                                        <li class="slds-listbox__item">
+                                            <a onclick="{!c.getCityDetails}" data-placeid="{!prediction}">{!prediction}</a>
+                                        </li>
+                                    </div>
+                                </aura:iteration>
+                            </ul> 	 
+                        </aura:if>
+                        
+                        <br/>
+                    </aura:if>
+                    <aura:if isTrue="{!v.selectedType == 'Alpha' || v.selectedType == 'B'}">
+                        <lightning:input type="date" name="input1" label="Data Ricezione" value = "{!v.recievedDate}"/>
+                        <br/>
+                    </aura:if>
+                    <aura:if isTrue="{!v.selectedType == 'ODA'}">
+                        <div class="slds-grid">
+                            <div class = "slds-col slds-size_1-of-2">
+                                <lightning:input type="checkbox" label="CIG" name="input2"  checked = "{!v.cigFlag}"/>
+                            </div>
+                            <div class = "slds-col slds-size_1-of-2">  
+                                <lightning:input type="checkbox" label="IPA" name="input3"  checked = "{!v.ipaFlag}"/>
+                            </div>
+                        </div>
+                        <br/>
+                    </aura:if>
+                    <aura:if isTrue="{!not(empty(v.currentAttachment))}">
+                        <!--<div class="slds-grid slds-gutters">
+                <lightning:input class="slds-col slds-size_1-of-2 slds-col_bump-right" name="Versione" value="{!v.currentAttachment.Versione__c}" label="Versione Attuale" type = "number" readonly ="true"/>
+                <lightning:input class="slds-col slds-size_1-of-2" name="NomeFile" value="{!v.currentAttachment.Name}" label="Nome File"  readonly ="true" />
+                </div>
+                <div class="slds-grid slds-gutters">
+                <lightning:input class="slds-col slds-size_1-of-2 slds-col_bump-right" name="Approvato" checked="{!v.currentAttachment.Approvato__c}" label="Approvato" type = "checkbox"  disabled ="true"/>
+                <lightning:input class="slds-col slds-size_1-of-2" name="DataApprovazione" value="{!v.currentAttachment.Data_Approvazione__c}" label="Data Approvazione" type = "Date" readonly ="true"/>
+                </div>-->
+                        <lightning:datatable aura:id = "dataTable1"
+                                             columns="{! v.mycolumns }"
+                                             data="{! v.currentAttachment }"
+                                             keyField="Id"
+                                             hideCheckboxColumn="{!not(v.hideCheckbox)}"
+                                             onrowselection="{! c.updateSelectedRow }"/>
+                        <br/>
+                    </aura:if> 
+                    <aura:if isTrue="{!lessthan(v.milestonePhase , 4)}">
+                        <lightning:input type="checkbox" label="Accettato" name="input3"  checked = "{!v.isAccepted}"/><br/>
+                    </aura:if>
+                    <lightning:fileUpload label="{!v.uploadLabel}"
+                                          name="fileUploader"
+                                          multiple="false"
+                                          accept=".pdf, .png , .docx , .xlsx, .txt"
+                                          recordId="{!v.recordId}"
+                                          onuploadfinished="{!c.handleUploadFinished}" /><br/>
+                    
+                </aura:if>
+            </div>
+        </div>
+        <br/>
+        <!--
+        <aura:if isTrue="{!v.statement == 'CONSIP 9 - LOTTO 9' || v.statement == 'CONSIP 9 - LOTTO 8' || v.statement == 'CONSIP 9 - LOTTO 7' || v.statement == 'CONSIP 9 - LOTTO 12' || v.statement == 'Consip BPE 1' }">-->
+        <aura:if isTrue="{!v.milestonePhase == '2' || v.milestonePhase == 2}">
+            <div class="slds-grid">
+                <div class = "slds-col slds-size_1-of-2">
+                    <lightning:button  variant="Neutral" label="Invio Kit Effettuato" title="Clicca per completare la fase" onclick="{! c.handleClickNewPhaseKIT }" />
+                </div>
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!greaterthan(v.milestonePhase , 3)}">
+            <div class="slds-grid">
+                <div class = "slds-col slds-size_1-of-2">
+                    <lightning:button  variant="Neutral" label="Ticket Inviati" title="Clicca per completare la fase" onclick="{! c.handleClickNewPhaseTICKET }" />
+                </div>
+                <div class = "slds-col slds-size_1-of-2">  
+                    <lightning:button  variant="Neutral" label="Tabelle Inviate" title="Clicca per completare la fase" onclick="{! c.handleClickNewPhaseTABELLE }" />
+                </div>
+            </div>
+        </aura:if>
+        <!--</aura:if>
+        <aura:if isTrue="{!v.statement == 'Consip BP 8' || v.statement == 'CONSIP 9 - LOTTO 7 BP CARTACEO' || v.statement == 'CONSIP 9 - LOTTO 8 BP CARTACEO' || v.statement == 'CONSIP 9 - LOTTO 9 BP CARTACEO' || v.statement == 'CONSIP 9 - LOTTO 12 BP CARTACEO'}">
+            <aura:if isTrue="{!greaterthan(v.milestonePhase , 2)}">
+                <div class="slds-grid">
+                    <div class = "slds-col slds-size_1-of-2">
+                        <lightning:button  variant="Neutral" label="Ticket Inviati" title="Clicca per completare la fase" onclick="{! c.handleClickNewPhaseTICKET }" />
+                    </div>
+                    <div class = "slds-col slds-size_1-of-2">  
+                        <lightning:button  variant="Neutral" label="Tabelle Inviate" title="Clicca per completare la fase" onclick="{! c.handleClickNewPhaseTABELLA }" />
+                    </div>
+                </div>
+            </aura:if>
+        </aura:if>-->
+        
+        
+    </div>
+</aura:component>

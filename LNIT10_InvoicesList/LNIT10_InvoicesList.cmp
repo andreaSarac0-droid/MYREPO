@@ -1,0 +1,98 @@
+<aura:component controller="APIT02_InvoicesListController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:isUrlAddressable,force:hasSObjectName">
+    
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+
+    <aura:attribute name="maxValues" type="Integer" default="5"/>
+    <aura:attribute name="showAll" type="Boolean"/>
+    <aura:attribute name="layout" type="Object"/>
+
+    <aura:attribute name="financialCenterSelected" type="String"/>
+    <aura:attribute name="financialCenters" type="List"/>
+    <aura:attribute name="initFinancialCenter" type="String"/>
+    
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="listSize" type="Integer"/>
+    <aura:attribute name="dataStart" type="Date"/>
+    <aura:attribute name="dataEnd" type="Date"/>
+    <aura:attribute name="CodSociety" type="String"/>
+    <aura:attribute name="codCli" type="String"/>
+    <aura:attribute name="societyListName" type="List"/>
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    <aura:attribute name="importTotal" type="Decimal"/>
+    <aura:attribute name="scaduto" type="Decimal"/>
+    <aura:attribute name="InvoicesType" type="String" />
+    
+    <lightning:workspaceAPI aura:id="workspace" />
+
+    <div style="border: 1px solid rgb(176, 173, 171); border-radius: 3px">
+        <div style="padding:1rem;border-top-width: 3px;border-top-color: rgb(176, 173, 171);border-top-style: solid;">
+            <div class="slds-grid slds-gutters slds-wrap" >
+                <aura:If isTrue="{!v.InvoicesType=='Operation1'}">   
+                    <div class="{!v.layout.icon}" style="padding-top: 21px;">
+                        <lightning:icon iconName="custom:custom18" alternativeText="custom:custom18" />
+                    </div>
+                    <div class="{!v.layout.startDate}">
+                        <lightning:input type="date" label="DA" value="{!v.dataStart}" class="field" displayDatePicker="true"/> 
+                    </div>
+                    <div class="{!v.layout.endDate}">
+                        <lightning:input type="date" label="A" value="{!v.dataEnd}" class="field" displayDatePicker="true"/> 
+                    </div>
+                    <div class="{!v.layout.finacialCenter}">
+                        <div class="slds-form-element">
+                            <lightning:select name="select-financial-center" label="Financial Center" value="{!v.financialCenterSelected}">
+                                <aura:iteration items="{!v.financialCenters}" var="option">
+                                    <option value="{!option.IT_Financial_Center__c}">{!option.Name}</option>
+                                </aura:iteration>
+                            </lightning:select>
+                        </div>
+                    </div>
+                    <div class="{!v.layout.refresh}" style="padding-top: 21px;">
+                        <button aura:id = "collapseButton" class="slds-button slds-button_icon slds-button_icon-border-filled slds-path__trigger buttonStyle" onclick= "{!c.showInvoices}">
+                            <lightning:icon iconName="utility:refresh" alternativeText="Refresh" size="x-small" aura:id="iconRef" class="iconStyle"/>
+                            <span class="slds-assistive-text">Refresh</span>
+                        </button>
+                    </div>
+                    <aura:if isTrue="{!v.showAll}">
+                        <div class="{!v.layout.search}" style="padding-top: 21px;"> 
+                            <lightning:button  variant="brand" name="affinaRicerca" label="Affina Ricerca" onclick = "{!c.openKiwi}"/>
+                        </div>
+                    </aura:if>
+                    <div class="{!v.layout.importTotal}" style="padding-top: 20px;"> 
+                        Importo Totale - <lightning:formattedText value="{!v.importTotal+'€'}" />
+                    </div> 
+                    <div class="{!v.layout.importExpired}" style="padding-top: 20px;"> 
+                        Scaduto - <lightning:formattedText value="{!v.scaduto+'€'}" />
+                    </div> 
+                </aura:If>  
+            </div>  
+        </div>
+        <aura:if isTrue="{! v.loaded }">
+            <aura:if isTrue="{!not(empty(v.data))}">
+                <div>
+                    <lightning:datatable
+                                         keyField="id"
+                                         data="{! v.data }"
+                                         columns="{! v.columns }"
+                                         hideCheckboxColumn="true"/>
+                </div>
+                <aura:set attribute="else">
+                    <div style = "text-align: center">
+                        <p>Nessuna fattura da visualizzare</p>
+                        <br></br>
+                    </div>
+                </aura:set>
+            </aura:if>
+            <aura:set attribute="else">
+                <div>
+                    <lightning:spinner alternativeText="Loading" size = "medium"/>
+                </div>
+            </aura:set>
+        </aura:if>
+        <aura:if isTrue="{!!v.showAll}">
+            <aura:If isTrue="{!v.InvoicesType=='Operation1'}">
+                <p style="text-align: center"><a onclick="{!c.openAllInvoices}">View All</a></p>
+            </aura:If>
+        </aura:if>
+    </div>
+</aura:component>

@@ -1,0 +1,12 @@
+.THIS .piufont{
+    font-size:1.5rem !important;
+    /* color:dimgray !important; */
+    color:grey !important;
+    padding-left: .3rem !important;
+    padding-right: .8rem !important;
+    /* margin: 0px !important;
+    border-style: none !important;;  */
+}
+.THIS .clsrpClr2{
+    color: red !important;
+}

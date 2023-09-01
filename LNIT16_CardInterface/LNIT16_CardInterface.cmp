@@ -1,0 +1,188 @@
+<aura:component controller='APIT22_CardInterfaceController' implements="force:hasSObjectName,force:lightningQuickActionWithoutHeader,force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride,lightning:availableForFlowScreens,lightning:availableForFlowActions"  access="global" >
+    <lightning:workspaceAPI aura:id="workspaceAPI" />
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <aura:attribute name="img" type="String" default = '/resource/TR_Modificato'/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="freeNamingInput" type="String"/>
+    <aura:attribute name="validityStartDate" type="Date"/>
+    <aura:attribute name="validityStartDateOLD" type="Date"/>
+    <aura:attribute name="namingList" type="List"/>
+    <aura:attribute name="localityList" type="List"/>
+    <aura:attribute name="addressList" type="List"/>
+    
+    <aura:attribute name="accountName" type="String"/>
+    <aura:attribute name="ticketNaming" type="String"/>
+    <aura:attribute name="fullAddress" type="String"/>
+    <aura:attribute name="locality" type="String"/>
+    <aura:attribute name="inputLocality" type="String"/>
+    <aura:attribute name="inputAddress" type="String"/>
+    <aura:attribute name="fixedCity" type="String"/>
+    <aura:attribute name="fixedAddress" type="String"/>
+    <aura:attribute name="fixedStreet" type="String"/>
+    <aura:attribute name="fixedName" type="String"/>
+    
+    <!-- ROW FLAGS -->
+    <aura:attribute name="freeTicketNaming" type="Boolean" default = "false"/>
+    <aura:attribute name="freeAddress" type="Boolean" default = "false"/>
+    <aura:attribute name="freeLocality" type="Boolean" default = "false"/>
+    <!-- ROW FLAGS -->
+    
+    <!-- BOTTOM FLAGS -->
+    <aura:attribute name="showTicketNaming" type="Boolean"/>
+    <aura:attribute name="showAddress" type="Boolean"/>
+    <aura:attribute name="showLocality" type="Boolean"/>
+    <aura:attribute name="showTicketNamingCLI" type="Boolean" default = "false"/>
+    <aura:attribute name="showAddressCLI" type="Boolean" default = "false"/>
+    <aura:attribute name="showLocalityCLI" type="Boolean" default = "false"/>
+    <aura:attribute name="showTicketNamingOnAddressRow" type="Boolean"/>
+    <aura:attribute name="returnGeneric" type="Boolean"/>
+    <aura:attribute name="singleClient" type="Boolean" default = "false"/>
+    <!-- BOTTOM FLAGS -->
+    
+    <!--<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
+    
+    
+    <div class = "slds-card">
+        <div style="{!'position: relative; height: 50vh; background:' + v.backgroundColor + ' url(' + v.img +') no-repeat;background-position: center;background-size: cover;'}">
+            <div style = "padding:1rem">
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <div >
+                    <!-- TICKET NAMING START -->
+                    
+                    <div class="slds-grid slds-gutters">
+                        <aura:if isTrue="{!not(v.showTicketNaming)}">
+                            <div class="slds-col slds-size_2-of-3">
+                                <lightning:input name="input1" placeholder="Denominazione" value = '{!v.ticketNaming}' readonly = 'true'/>
+                            </div>
+                            <aura:set attribute="else">
+                                <div class="slds-col slds-size_2-of-3">
+                                    <lightning:input  name="input1" placeholder="Denominazione" value = '{!v.fixedName}' readonly = 'true' />
+                                </div>
+                            </aura:set>
+                        </aura:if> 
+                    </div>
+                    
+                    <!-- TICKET NAMING END -->
+                    
+                    <!-- ADDRESS START -->
+                    
+                    <div class="slds-grid slds-gutters">
+                        <aura:if isTrue="{!or(v.showAddress,v.showTicketNamingOnAddressRow)}">
+                            <div class="slds-col slds-size_2-of-3">
+                                <lightning:input  name="input1"  value = '{!v.fixedAddress}' readonly = 'true' />
+                            </div>
+                            <aura:set attribute="else">
+                                <aura:if isTrue="{!v.freeAddress}">
+                                    <div class="slds-col slds-size_2-of-3">
+                                        <lightning:input  name="input1" placeholder="Indirizzo" value = '{!v.inputAddress}'  maxlength="30"/>
+                                    </div>
+                                </aura:if> 
+                                <aura:if isTrue="{!not(v.freeAddress)}">
+                                    <aura:if isTrue="{!v.addressList.length > 0}">
+                                        <div class="slds-col slds-size_2-of-3">
+                                            <lightning:select  label="Indirizzo" onchange="{! c.picklistChangeHandlerAdd }" value = "{!v.fullAddress}"  >
+                                                <aura:iteration items="{!v.addressList}" var="address">
+                                                    <option value="{!address.value + '§' + address.key}" text="{!address.key}" selected="{!address == v.fullAddress}" ></option>
+                                                </aura:iteration>
+                                            </lightning:select>
+                                        </div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-col slds-size_2-of-3">
+                                                <lightning:input  name="input1"   readonly = 'true' />
+                                            </div>
+                                        </aura:set>
+                                    </aura:if>
+                                </aura:if> 
+                            </aura:set>
+                        </aura:if> 
+                        <div class="slds-col slds-size_1-of-3">
+                            <lightning:input style = "margin-top:1.25rem;" type="checkbox" label="Libero" checked = "{!v.freeAddress}" onchange="{!c.addressFreeFlag}" />
+                        </div>
+                    </div>
+                    
+                    <!-- ADDRESS END -->
+                    
+                    <!-- LOCALITY START -->
+                    <div class="slds-grid slds-gutters">
+                        <aura:if isTrue="{!v.showLocality}">
+                            <div class="slds-col slds-size_2-of-3">
+                                <lightning:input  name="input1"  value = '{!v.fixedCity}' readonly = 'true' />
+                            </div>
+                            <aura:set attribute="else">
+                                <aura:if isTrue="{!v.freeLocality}">
+                                    <div class="slds-col slds-size_2-of-3">
+                                        <lightning:input  name="input1" placeholder="Località" value = '{!v.inputLocality}'  maxlength="30"/>
+                                    </div>
+                                </aura:if> 
+                                <aura:if isTrue="{!not(v.freeLocality)}">
+                                    <aura:if isTrue="{!v.localityList.length > 0}">
+                                        <div class="slds-col slds-size_2-of-3">
+                                            <lightning:select  label="Località" onchange="{! c.picklistChangeHandlerLoc }" value = "{!v.locality}" readonly = "{!v.showLocality}" >
+                                                <aura:iteration items="{!v.localityList}" var="singleLoc">
+                                                    <option value="{!singleLoc.value + '§' + singleLoc.key}" text="{!singleLoc.key}" selected="{!singleLoc == v.locality}" ></option>
+                                                </aura:iteration>
+                                            </lightning:select>
+                                        </div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-col slds-size_2-of-3">
+                                                <lightning:input  name="input1" readonly = 'true'/>
+                                            </div>
+                                        </aura:set>
+                                    </aura:if>
+                                </aura:if> 
+                            </aura:set>
+                        </aura:if>
+                        <div class="slds-col slds-size_1-of-3">
+                            <lightning:input style = "margin-top:1.25rem;" type="checkbox" label="Libero" checked = "{!v.freeLocality}" onchange="{!c.localityFreeFlag}"  />
+                        </div>
+                    </div>
+                    <!-- LOCALITY END --> 
+                    
+                    <br/>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <div>
+            <lightning:input style = "float:right;" type="date" name="input1" value = "{!v.validityStartDate}" label="Inizio validità" />
+        </div>
+        <br/>
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-3">
+                <lightning:input type="checkbox" label="Esponi Denominazione" name="input2" checked="{!v.showTicketNaming}"  />
+            </div>
+            <div class="slds-col slds-size_1-of-3">
+                <lightning:input type="checkbox" label="Esponi Indirizzo" name="input2" checked="{!v.showAddress}" onchange="{!c.addressDeFlag}" />
+            </div>
+            <div class="slds-col slds-size_1-of-3">
+                <lightning:input type="checkbox" label="Esponi Località" name="input2" checked="{!v.showLocality}" onchange="{!c.localityDeFlag}" />
+            </div>
+        </div>
+        <div class="slds-grid slds-gutters">
+            <div class="slds-col slds-size_1-of-3">
+                <lightning:input type="checkbox" label="Esponi Denominazione su riga indirizzo" name="input2" checked="{!v.showTicketNamingOnAddressRow}" onchange="{!c.denominationOnAddress}"/>
+            </div>
+            
+            <div class="slds-col slds-size_2-of-3">
+                <lightning:input style = "float:right;" type="checkbox" label="Ritorna Ticket Generico" name="input2" checked="{!v.returnGeneric}" onchange="{!c.returnToGeneric}" />
+            </div>
+        </div> 
+        <div style = "text-align:center;">
+            <lightning:button label="Salva"  onclick="{! c.handleSave }" />
+        </div>
+        <br/>
+    </div>
+    
+    
+    
+    <!--
+    <lightning:button label="Change Image" onclick="{! c.handleImgFinished }" />
+    <lightning:button label="Change Image" onclick="{! c.handleImgLama }" />
+    -->
+    
+</aura:component>
