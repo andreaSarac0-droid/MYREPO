@@ -1,0 +1,7 @@
+<design:component>
+ 	<design:attribute name="objectName" label="objectName" required="false"/>  
+    	<design:attribute name="fieldName" label="fieldName" required="false"/>  
+    	<design:attribute name="label" label="label" required="false"/>  
+    	<design:attribute name="iconName" label="iconName" required="false"/>  
+    	<design:attribute name="placeholder" label="placeholder" required="false"/>  
+</design:component>

@@ -1,0 +1,13 @@
+<aura:component implements="force:hasSObjectName,force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride,lightning:availableForFlowScreens,lightning:availableForFlowActions,force:lightningQuickAction"  access="global">
+<aura:attribute name="Label" type="String"/> 
+<aura:attribute name="Value" type="String"/>   
+  
+    
+      
+      
+      
+        <lightning:input type="text"  label="{!v.Label}" value="{!v.Value}"/>
+   
+
+    
+</aura:component>

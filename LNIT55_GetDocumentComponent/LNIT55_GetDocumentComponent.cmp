@@ -1,0 +1,48 @@
+<aura:component implements="force:hasSObjectName,force:lightningQuickActionWithoutHeader,force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride,lightning:availableForFlowScreens,lightning:availableForFlowActions"
+                access="global" controller="APIT89_GetDocument">
+    <!-- Aura Attribute -->
+	<aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="ObjectName" type="String"/>
+    <aura:attribute name="recordBarcode" type="String"/>
+    <aura:attribute name="DocumentId" type="String"/>
+    <aura:attribute name="recordObject" type="Object"/>
+    <aura:attribute name="isModalOpen" type="Boolean" default="false"/>
+    <!-- Design Attribute-->
+    <aura:attribute name="visualizedString" type="String"/>
+    <aura:attribute name="fieldName" type="String"/>
+    <!-- handlers: query on database--> 
+    
+    <aura:handler name="init" value="{!this }" action="{!c.init }"/>
+        <div class="slds-box buttontopalign slds-modal__content overflow:auto slds-align-middle" style=" text-align: left">
+            {!v.visualizedString}:            {!v.recordBarcode}
+        
+                <div class="slds-float_right overflow:auto">
+        	        <!--Qui inserire qualcosa come label -->
+                    <lightning:button class="slds-button_brand" label="Scarica File" title="Scarica file" onclick="{! c.handleClick }"></lightning:button>
+                </div>
+        </div>
+	   <aura:if isTrue="{!v.isModalOpen}">
+            <!--###### MODAL BOX Start######--> 
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- ###### MODAL BOX HEADER Start ######-->
+                    <header class="slds-modal__header">
+                        <!-- Close button-->
+                        <lightning:buttonIcon iconName="utility:close" onclick="{! c.exitModal }" alternativeText="close"
+                        variant="bare-inverse" class="slds-modal__close"/>
+                    </header>
+                    <!--###### MODAL BOX BODY Part Start######-->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        Documento non presente in Indicom
+                    </div>
+                    <!--###### MODAL BOX FOOTER Part Start ######-->
+                    <footer class="slds-modal__footer">
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+            <!--###### MODAL BOX Part END Here ######-->
+    </aura:if>
+
+    
+</aura:component>

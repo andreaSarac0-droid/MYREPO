@@ -1,0 +1,6 @@
+<aura:event type="APPLICATION">
+    
+ <aura:attribute name="Pass_Result" type="String"/>
+ <aura:attribute name="Pass_Label" type="String"/>   
+    
+</aura:event>

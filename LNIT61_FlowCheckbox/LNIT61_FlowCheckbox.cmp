@@ -1,0 +1,26 @@
+<aura:component implements="force:hasSObjectName,force:hasRecordId,force:appHostable,force:hasRecordId,lightning:actionOverride,lightning:availableForFlowScreens,lightning:availableForFlowActions,force:lightningQuickAction"  access="global">
+
+<aura:attribute name="ValueFatt" type="Boolean"/>   
+<aura:attribute name="ValueTicket" type="Boolean"/>   
+  
+    
+      
+    <aura:if isTrue="{!v.ValueFatt != true}">
+   <lightning:input type="Checkbox"  label="Riceve Fattura Cliente" value="{!v.ValueFatt}" checked="{!v.ValueFatt}"/>
+        
+    <aura:set attribute="else">
+    <lightning:input type="Checkbox"  label="Riceve Fattura Cliente" value="{!v.ValueFatt}" disabled="true" checked="true"/>   
+    </aura:set>
+  </aura:if>
+    
+    
+        
+    <aura:if isTrue="{!v.ValueTicket != true}">
+       <lightning:input type="Checkbox"  label="Riceve Ticket" value="{!v.ValueTicket}" checked="{!v.ValueTicket}" />
+        
+    <aura:set attribute="else">
+    <lightning:input type="Checkbox"  label="Riceve Ticket" value="{!v.ValueTicket}" disabled="true" checked="true"/>
+    </aura:set>
+  </aura:if>
+    
+</aura:component>

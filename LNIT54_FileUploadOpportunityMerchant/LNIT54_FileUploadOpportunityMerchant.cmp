@@ -1,0 +1,155 @@
+<aura:component  implements="force:hasSObjectName,force:lightningQuickActionWithoutHeader,force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride,lightning:availableForFlowScreens,lightning:availableForFlowActions"
+                 access="global" controller="APIT84_DocumentOpportunityController" >
+    
+	<!-- attributes -->
+    <aura:attribute name="data" type="Object[]"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+    <aura:attribute name="isModalNewDocumentOpen" type="boolean" default="false"/>
+    <aura:attribute name="filetype" type="List" default="['.pdf', '.png' , '.jpg', '.jpeg']"/>
+    <aura:attribute name="multiple" type="Boolean" default="false" />
+    <aura:attribute name="disabled" type="Boolean" default="true" />
+    <aura:attribute name="recordId" type="Id" />   
+    <aura:attribute name="draftValues" type="Object[]" default="[]"/>
+    <aura:attribute name="relatedOppoDoc" type="Opportunity" default=""/>
+    <aura:attribute name="rowId" type="Id"/>
+    <aura:attribute name="UrlDoc" type="String" default=""/>
+    <aura:attribute name="rowId2" type="Id"/>
+    <aura:attribute name="rowIT_Returned__c" type="Boolean"/>
+    <aura:attribute name="rowIT_Barcode__c" type="String"/>
+    <aura:attribute name="rowIT_Return_Date__c" type="Date"/>
+    <aura:attribute name="rowIT_Signing_Date__c" type="Date"/>
+    <aura:attribute name="rowIT_Barcode_AutoNumber__c" type="String"/>
+    <aura:attribute name="rowFiles" type="Id"/>
+    <aura:attribute name="errorMessage" type="String"/>
+    <aura:attribute name="showErrors" type="Boolean" default="false"/>
+    <aura:attribute name="ListForUpdate" type="String[]"/>
+    <!-- Aggiungo parametro per distringuere oppo Merchant da quelle client -->
+    <aura:attribute name="OppoType" type="String"/>
+    <aura:attribute name="fieldMap" type="Map"/>
+    <aura:attribute name="selectedPicklist" type="String"/>
+    <!-- handlers: query on database--> 
+    <aura:handler name="init" value="{!this }" action="{!c.init }"/>
+    <!-- Tabella per Oppo Merchant -->
+    <!-- Header and card-->
+    <aura:if isTrue="{!v.OppoType == 'Merchant'}">
+        <lightning:card title="Documenti" iconName="standard:document">
+            <lightning:buttonIcon class="buttonRefreshMerchant" iconName="utility:refresh" onclick="{! c.refreshButton }" alternativeText="Ricarica"/>  
+            
+            <aura:if isTrue="{!v.showErrors}">
+                <div class="slds-notify slds-notify_toast slds-theme_error" style="width:98%">
+                    <span class="slds-assistive-text">ERROR</span>
+                    <div class="slds-notify__content" style="width:90%">
+                    <h5 class="slds-text-heading_small slds-align_absolute-center">Error Message </h5>
+                    <br/>
+                    <p class="slds-align_absolute-center">{!v.errorMessage}</p>                
+                    </div>
+                </div>
+            </aura:if>
+
+            <!-- Data table with data retrived from database-->
+            <!-- the container element determine the height of the datatable -->
+            <div class="slds-m-top_small" style="height: 350px">
+                <lightning:datatable
+                    columns="{! v.columns }"
+                    data="{! v.data }"
+                    keyField="Id"
+                    draftValues="{! v.draftValues }"
+                    onsave="{! c.handleSave }"
+                    onrowaction="{! c.openModal }"
+                    hideCheckboxColumn="true"/>
+            </div>
+        </lightning:card> 
+    </aura:if>   
+    <!-- Tabella per Oppo Client -->
+    <aura:if isTrue="{!v.OppoType == 'Client'}">
+        <lightning:card title="Documenti" iconName="standard:document">
+            <lightning:button variant="brand" label="Nuovo documento" title="Nuovo documento" onclick="{! c.newDoc }" />
+            <lightning:buttonIcon class="buttonRefresh" iconName="utility:refresh" onclick="{! c.refreshButton }" alternativeText="Ricarica"/>  
+            <aura:if isTrue="{!v.showErrors}">
+                <div class="slds-notify slds-notify_toast slds-theme_error" style="width:98%">
+                    <span class="slds-assistive-text">ERROR</span>
+                    <div class="slds-notify__content" style="width:90%">
+                    <h5 class="slds-text-heading_small slds-align_absolute-center">Error Message </h5>
+                    <br/>
+                    <p class="slds-align_absolute-center">{!v.errorMessage}</p>                
+                    </div>
+                </div>
+            </aura:if>
+
+            <!-- Data table with data retrived from database-->
+            <!-- the container element determine the height of the datatable -->
+            <div class="slds-m-top_small" style="height: 350px">
+                <lightning:datatable
+                    columns="{! v.columns }"
+                    data="{! v.data }"
+                    keyField="Id"
+                    draftValues="{! v.draftValues }"
+                    onsave="{! c.handleSave }"
+                    onrowaction="{! c.openModal }"
+                    hideCheckboxColumn="true"/>
+            </div>
+        </lightning:card> 
+    </aura:if>
+    <!-- Pop up si apre quando clicco su pulsante per caricamento file-->
+    <aura:if isTrue="{!v.isModalOpen}">
+            <!--###### MODAL BOX Start######--> 
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- ###### MODAL BOX HEADER Start ######-->
+                    <header class="slds-modal__header">
+                        <!-- Close button-->
+                        <lightning:buttonIcon iconName="utility:close" onclick="{! c.exitModal }" alternativeText="close"
+                        variant="bare-inverse" class="slds-modal__close" />
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">CARICA IL FILE</h2>
+                    </header>
+                    <!--###### MODAL BOX BODY Part Start######-->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                                <lightning:fileUpload label="Inserire il documento"
+        							name="fileUploader"
+        							multiple="false"
+        							accept="{!v.filetype}"
+        							
+        							onuploadfinished="{!c.handleUploadFinished}" />
+                    </div>
+                    <!--###### MODAL BOX FOOTER Part Start ######-->
+                    <footer class="slds-modal__footer">
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+            <!--###### MODAL BOX Part END Here ######-->
+    </aura:if>
+
+    <aura:if isTrue="{!v.isModalNewDocumentOpen}">
+            <!--###### MODAL BOX Start######--> 
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- ###### MODAL BOX HEADER Start ######-->
+                    <header class="slds-modal__header">
+                        <!-- Close button-->
+                        <lightning:buttonIcon iconName="utility:close" onclick="{! c.exitModalNewDocument }" alternativeText="close"
+                        variant="bare-inverse" class="slds-modal__close" />
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">SCEGLI DOCUMENTO</h2>
+                    </header>
+                    <!--###### MODAL BOX BODY Part Start######-->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning:select name="select1" onchange="{!c.onChange}" value="{!v.selectedPicklist}" >
+                            <aura:iteration items="{!v.fieldMap}" var="i" indexVar="key">
+                                <option text="{!i.key}" value="{!i.value}"/>
+                            </aura:iteration>
+                        </lightning:select>
+                    </div>
+                    <!--###### MODAL BOX FOOTER Part Start ######-->
+                    <footer class="slds-modal__footer">
+                        <div>
+                            <lightning:button variant="brand" label="Crea" title="Brand action" onclick="{! c.createDoc}" />
+                        </div>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+            <!--###### MODAL BOX Part END Here ######-->
+            
+    </aura:if>
+</aura:component>

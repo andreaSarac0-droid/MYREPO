@@ -1,0 +1,26 @@
+<aura:component controller='APIT80_MercContPicklist_Controller' implements="force:hasSObjectName,force:lightningQuickActionWithoutHeader,force:hasRecordId,force:appHostable,lightning:actionOverride,lightning:availableForFlowScreens,lightning:availableForFlowActions,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome" access="GLOBAL">
+
+	<aura:attribute name="contract_input" type="String" /> 
+    <aura:attribute name="fc_prospect" type="Boolean"/>
+    <aura:attribute name="contratto_output" type="String"/>
+    <aura:attribute name="pickvalue" type="List"/>
+    <aura:attribute name="selectedValue" type="String" />
+    <aura:attribute name="loaded" type="Boolean" default="false"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <aura:if isTrue="{!v.loaded}">
+        <lightning:select name="contractId" label="Contratti" aura:id="contractId" value="{!v.contratto_output}">       
+            <aura:iteration items="{!v.pickvalue}" var="item">
+                    <option value="{!item.value}">{!item.label}</option>
+            </aura:iteration>
+        </lightning:select>
+
+        <aura:set attribute="else">
+            <div>
+                <lightning:spinner alternativeText="Loading" size = "medium"/>
+            </div>
+        </aura:set>
+
+    </aura:if>
+</aura:component>

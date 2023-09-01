@@ -1,0 +1,182 @@
+<aura:component controller="APIT83_MapLocatorController" implements="force:appHostable,flexipage:availableForAllPageTypes">
+    <aura:attribute name="mapMarkers" type="Map[]"/>
+    <aura:attribute name="currentPosition" type="String"/>
+    <aura:attribute name="myPosition" type="String"/>
+    <aura:attribute name="center" type="Object"/>
+    <aura:attribute name="selectedMarkerValue" type="String" />
+    <aura:attribute name="zoomLevel" type="Integer" default="12" />
+    <aura:attribute name="isModalOpen" type="boolean" default="true"/>
+    <aura:attribute name="isManual" type="boolean" default="false"/>
+    <aura:attribute name="selectedProvince" type="String" />
+    <aura:attribute name="selectedProvincemd2" type="String" />
+    <aura:attribute name="selectedCitta" type="String" />
+    <aura:attribute name="distance" type="String" default="10" />
+    <aura:attribute name="cap" type="String" default=""/>
+    <aura:attribute name="provinceList" type="List" />
+    <aura:attribute name="provinceMap" type="List" />
+    <aura:attribute name="cittaMap" type="List" />
+    <aura:attribute name="isInactive" type="boolean" default="false"/>
+    <aura:attribute name="isPos" type="boolean" default="false"/>
+    <aura:attribute name="isScontiPoste" type="boolean" default="false"/>
+    <aura:attribute name="posizioneBoolean" type="boolean" default="false"/>
+    <aura:attribute name="scegliBoolean" type="boolean" default="false"/>
+    <aura:attribute name="NumeroSchermata" type="String" default="1"/>
+    <aura:attribute name="isActive" type="boolean" default="true"/>
+    <aura:attribute name="isProspect" type="boolean" default="false"/>
+    <aura:attribute name="isAll" type="boolean" default="false"/>
+    <aura:attribute name="Startlat" type="String"/>
+    <aura:attribute name="Startlong" type="String"/>
+    <aura:attribute name="Civico" type="String"/>
+    <!--<aura:attribute name="CAP" type="String"/>-->
+    <aura:attribute name="predictions" type="List" default="[]"/>
+    <aura:attribute name="cityWrap" type="String"/>
+    <aura:attribute name="streetInput" type="String" default = " "/>
+    <aura:attribute name="toponym" type="String" default = ''/>
+    <aura:attribute name="streetWrap" type="String" default = ""/>
+    <aura:attribute name="hamletRequired" type="Boolean" default = "false" />
+    <aura:attribute name="provinceName" type="String" default = ""/>
+    <aura:attribute name="cityName" type="String" default = ""/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    <lightning:card>
+        <lightning:button label="Cambia Posizione" iconName="utility:location" iconPosition="left" onclick="{!c.handleLocationButton}"/>
+
+        <lightning:map mapMarkers="{!v.mapMarkers}"
+                       center="{!v.center}"
+                       markersTitle="Store nelle vicinanze"
+                       zoomLevel="{!v.zoomLevel}"
+                       onmarkerselect="{!c.handleMarkerSelect}"
+                       selectedMarkerValue="{!v.selectedMarkerValue}"/>
+    </lightning:card>
+    
+    <!-- MODAL START--> 
+    <aura:if isTrue="{!v.isModalOpen}">
+        
+            <!-- Modal/Popup Box starts here-->
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- Modal/Popup Box Header Starts here-->
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{! c.closeModel }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"></h2>
+                    </header>
+                    <!--Modal/Popup Box Body Starts here-->
+                    <div class="slds-modal__content slds-p-around_x-large" id="modal-content-id-1">
+                        <aura:if isTrue="{!v.NumeroSchermata == '1'}">
+                            <!--modaleStart con le due scelte-->
+                            <lightning:input type="radio" label="LA MIA POSIZIONE" name="isStatus" checked = "{!v.posizioneBoolean}" onchange= "{!c.handleChange}"/>
+                            <br></br>
+                            <lightning:input type="radio" label="SCEGLI LA ZONA" name="isPos" checked = "{!v.scegliBoolean}" onchange= "{!c.handleChange2}"/>                                                  
+                             <div class="slds-grid">
+                                <div class="slds-col slds-size_1-of-1  ">
+                                    <div class = "slds-float_right">
+                                        <lightning:button label="Avanti" onclick="{!c.next}"/>
+                                    </div>
+                                </div>
+                            </div>                          
+                        </aura:if>
+                        <aura:if isTrue="{!v.NumeroSchermata == '2'}">
+                            <!--LA MIA POSIZIONE-->
+                            <header class="slds-modal__header">
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">LA MIA POSIZIONE</h2>
+                            </header>
+                            <!-- il close deve risettare NumeroSchermata a 1 -->
+                            <lightning:select name="provinceLists" label="Conferma la provincia in cui ti trovi" aura:id="provinceList" value="{!v.selectedProvincemd2}">
+                                <aura:iteration items="{!v.provinceList}" var="item">
+                                    <option text="{!item.label}" value="{!item.value}" selected="{!item.selected}"/>
+                                </aura:iteration>
+                            </lightning:select>
+                            <!--<lightning:select name="cittàLists" label="Seleziona città di partenza" aura:id="provinceList" value="{!v.selectedProvince}">
+                            <aura:iteration items="{!v.provinceList}" var="item">
+                                <option text="{!item.label}" value="{!item.value}" selected="{!item.selected}"/>
+                            </aura:iteration>
+                        </lightning:select> -->
+                            <lightning:input type="number" name="distance" value="{! v.distance }" placeholder="Inserire il raggio in KM..." label="Raggio (KM)" step=".1" />
+                            <!--<lightning:input pattern="^(0|[1-9][0-9]*)$" messageWhenPatternMismatch="Puoi inserire solo cifre" type="text" name="cap" value="{! v.cap }" placeholder="Inserire il CAP" label="Cap" maxlength="5" />-->
+                            
+                                                 
+                            <div class="slds-grid">
+                                <div class="slds-col slds-size_1-of-4"> <lightning:input type="checkbox" label="Attivo" name="isActive" checked = "{!v.isActive}" /> </div>
+                                <div class="slds-col slds-size_1-of-4"> <lightning:input type="checkbox" label="Pos" name="isPos" checked = "{!v.isPos}"/> </div>    
+                                <div class="slds-col slds-size_1-of-4"> <lightning:input type="checkbox" label="Sconti Poste" name="isScontiPoste" checked = "{!v.isScontiPoste}"/></div>
+                            </div>                                   
+                                 <lightning:input type="checkbox" label="Non Attivo" name="isInactive" checked = "{!v.isInactive}"/>
+                                 <lightning:input type="checkbox" label="Prospect" name="isProspect" checked = "{!v.isProspect}"/>
+                                  <!--<lightning:input type="checkbox" label="Tutti" name="isAll" checked = "{!v.isAll}"/>-->  
+                            <br></br>
+                            <div class="slds-grid">
+                                <div class="slds-col slds-size_1-of-2 ">
+                                    <lightning:button  label="Indietro" onclick="{!c.onBack}"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2  ">
+                                    <div class = "slds-float_right">
+                                        <lightning:button label="Conferma" onclick="{!c.finishSelectMiaPosizione}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.NumeroSchermata == '3'}">
+                            <!--SCEGLI LA ZONA-->
+                            <header class="slds-modal__header">
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">SCEGLI LA ZONA</h2>
+                            </header>
+                            <c:LNIT02_Addresses streetWrap="{!v.streetInput}" provinceWrap="{!v.provinceName}" cityWrap="{!v.cityName}" isInAuraComponent= 'true' />
+                            <!-- il close deve risettare NumeroSchermata a 1 -->
+                            <!-- Chiamiamo la variabile provinceMap che contiene la mappa delle province  -->
+                            <!--<lightning:select name="provinceMap" label="Seleziona provincia di partenza" aura:id="provinceList" value="{!v.selectedProvince}"  onchange ="{!c.ProvinceChange}" >
+                                <aura:iteration items="{!v.provinceMap}" var="item">
+                                    <option text="{!item.name}" value="{!item.key+'§'+item.name}"/>
+                                </aura:iteration>
+                            </lightning:select>
+                            <lightning:select name="cittaMap" label="Seleziona città di partenza" aura:id="provinceList" value="{!v.selectedCitta}">
+                                <aura:iteration items="{!v.cittaMap}" var="item">
+                                    <option text="{!item.name}" value="{!item.key}"/>
+                                </aura:iteration>
+                            </lightning:select>-->
+                            <!--Questa è la parte relativa all'indirizzo-->
+                            <!--<div class="slds-col slds-size_4-of-6 slds-col_bump-right">
+                            <lightning:input aura:id="location"  name="select2" value="{!v.streetInput}" label="{!$Label.c.LABS_IT_Street_Square}" onchange = "{!c.getStreets}" onfocus = "{!c.getStreets}" maxlength="40" messageWhenTooLong="La via può essere di massimo 50 caratteri."/>
+                            <aura:if isTrue="{!v.predictions.length > 0}">		 
+                                <ul class="slds-dropdown slds-dropdown_fluid">
+                                    <aura:iteration items="{!v.predictions}" var="prediction">
+                                        <div class="pippo">
+                                        <li class="slds-listbox__item">
+                                            <a onclick="{!c.getStreetDetails}" data-placeid="{!prediction.key + '§' + prediction.value +'§'+ prediction.toponym }">{!prediction.toponym +' '+prediction.value}</a>
+                                        </li>
+                                    </div>
+                                    </aura:iteration>
+                                </ul> 	 
+                            </aura:if>
+                        </div>-->
+                            <!--<lightning:input type="number" name="distance" value="{! v.distance }" placeholder="Inserire il raggio in KM..." label="Raggio (KM)" />-->
+                            <lightning:input pattern="^([0-9][0-9]*)$" messageWhenPatternMismatch="Puoi inserire solo cifre" type="text" name="cap" value="{! v.cap }" placeholder="Inserire il CAP" label="Cap" maxlength="5" />
+                            <div class="slds-grid">
+                                <div class="slds-col slds-size_1-of-4"> <lightning:input type="checkbox" label="Attivo" name="isActive" checked = "{!v.isActive}"/> </div>
+                                <div class="slds-col slds-size_1-of-4"> <lightning:input type="checkbox" label="Pos" name="isPos" checked = "{!v.isPos}"/> </div>    
+                                <div class="slds-col slds-size_1-of-4"> <lightning:input type="checkbox" label="Sconti Poste" name="isScontiPoste" checked = "{!v.isScontiPoste}"/></div>
+                            </div>                                   
+                                 <lightning:input type="checkbox" label="Non Attivo" name="isInactive" checked = "{!v.isInactive}"/>
+                                 <lightning:input type="checkbox" label="Prospect" name="isProspect" checked = "{!v.isProspect}"/>
+                                 <!--<lightning:input type="checkbox" label="Tutti" name="isAll" checked = "{!v.isAll}"/>-->
+                            <br></br>
+                            <div class="slds-grid">
+                                <div class="slds-col slds-size_1-of-2 ">
+                                    <lightning:button  label="Indietro" onclick="{!c.onBack}"/>
+                                </div>
+                                <div class="slds-col slds-size_1-of-2  ">
+                                    <div class = "slds-float_right">
+                                        <lightning:button label="Conferma" onclick="{!c.finishSelect}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </aura:if>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+    <!-- MODAL END-->
+</aura:component>

@@ -1,0 +1,184 @@
+.THIS{}
+
+@font-face{
+  font-family:"Salesforce Sans";
+  src:url("../fonts/webfonts/SalesforceSans-Regular.woff2") format("woff2"), url("../fonts/webfonts/SalesforceSans-Regular.woff") format("woff");
+  font-weight:400;
+  font-display:swap;
+}
+
+.THIS .slds-form-element{
+    position:relative;
+    min-width:0;
+}
+.THIS .slds-form-element__label{
+    overflow-wrap:break-word;
+    word-wrap:break-word;
+    -webkit-hyphens:auto;
+        -ms-hyphens:auto;
+            hyphens:auto;
+    display:inline-block;
+    color:#3e3e3c;
+    font-size:0.85rem;
+    padding-right:0.5rem;
+    padding-top:0.25rem;
+    float: left;
+    margin-bottom:0.125rem;
+}
+.THIS .slds-form-element__label:empty{
+  margin:0;
+}
+.THIS .slds-form-element__control{
+  clear:left;
+  position:relative;
+}
+.THIS .slds-form-element__control .slds-radio,
+.THIS .slds-form-element__control .slds-checkbox{
+  display:block;
+}
+
+.THIS .slds-input-has-icon .slds-input__icon{
+    fill:#b0adab;
+}
+.THIS .slds-input{
+    background-color:white;
+    border:1px solid #dddbda;
+    border-radius:0.25rem;
+    width:100%;
+    -webkit-transition:border 0.1s linear, background-color 0.1s linear;
+    transition:border 0.1s linear, background-color 0.1s linear;
+    display:inline-block;
+    padding:0 1rem 0 0.75rem;
+    line-height:1.875rem;
+    min-height:calc(1.875rem + (1px * 2));
+}
+.THIS .slds-input:required{
+    -webkit-box-shadow:none;
+            box-shadow:none;
+}
+.THIS .slds-input:focus, .THIS .slds-input:active{
+    outline:0;
+    border-color:#1589ee;
+    background-color:white;
+    -webkit-box-shadow:0 0 3px #005290;
+            box-shadow:0 0 3px #005290;
+}
+.THIS .slds-input[disabled], .THIS .slds-input.slds-is-disabled{
+    background-color:#ecebea;
+    border-color:#c9c7c5;
+    cursor:not-allowed;
+    -webkit-user-select:none;
+       -moz-user-select:none;
+        -ms-user-select:none;
+            user-select:none;
+}
+.THIS .slds-input[disabled]:focus, .THIS .slds-input[disabled]:active, .THIS .slds-input.slds-is-disabled:focus, .THIS .slds-input.slds-is-disabled:active{
+    -webkit-box-shadow:none;
+            box-shadow:none;
+}
+.THIS .slds-input[readonly]{
+    padding-left:0;
+    border-color:transparent;
+    background-color:transparent;
+    font-size:0.875rem;
+    font-weight:400;
+}
+.THIS .slds-input[type=search]::-ms-clear{
+    display:none;
+    width:0;
+    height:0;
+}
+.THIS .slds-input[type=url], .THIS .slds-input[type=tel], .THIS .slds-input[type=email]{
+    direction:ltr;
+    text-align:left;
+}
+.THIS .slds-grid{
+  display:flex;
+}
+.THIS .slds-size_2-of-12{
+  width:16.6666666667%;
+}
+.THIS .slds-size_9-of-12{
+  width:75%;
+}
+.THIS .slds-gutters{
+  margin-right:-0.75rem;
+  margin-left:-0.75rem;
+}
+.THIS .slds-gutters .slds-col{
+  padding-right:0.75rem;
+  padding-left:0.75rem;
+}
+.THIS .slds-form-element__help{
+  font-size:0.55rem;
+  margin-top:0.125rem;
+  display:block;
+  color:#c23934;
+  text-align: left;
+}
+.THIS .slds-required{
+  color:#c23934;
+  margin:0 0.125rem;
+}
+.THIS .slds-button{
+    position: absolute !important;
+    left: 2.5% !important;
+    top: 400px !important;
+    width: 95% !important;
+    display:-webkit-inline-box !important;
+    display:-ms-inline-flexbox !important;
+    display:inline-flex !important;
+    -webkit-box-align:center !important;
+        -ms-flex-align:center !important;
+            align-items:center !important;
+    padding-top: 0 !important;
+    padding-right: 0 !important;
+    padding-bottom: 0 !important;
+    padding-left: 0 !important;
+    background:none !important;
+    background-color: transparent !important;
+    background-clip:border-box !important;
+    border-color: transparent !important;
+    border-style:solid !important;
+    border-width: 1px !important;
+    border-radius: 0.25rem !important;
+    line-height: 1.875rem !important;
+    text-decoration:none !important;
+    color: #0070d2 !important;
+    -webkit-appearance:none !important;
+    white-space:normal !important;
+    -webkit-user-select:none !important;
+       -moz-user-select:none !important;
+        -ms-user-select:none !important;
+            user-select:none !important;
+}
+
+.THIS .slds-button_brand{
+  padding-left:var(--sds-c-button-brand-spacing-inline-start, 1rem) !important;
+  padding-right:var(--sds-c-button-brand-spacing-inline-end, 1rem) !important;
+  text-align:center !important;
+  vertical-align:middle !important;
+  -webkit-box-pack:center !important;
+      -ms-flex-pack:center !important;
+          justify-content:center !important;
+  -webkit-transition:border 0.15s linear !important;
+  transition:border 0.15s linear !important;
+  background-color:var(--sds-c-button-brand-color-background, #005290) !important;
+  border-color:var(--sds-c-button-brand-color-border, #005290) !important;
+  color:var(--sds-c-button-brand-text-color, white) !important;
+}
+.THIS .slds-button_brand:hover, .THIS .slds-button_brand:focus{
+  background-color:var(--sds-c-button-brand-color-background-hover, #005290) !important;
+  border-color:var(--sds-c-button-brand-color-border-hover, #005290) !important;
+  color:var(--sds-c-button-brand-text-color-hover, white) !important;
+}
+.THIS .slds-button_brand:active{
+  background-color:var(--sds-c-button-brand-color-background-active, #005290) !important;
+  border-color:var(--sds-c-button-brand-color-border-active, #005290) !important;
+  color:var(--sds-c-button-brand-text-color-active, white) !important;
+}
+.THIS .slds-button_brand[disabled], .THIS .slds-button_brand:disabled{
+  background-color:var(--sds-c-button-brand-color-background-disabled, #c9c7c5) !important;
+  border-color:var(--sds-c-button-brand-color-border-disabled, #c9c7c5) !important;
+  color:var(--sds-c-button-brand-text-color-disabled, white) !important;
+}

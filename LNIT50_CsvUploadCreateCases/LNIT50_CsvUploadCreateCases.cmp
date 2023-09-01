@@ -1,0 +1,26 @@
+<aura:component controller = "APIT78_CsvUploadController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    
+    <aura:attribute name="uploadLabel" type="String" default ="Carica un csv"/>
+    
+    <lightning:workspaceAPI aura:id="workspace" />
+    
+    <div class = "slds-card" style = "padding:0.7rem; border-radius: 4px;">
+        <div class="slds-card-header">
+            <lightning:icon size="small" iconName="standard:text_template" alternativeText="Doc image" />
+            <b style = "margin-left:0.7rem;font-size:14px">Caricamento Casi POS Massivi</b>
+            
+        </div>
+        <br/>
+        
+        <div class = "slds-card" style = "padding:0.5rem">
+            <lightning:fileUpload label="{!v.uploadLabel}"
+                                  name="fileUploader"
+                                  multiple="false"
+                                  accept=".csv"
+                                  recordId="{!v.recordId}"
+                                  onuploadfinished="{!c.handleUploadFinished}" />
+            <br/>
+        </div>
+        
+    </div>
+</aura:component>

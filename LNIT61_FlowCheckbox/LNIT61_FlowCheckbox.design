@@ -1,0 +1,5 @@
+<design:component>
+<design:attribute name="ValueTicket" label="ValueTicket"  />   
+<design:attribute name="ValueFatt" label="ValueFatt"  />   
+
+</design:component>

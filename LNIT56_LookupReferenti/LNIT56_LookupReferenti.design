@@ -1,0 +1,13 @@
+<design:component>
+	   
+                                                                                                                                                               
+    
+           <design:attribute name="AdditionalFilter" label="AdditionalFilter" description="SELECT id,name FROM Contact WHERE.....esempio campo formula: *virgolette* accountid = '0011t00001FWYMxAAP' *virgolette* " />   
+         
+           
+           <design:attribute name="ReferenteLegale" label="ReferenteLegale" />
+           <design:attribute name="ReferenteAmministrativo" label="ReferenteAmministrativo" />
+           <design:attribute name="ReferenteStore" label="ReferenteStore" />
+           <design:attribute name="ReferentePOS" label="ReferentePOS" />
+    	
+</design:component>

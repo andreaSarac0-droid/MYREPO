@@ -1,0 +1,73 @@
+<aura:component implements="force:hasSObjectName,force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride,lightning:availableForFlowScreens,lightning:availableForFlowActions,force:lightningQuickAction" >
+    
+    
+    
+    
+    <aura:attribute name="AdditionalFilter" type="String" default=""/>
+    
+    <aura:attribute name="ReferenteLegale" type="String" /> 
+    <aura:attribute name="ReferenteAmministrativo" type="String" /> 
+    <aura:attribute name="ReferenteStore" type="String" /> 
+    <aura:attribute name="ReferentePOS" type="String" /> 
+    
+    
+    
+   
+    
+    <c:LNIT56_LookupReferentiMASTER 
+                                    objectName="Contact" 
+                                    fieldName="Name" 
+                                    label="Referente Legale" 
+                                    iconName="standard:contact" 
+                                    placeholder="Enter Value" 
+                                    AdditionalFilter="{!v.AdditionalFilter}" 
+                                    value="{!v.ReferenteLegale}"
+                                    islegal = "True"
+                                    />
+    
+    
+    <c:LNIT56_LookupReferentiMASTER 
+                                    objectName="Contact" 
+                                    fieldName="Name" 
+                                    label="Referente Amministrativo" 
+                                    iconName="standard:contact" 
+                                    placeholder="Enter Value" 
+                                    AdditionalFilter="{!v.AdditionalFilter}" 
+                                    value="{!v.ReferenteAmministrativo}"
+                                    qualereferente = "Amministrativo"
+                                    />       
+    
+    
+    
+    
+    <c:LNIT56_LookupReferentiMASTER 
+                                    objectName="Contact" 
+                                    fieldName="Name" 
+                                    label="Referente Store" 
+                                    iconName="standard:contact" 
+                                    placeholder="Enter Value" 
+                                    AdditionalFilter="{!v.AdditionalFilter}" 
+                                    value="{!v.ReferenteStore}"
+                                    qualereferente = "Store"
+                                    />       
+    
+    
+    
+    
+    
+    <c:LNIT56_LookupReferentiMASTER 
+                                    objectName="Contact" 
+                                    fieldName="Name" 
+                                    label="Referente POS" 
+                                    iconName="standard:contact" 
+                                    placeholder="Enter Value" 
+                                    AdditionalFilter="{!v.AdditionalFilter}" 
+                                    value="{!v.ReferentePOS}"
+                                    qualereferente = "POS"
+                                    />      
+    
+     
+    
+  
+
+</aura:component>

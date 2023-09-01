@@ -1,0 +1,4 @@
+<design:component>
+    <design:attribute name="InputStringField" label="Input Field" description="Value input" />
+    <design:attribute name="OutputStringField" label="Output Field" description="Value output" />
+</design:component>

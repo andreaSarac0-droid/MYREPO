@@ -1,0 +1,10 @@
+<design:component >
+    <!-- Design attributes -->
+    <design:attribute name="creationFlow" label="Creation flow ApiName"/>
+    <design:attribute name="recordId" label="Record Id"/>
+    <design:attribute name="sObjectName" label="sObject ApiName"/>
+    <design:attribute name="isFlow" label="isFlow"/>
+    <design:attribute name="NomeComponente" label="NomeComponente" description="inserire il nome desiderato per il componente"/>  
+    <design:attribute name="ContactView" label="ContactView" description="Inserire Merchant o Client" datasource="Merchant,Client" Default="Merchant" />
+    
+</design:component>

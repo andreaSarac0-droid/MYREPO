@@ -1,0 +1,23 @@
+<design:component >
+   <!-- Design attributes -->
+    
+   <design:attribute name="creationFlow" label="Creation flow ApiName"/>
+   <design:attribute name="recordId" label="Record Id"/>
+   <design:attribute name="sObjectName" label="sObject ApiName"/>
+   
+    <design:attribute name="isFlow" label="isFlow" description="inserire true se è un flow"/>
+    <design:attribute name="opportunityid" label="opportunityid" description="dal flow, in caso di financial center o store, inserire l'id dell'opportunity da associare quando si preme salva."/>  
+    
+   <design:attribute name="ContactView" label="ContactView" description="Inserire Merchant, Store o Client" datasource="Merchant,Store,Client" Default="Merchant" />
+    
+    
+    <design:attribute name="ReadOnly" label="ReadOnly" datasource="Yes,No"/>
+    
+    <design:attribute name="NomeComponente" label="NomeComponente" description="inserire il nome desiderato per il componente"/>  
+    <design:attribute name="oppId" label="Opportunity Id" description="Inserire l'id dell'opportunity"/>
+    
+    
+
+   
+    
+</design:component>

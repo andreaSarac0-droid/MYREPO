@@ -1,0 +1,13 @@
+<aura:component implements="force:hasSObjectName,force:hasRecordId,force:appHostable,force:hasRecordId,lightning:actionOverride,lightning:availableForFlowScreens,lightning:availableForFlowActions,force:lightningQuickAction"  access="global">
+<aura:attribute name="Label" type="String"/> 
+<aura:attribute name="Value" type="Date"/>   
+  
+    
+      
+      
+      
+        <lightning:input type="date"  label="{!v.Label}" value="{!v.Value}"/>
+   
+
+    
+</aura:component>

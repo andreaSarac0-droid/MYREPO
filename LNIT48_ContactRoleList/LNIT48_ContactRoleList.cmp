@@ -1,0 +1,212 @@
+<aura:component implements="lightning:availableForFlowScreens,lightning:availableForFlowActions,force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName"
+    access="global" controller="APIT75_ContactRoleListController">
+
+
+
+    
+    
+    <!-- Datatable attributes -->
+    <aura:attribute name="data" type="Object" />
+    <aura:attribute name="filteredData" type="Object"/>
+    <aura:attribute name="draftValues" type="Object" />
+    <aura:attribute name="columns" type="List" />
+
+    <!-- Pagination attributes -->
+    <aura:attribute name="totalPages" type="Integer" default="1" />
+    <aura:attribute name="pageNumber" type="Integer" default="1" />
+    <aura:attribute name="pageSize" type="Integer" default="10" />
+    <aura:attribute name="isLastPage" type="Boolean" default="false" />
+
+    <!-- Design attributes -->
+    
+    <aura:attribute name="ContactView" type="String" default="Merchant"/>
+    <aura:attribute name="opportunityid" type="String"/>
+
+    <aura:attribute name="NomeComponente" type="String"/>
+    
+    <aura:attribute name="isFlow" type="String"/>
+    <aura:attribute name="ReadOnly" type="String"/>
+   
+ 
+    
+    
+    <aura:attribute name="creationFlow" type="String"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="sObjectName" type="String"/>
+    <aura:attribute name="oppId" type="string"/>
+    <aura:attribute name="financialCenterType" type="String"/>
+
+    <aura:attribute name="financialCenterId" type="String" />
+    <aura:attribute name="flowName" type="String" default="IT75_Contact_Role_Deactivation" />
+    <aura:attribute name="flowNameMassivo" type="String" default="IT76_Massive_Contact_Role_Deactivation" />
+    <aura:attribute name="isModalOpen" type="Boolean" />
+    <aura:attribute name="isModalOpenLegalRap" type="Boolean" />
+    <aura:attribute name="legalIsChanged" type="Boolean" default="false"/>
+    <aura:attribute name="confirmCancel" type="Boolean" default="false"/>
+    <aura:attribute name="contSostituisce" type="String"/>
+    <aura:attribute name="contDaSostituire" type="String"/>
+    <aura:attribute name="loaded" type="Boolean" />
+    <lightning:navigation aura:id="navService" />
+
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+    <lightning:flow aura:id="flowData" />
+    <aura:handler event="force:refreshView" action="{!c.doInit}" />
+
+    <div class="slds-modal__content" style="border-radius: 0.25rem; border-color: rgb(221, 219, 218);">
+        <div class="slds-page-header"
+            style="padding-bottom : 0.75rem;padding-top : 0.75rem;background-color : rgb(243, 242, 242);">
+            <div class="slds-float_right">
+                
+                <aura:if isTrue="{!v.isFlow != 'true'}">
+                    <aura:if isTrue="{!v.sObjectName == 'ER_Financial_Center__c'}">   
+                        <aura:if isTrue="{!v.ContactView == 'Merchant'}"> 
+                            <lightning:button label="Nuovo" iconPosition="left" onclick="{!c.openModel}" />
+                    </aura:if>   
+                    </aura:if>  
+                </aura:if>
+                
+                 <!--> pulsante modifica solo se contactview è client e non sei in un flow e se sei sull'oggetto contact<!-->
+                 <aura:if isTrue="{!and ((v.isFlow != 'true'), (v.ContactView == 'Client'))}">
+                     
+                 <aura:if isTrue="{!v.sObjectName == 'Contact'}">    
+                     
+
+                <lightning:button label="Modifica" iconPosition="left" onclick="{!c.openModel2}" />
+                </aura:if>
+                </aura:if>
+                
+                
+                
+                 <aura:if isTrue="{!v.isFlow != 'true'}">
+                 <aura:if isTrue="{!v.sObjectName == 'Contact'}">       
+
+                <lightning:button label="Nuovo" iconPosition="left" onclick="{!c.openModel}" />
+            
+                </aura:if>    
+                <!--Tasto nuovo sulle Opportunity aggiunto da Federico Rossini in data 26/7/2021--> 
+                </aura:if>
+                
+                <aura:if isTrue="{!v.isFlow != 'true'}">
+                    <aura:if isTrue="{!v.sObjectName == 'IT_Opportunity_Store__c'}">
+                        <lightning:button label="Nuovo" iconPosition="left" onclick="{!c.openModel3}" />
+                    </aura:if>
+                </aura:if>
+                <aura:if isTrue="{!v.isFlow != 'true'}">
+                    <aura:if isTrue="{!v.sObjectName == 'Opportunity'}">
+                        <lightning:button label="Crea/Modifica Referente" iconPosition="left" onclick="{!c.openModel3}" />
+                    </aura:if>
+                </aura:if>
+                <aura:if isTrue="{!v.isFlow != 'true'}">
+                    <aura:if isTrue="{!v.sObjectName == 'ER_Store__c'}">
+                        <lightning:button label="Nuovo" iconPosition="left" onclick="{!c.openModel}" />
+                    </aura:if>
+                </aura:if>
+                <button aura:id="collapseButton"
+                    class="slds-button slds-button_icon slds-button_icon-border-filled slds-path__trigger buttonStyle"
+                    onclick="{!c.onRefresh}">
+                    <lightning:icon iconName="utility:refresh" alternativeText="Refresh" size="x-small"
+                        aura:id="iconRef" class="iconStyle" />
+                    <span class="slds-assistive-text">Refresh</span>
+                </button>
+            </div>
+            <div class="slds-grid slds-wrap row">
+                <div class="slds-col slds-size_1-of-2 slds-float_left" style="width:600px;">
+                    <lightning:icon size="small" iconName="custom:custom84" alternativeText="Contacts" />
+                    <b style="margin-left:0.7rem;font-size:14px;"><a style="color: inherit;"> {!v.NomeComponente}
+                            ({!v.data.length}) </a></b>
+                </div>
+            </div>
+        </div>
+
+        <aura:if isTrue="{! v.loaded }">
+            <lightning:datatable aura:id="accDT" columns="{!v.columns}" data="{!v.data}" 
+            keyField="rowId" draftValues="{v.draftValues}" hideCheckboxColumn="true"
+                    onrowaction="{!c.onRowAction}" onsave="{!c.onSave}"/>
+            <aura:set attribute="else">
+                <div>
+                    <lightning:spinner alternativeText="Loading" size="medium" />
+                </div>
+            </aura:set>
+        </aura:if>
+        <div class="slds-clearfix">
+            <div style="margin-top:0.75rem;" class="slds-page-footer;" role="banner">
+                <div style="padding-bottom : 0.75rem;padding-right : 0.5rem;" class="slds-float_right">
+                    <lightning:button label="Prev" iconName="utility:chevronleft" iconPosition="left"
+                        onclick="{!c.onPrev}"  disabled="{!v.pageNumber == 1}"/>
+                    <lightning:button label="Next" iconName="utility:chevronright" iconPosition="right"
+                         onclick="{!c.onNext}" disabled="{!v.isLastPage}"/> 
+                </div>
+                <div style="padding-left : 0.5rem;padding-top : 0.5rem;">
+                    Page {!v.pageNumber} | Showing records from {! (((v.pageNumber-1)*v.pageSize))+' to
+                    '+((v.pageNumber-1)*v.pageSize+v.data.length)}
+                </div>
+
+            </div>
+        </div>
+    </div>
+    
+    
+    
+    
+
+    <!-- MODAL START-->
+    <aura:if isTrue="{!v.isModalOpen}">
+
+        <!-- Modal/Popup Box starts here-->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box Header Starts here-->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeModel }" alternativeText="close"
+                        variant="bare-inverse" class="slds-modal__close" />
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"><!-->disattiva <!--></h2>
+                </header>
+                <!--Modal/Popup Box Body Starts here-->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <lightning:flow aura:id="flow" onstatuschange="{!c.statusChange}" />
+                </div>
+            </div>
+        </section>
+
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+    <!-- MODAL END-->
+            <aura:if isTrue="{!v.isModalOpenLegalRap}">
+
+        <!-- Modal/Popup Box starts here-->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box Header Starts here-->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeModel2 }" alternativeText="close"
+                        variant="bare-inverse" class="slds-modal__close" />
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"><!-->disattiva <!--></h2>
+                </header>
+                <!--Modal/Popup Box Body Starts here-->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    Attenzione! Esiste già un Legale Rappresentante: {!v.contDaSostituire}. Vuoi impostare {!v.contSostituisce} come Referente Legale?
+                    <div></div>
+                    <div>
+                        <lightning:buttonGroup>
+                    		<lightning:button label="Continua" class="concern" title="Success" onclick="{! c.handleYesLegal }"/>
+                    		<lightning:button variant="destructive-text" label="Annulla" title="Destructive action" onclick="{! c.handleNoLegal }"/>
+                        </lightning:buttonGroup>
+                    </div>
+                </div>
+               
+                
+            </div>
+        </section>
+
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+    <!--28/7/2021 Modfifica aggiunta da Federico, aumenta la dimensione del pop-up per la visualizzazione della tabella in fase di creazione-->
+    <aura:html tag="style">
+        .slds-modal__container {
+             width : 70% !important;
+             max-width : 70% !important;
+         }
+</aura:html>          
+</aura:component>

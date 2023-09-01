@@ -1,0 +1,4 @@
+<design:component>
+	<design:attribute name="visualizedString" label="Stringa da visualizzare"/>
+    <design:attribute name="fieldName" label="Nome del campo per il barcode"/>
+</design:component>

@@ -1,0 +1,6 @@
+<design:component>
+<design:attribute name="Label" label="Label" description= "il nome del campo in visualizzazione"/>
+<design:attribute name="Value" label="Value" description= "il valore che ci sarà dentro al campo, esempio getcontact.birthdate" />   
+
+    
+</design:component>

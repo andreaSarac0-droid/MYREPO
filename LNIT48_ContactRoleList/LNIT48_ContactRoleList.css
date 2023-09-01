@@ -1,0 +1,9 @@
+/*Aggiunta da Federico per rendere la tabella più larga e leggibile*/
+.THIS.slds-modal__content{
+
+    width: 100%;
+    }
+    
+    .THIS .concern{
+        color: #006400;
+    }

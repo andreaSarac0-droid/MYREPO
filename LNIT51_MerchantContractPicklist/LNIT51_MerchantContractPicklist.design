@@ -1,0 +1,5 @@
+<design:component>
+    <design:attribute name="contract_input" label="contract_input" /> 
+    <design:attribute name="fc_prospect" label="fc_prospect"/>
+    <design:attribute name="contratto_output" label="contratto_output"/>
+</design:component>
