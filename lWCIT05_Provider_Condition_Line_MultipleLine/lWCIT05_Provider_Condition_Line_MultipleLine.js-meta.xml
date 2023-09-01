@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata" fqn="helloWorld">
+  <apiVersion>51.0</apiVersion>
+  <isExposed>true</isExposed>
+  <targets>
+    <target>lightning__FlowScreen</target>
+  </targets>
+
+  <targetConfigs>
+    <targetConfig targets="lightning__FlowScreen">
+        <property name="arrData" type="@salesforce/schema/ER_ContractLineItem__c[]" label="CLI" description="CLI associate"/>
+        <property name="output" type="String[]" label="Output" description="Id CLI selezionate"/>
+        <property name="deleteOutput" type="String[]" label="deleteOutput" description="Id CLI da eliminare"/>
+        <property name="IdDeletedOutput" type="String" label="deleteOutput" description="Id CLI da eliminare USO QUESTA IN FLOW"/>
+        <property name="columnName" type="String" label="Column Name" description="Nome colonne"/>
+        <property name="numSelectedRows" type="Integer" label="Number of Selected Rows" description="Numero di CLI selezionate"/>
+    </targetConfig>
+  </targetConfigs>
+
+</LightningComponentBundle>

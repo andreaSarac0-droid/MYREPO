@@ -1,0 +1,20 @@
+.erportal-cbx {
+    padding: 0;                   /* nécessaire pour IE */
+    border-radius: 50%;
+    font-size: 1.3rem;
+    width: 1.5rem;
+    height: 1.5rem;
+}
+
+.slds-form-element__label.erportal-cbxlabel {
+    font-family: Ubuntu, sans-serif;/*var(--parent-font-family)*/;
+    font-size: 1.3rem;
+    color: #343a40;
+}
+
+@media screen and (max-width: 700px) {
+    .slds-form-element__label.erportal-cbxlabel {
+        font-size: 0.9rem;
+    }
+    
+}

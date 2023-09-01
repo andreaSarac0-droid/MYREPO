@@ -1,0 +1,30 @@
+<template>  
+    <lightning-card>
+        <div class="slds-align_absolute-center" style="height:5rem">
+            <lightning-button variant="brand" label="Default" title="default value" icon-position="right" icon-name="utility:sync" onclick = {downloadDefault} disabled={viewDefault} class="slds-m-left_x-small"></lightning-button>
+            <lightning-button variant="brand" label="Save" title="save value" icon-position="right" icon-name="utility:save" onclick = {saveDefault} disabled={viewSave} class="slds-m-left_x-small"></lightning-button>
+            <lightning-button variant="brand" label="Applicare Percentuali " title="Applicare le percentuali appena inserite sulle fasce valorizzate." icon-position="right" icon-name="action:new_note" onclick = {spreadPerc} disabled={viewSpread} class="slds-m-left_x-large btm-spread"></lightning-button>
+        </div>
+        
+    </lightning-card>
+
+    <template if:true={data}>
+        <c-l-w-c-i-t04_-poste-discount 
+            key-field="day" 
+            data={data} 
+            columns={columns} 
+            onpicklistchanged={picklistChanged} 
+            onvalueselect={handleSelection}
+            draft-values={draftValues} 
+            oncellchange={handleCellChange}
+            onsave={saveDefault}
+            oncancel={handleCancel}
+            suppress-bottom-bar="true"
+            hide-checkbox-column>
+        </c-l-w-c-i-t04_-poste-discount>
+    </template>
+
+<lightning-spinner if:true={isLoading} class="slds-is-absolute slds-align_absolute-center" alternative-text="Loading products..." size="medium" variant="brand">
+</lightning-spinner>
+
+</template>

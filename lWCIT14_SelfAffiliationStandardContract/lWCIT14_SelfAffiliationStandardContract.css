@@ -1,0 +1,230 @@
+.body-style {
+    margin: 3% 10%;
+}
+
+.spinnerstyle {
+    
+}
+
+.footer-container {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    margin-bottom: 0px;
+}
+
+.text-style-ko {
+    font-family: Ubuntu, sans-serif;/*var(--parent-font-family)*/;
+    color: black;
+    text-align: center;
+    font-size: 1.8rem;
+}
+
+.footer-style {
+    background: #162056;
+    padding: 10px;
+    width:100%;
+}
+
+.spinnerstyle::after {
+    position: absolute;
+    content: 'ATTENZIONE: Non uscire dalla pagina né aggiornare. Stiamo elaborando i tuoi dati, attendi qualche minuto per la firma del contratto';
+    width: 100%;
+    text-align: center;
+    top: calc(50% + 3em);
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.text-style-title {
+    font-size: 1.8rem;
+    color: var(--parent-main-color);
+    font-family: Ubuntu, sans-serif;/*var(--parent-font-family)*/;
+}
+
+.text-style-subtitle {
+    font-size: 1.5rem;
+    color: var(--parent-main-color);
+    font-family: Ubuntu, sans-serif;/*var(--parent-font-family)*/;
+}
+
+.text-style-subtitle-2 {
+    font-size: 1.2rem;
+    color: black;
+    font-family: Ubuntu, sans-serif;/*var(--parent-font-family)*/;
+}
+
+.text-style-subtitle-3 {
+    text-align: center;
+    font-size: 1.0rem;
+    color: black;
+    font-family: Ubuntu, sans-serif;/*var(--parent-font-family)*/;
+}
+
+.text-style-subtitle-4 {
+    font-size: 1.0rem;
+    color: grey;
+    font-family: Ubuntu, sans-serif;/*var(--parent-font-family)*/;
+}
+
+.text-style-subtitle-5 {
+    font-size: 1.1rem;
+    color: grey;
+    font-family: Ubuntu, sans-serif;/*var(--parent-font-family)*/;
+}
+
+.text-style-subtitle-6 {
+    font-size: 1.3rem;
+    color: grey;
+    font-family: Ubuntu, sans-serif;/*var(--parent-font-family)*/;
+}
+
+.text-style-subtitle-7 {
+    font-size: 0.8rem;
+    color: grey;
+    font-family: Ubuntu, sans-serif;/*var(--parent-font-family)*/;
+}
+
+.text-style-subtitle-8 {
+    font-size: 0.8rem;
+    color: rgb(94,145,210);
+    font-family: Ubuntu, sans-serif;/*var(--parent-font-family)*/;
+}
+
+.text-style-subtitle-9 {
+    font-size: 1.0rem;
+    color: rgb(72,69,148);
+    font-family: Ubuntu, sans-serif;/*var(--parent-font-family)*/;
+}
+
+.text-style-subtitle-10 {
+    font-size: 1.0rem;
+    color: grey;
+    font-family: Ubuntu, sans-serif;/*var(--parent-font-family)*/;
+}
+
+.text-style-subtitle-11 {
+    font-size: 0.8rem;
+    color: rgb(72,69,148);
+    font-family: Ubuntu, sans-serif;/*var(--parent-font-family)*/;
+}
+
+
+.text-style-ko {
+    font-family: Ubuntu, sans-serif;/*var(--parent-font-family)*/;
+    color: black;
+    text-align: center;
+    font-size: 1.8rem;
+}
+
+.button-style-convention {
+    width:100%;
+    font-family: Ubuntu, sans-serif;/*var(--parent-font-family)*/;
+    color:#b2b2b2;
+    background: white;
+    box-shadow: none;
+    line-height: 1.6rem;
+    border-color: #b2b2b2;
+    border-radius: 1.5em;
+}
+
+.slds-form-element__label {
+    font-family: 'montserratregular';
+    font-size: 1.2rem;
+    color: var(--parent-main-color);
+  }  
+
+.button-style-convention-selected {
+    width:100%;
+    font-family: Ubuntu, sans-serif;/*var(--parent-font-family)*/;
+    color:white;
+    background: #00859B;
+    box-shadow: none;
+    line-height: 1.6rem;
+    border-color: #b2b2b2;
+    border-radius: 1.5em;
+}
+
+.help-box {
+    border-radius: 20px;
+    border: solid var(--parent-main-color) 1px;
+    padding: 12px;
+    width: 200px;
+    position: fixed;
+    right: 12%;
+    margin-top: 5%;
+}
+
+.help-box-title {
+    font-family: Ubuntu, sans-serif;/*var(--parent-font-family)*/;
+    color:var(--parent-main-color);;
+}
+
+.help-box-message {
+    font-family: Ubuntu, sans-serif;/*var(--parent-font-family)*/;
+    color:#b2b2b2;
+}
+
+ @font-face {
+    font-family: 'edenredlight';
+    /*src: url('/resource/SRER_Portal/fonts/edenred_light.eot');
+    src: url('/resource/SRER_Portal/fonts/edenred_light.eot?#iefix') format('embedded-opentype'),
+         url('/resource/SRER_Portal/fonts/edenred_light.woff2') format('woff2'),
+         url('/resource/SRER_Portal/fonts/edenred_light.woff') format('woff'),
+         url('/resource/SRER_Portal/fonts/edenred_light.svg#edenredlight') format('svg');*/
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+@keyframes show {
+    from {
+        opacity: 0;
+        transform: translateY(-80px); }
+    to {
+        opacity: 1; }
+}
+
+@font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: normal;
+    src: url('/resource/SRER_Portal/fonts/Montserrat.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:host{
+    --parent-font-family: 'edenredlight';
+    --parent-main-color: #00859B;
+}
+
+.left-ribbon {
+    height: auto;
+    width: 2%;
+    background: #ffc72c;
+    border-radius: 60px;
+    margin-right: 3%; 
+}
+
+.form {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+fieldset {
+    width: 95%;
+    padding: 0;
+}
+    
+.end-message{
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: black;
+}
+
+.slds-modal__header {
+    border:none;
+    padding-top: 0px;
+    padding-bottom: 0px;
+}

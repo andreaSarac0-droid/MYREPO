@@ -1,0 +1,108 @@
+<template>
+    <template if:false={errorPage}>
+        <template if:true={showSpinner}>
+            <lightning-spinner class="spinnerstyle" alternative-text="Loading" size="large" variant="brand"></lightning-spinner>
+        </template>
+        <div class="body-style">
+    
+            <template if:false={isLoading}>
+                <template if:false={signUrl}>
+                    <template if:false={contractSigned}>
+    
+                
+                <img src={edenredLogo} style="width: 20%">
+                <hr style="margin-top:0px;">
+        
+                <c-l-w-c-i-t08_-self-Affiliation-Progress-Indicator steps={stepList} current-step={phase}></c-l-w-c-i-t08_-self-Affiliation-Progress-Indicator>
+        
+                <!-- STEP 1 -->
+                <div class="step1" style="display:block">
+                    <c-l-w-c-i-t15_-self-Affiliation-Standard-Step1 ongotostep2={goToStep2} contract_type={contractname} button_options={button_options} text_options={text_options} input_options={input_options}></c-l-w-c-i-t15_-self-Affiliation-Standard-Step1>
+                </div>
+        
+                <!-- STEP 2 -->
+                <div class="step2" style="display:none">
+                    <c-l-w-c-i-t16_-self-Affiliation-Standard-Step2 onhaserror={hasError} ongotostep1={goToStep1} ongotostep3={goToStep3} contract_type={contractname} button_options={button_options} text_options={text_options} input_options={input_options}></c-l-w-c-i-t16_-self-Affiliation-Standard-Step2>
+                </div>
+        
+                <!--STEP 3 -->
+                <div class="step3" style="display:none">
+                    <c-l-w-c-i-t17_-self-Affiliation-Standard-Step3 onchangecassa={changeCassaIntegrata} ongotostep2={goToStep2} ongotostep4={goToStep4} button_options={button_options} text_options={text_options} input_options={input_options}></c-l-w-c-i-t17_-self-Affiliation-Standard-Step3>
+                </div>
+                
+                <!--STEP 4 -->
+                <div class="step4" style="display:none">
+                    <c-l-w-c-i-t18_-self-Affiliation-Standard-Step4 ongotostep3={goToStep3} ongotostep5={goToStep5} button_options={button_options} text_options={text_options} input_options={input_options}></c-l-w-c-i-t18_-self-Affiliation-Standard-Step4>
+                </div>
+        
+                <!--STEP 5 -->
+                <div class="step5" style="display:none">
+                    <c-l-w-c-i-t19_-self-Affiliation-Standard-Step5 ongotostep4={goToStep4} ongotostep6={goToStep6} button_options={button_options} text_options={text_options} input_options={input_options}></c-l-w-c-i-t19_-self-Affiliation-Standard-Step5>
+                </div>
+                
+                <!--STEP 6 -->
+                <div class="step6" style="display:none">
+                    <c-l-w-c-i-t20_-self-Affiliation-Standard-Step6 ongotostep5={goToStep5} ongotostep7={goToStep7} button_options={button_options} text_options={text_options} input_options={input_options}></c-l-w-c-i-t20_-self-Affiliation-Standard-Step6>
+                </div>
+        
+                <!--STEP 7 -->
+                <div class="step7" style="display:none">
+                    <c-l-w-c-i-t21_-self-Affiliation-Standard-Step7 ongotostep6={goToStep6} onsign={signContract} button_options={button_options} text_options={text_options} input_options={input_options}></c-l-w-c-i-t21_-self-Affiliation-Standard-Step7>
+                </div>
+            </template>
+        </template>
+        </template>
+    
+        <template if:true={contractSigned}>
+            <img src={edenredLogo} style="width: 20%">
+            <hr style="margin-top:0px;">
+            <br><br>
+            <template if:true={text_options.W_Grazie}>
+                <br>
+                <p class="text-style-subtitle" style="text-align:center">{text_options.W_Grazie}</p>
+                <br>
+            </template>
+            <template if:true={text_options.W_Grazie_info}>
+                <p class="text-style-subtitle-2" style="text-align:center">{text_options.W_Grazie_info}</p>
+                <br>
+            </template>
+            <template if:true={text_options.W_Grazie_info_email}>
+                <p class="text-style-subtitle-3" style="text-align:center">{text_options.W_Grazie_info_email}</p>
+            </template>
+        </template>
+    
+        <template if:true={isLoading}>
+            <lightning-spinner class="spinnerstyle" variant="brand" size="large"> </lightning-spinner>
+        </template>
+            
+        </div>
+        <br><br><br>
+        <div class="footer-container">
+            <div class="footer-style">
+                <p style="color:white;text-align:center; font-family: Ubuntu, sans-serif;"><b>{text_options.W_Help}</b> {text_options.W_Help_Info}</p>
+            </div>
+        </div>
+    </template>
+    
+
+    <template if:true={errorPage}>
+        <div class="body-style">
+            <img src={edenredLogo} style="width: 20%">
+            <hr style="margin-top:0px;">
+        
+                <c-l-w-c-i-t08_-self-Affiliation-Progress-Indicator steps={stepList} current-step={phase}></c-l-w-c-i-t08_-self-Affiliation-Progress-Indicator>
+        
+                <template if:true={errorTitle}>
+                    <div class="text-style-ko">
+                        <lightning-formatted-rich-text value={errorTitle}></lightning-formatted-rich-text>
+                    </div>
+                </template>
+                <template if:true={errorMessage}>
+                    <div class="text-style-ko">
+                        <lightning-formatted-rich-text value={errorMessage}></lightning-formatted-rich-text>
+                    </div>
+                </template>
+        </div>
+    </template>
+    
+</template>

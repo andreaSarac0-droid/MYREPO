@@ -1,0 +1,132 @@
+<!-- sldsValidatorIgnore -->
+<template>
+    <template if:true={step0}>
+        <div style="width: 100%;">
+            <lightning-quick-action-panel>
+                <!--<div>
+                    <lightning-checkbox-group 
+                    name="products"
+                    label="Prodotti inclusi nella linea selezionata"
+                    options={productOptions}
+                    value={valueProducts}
+                    onchange={handleChangeProducts}>
+                    </lightning-checkbox-group>
+                </div>-->
+                <p><b>Seleziona i prodotti:</b></p>
+                <br>
+                <template if:true={isVas}>
+                    <div class="slds-box slds-theme_default">
+                        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="" scope="col">
+                                        <lightning-input type="checkbox" disabled="true"></lightning-input>
+                                    </th>
+                                    <th class="" scope="col">
+                                        <div class="slds-truncate" title="Seleziona tutto">Seleziona tutto</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={dataWithoutFlowee} for:item="prod">
+                                    <tr key={prod}>
+                                        <td>
+                                            <lightning-input value={prod} type="checkbox" onchange={handleCheck} checked={checkAll} disabled={disableAll}></lightning-input>
+                                        </td>
+                                        <td>{prod}</td>
+                                    </tr>
+                                </template>
+                                <tr>
+                                    <td><lightning-input value={flowee} type="checkbox" onchange={handleCheck} checked={checkFlowee} disabled={disableFlowee}></lightning-input></td>
+                                    <td>{flowee}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <br>
+
+                    <div slot="footer">
+                        <!--<lightning-button variant="brand-outline" label="Indietro" onclick={handleBackToFlow}></lightning-button>-->
+                        <lightning-button variant="brand" label={nextLabel} onclick={handleNext} disabled={disableNext}></lightning-button>
+                    </div>
+                </template>
+                <template if:false={isVas}>
+                    <div style="width: 100%;">
+                        <lightning-datatable key-field="MasterLabel" data={data} columns={columns} onrowselection={handleSelectedRows} selected-rows={preSelectedRows}></lightning-datatable>
+                    </div>
+                
+                    <br>
+
+                    <div slot="footer">
+                        <!--<lightning-button variant="brand-outline" label="Indietro" onclick={handleBackToFlow}></lightning-button>-->
+                        <lightning-button variant="brand" label="Fine" onclick={handleAvanti} disabled={disableButton}></lightning-button>
+                    </div>
+                </template>
+            </lightning-quick-action-panel>
+        </div>
+        <!--</lightning-quick-action-panel>-->
+    </template>
+    <template if:true={step1}>
+        <div if:false={isLoaded} class="slds-is-relative">
+            <lightning-spinner
+                alternative-text="Loading..." variant="brand" size="medium">
+            </lightning-spinner>
+        </div>
+        <div if:true={isLoaded}>
+            <lightning-quick-action-panel header="Seleziona i prodotti">
+                <!--<div>
+                    <lightning-checkbox-group 
+                    name="products"
+                    label="VAS opzionali"
+                    options={productOptions}
+                    value={valueProducts}
+                    onchange={handleChangeProducts}>
+                    </lightning-checkbox-group>
+                </div>-->
+
+                <lightning-datatable key-field="MasterLabel" data={data} columns={columns} onrowselection={handleSelectedRows}></lightning-datatable>
+
+                <br>
+
+                <div slot="footer">
+                    <!--<lightning-button variant="brand-outline" label="Indietro" onclick={handleBackToFlex}></lightning-button>-->
+                    <lightning-button variant="brand" label="Fine" onclick={handleAvanti}></lightning-button>
+                </div>
+            </lightning-quick-action-panel>
+        <!--</lightning-quick-action-panel>-->
+        </div>
+    </template>
+    <template if:true={noCircuit}>
+        <lightning-quick-action-panel>
+            <p><b>Attenzione, senza il prodotto FLEXBENEFIT è necessario inserire un circuito!</b></p>
+            <br>
+            <div>
+                <lightning-record-edit-form object-api-name="Opportunity" id="circuitForm">
+                    <div class="slds-m-around_x-small">
+                        <label for="fieldid">Seleziona circuito:</label>
+                        <lightning-input-field variant="label-hidden" field-name="IT_Circuit__c" onchange={handleChangeCircuit}> </lightning-input-field>
+                        <!-- FILTRARE I CONTRATTI IN BASE AL FLAG CONVENZIONE-->
+                    </div>
+                </lightning-record-edit-form>
+            </div>
+            <div slot="footer">
+                <lightning-button variant="brand-outline" label="Indietro" onclick={handleBackToFlex}></lightning-button>
+                <lightning-button variant="brand" label="Fine" onclick={handleFine}></lightning-button>
+            </div>
+        </lightning-quick-action-panel>
+    </template>
+
+    <template if:true={step2}>
+        <lightning-quick-action-panel>
+            <c-l-w-c-i-t35_-select-tipo-servizio onselecttiposervizio={getTipoServizio} onselectanno={getAnno}></c-l-w-c-i-t35_-select-tipo-servizio>
+            
+            <br>
+
+            <div slot="footer">
+                <!--<lightning-button variant="brand-outline" label="Indietro" onclick={handleBackToFlow}></lightning-button>-->
+                <lightning-button variant="brand" label="Fine" onclick={handleSave} disabled={disableSave}></lightning-button>
+            </div>
+        </lightning-quick-action-panel>
+    </template>
+</template>

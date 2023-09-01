@@ -1,0 +1,18 @@
+<template>
+      <div class="slds-m-around_medium">
+        <lightning-datatable
+            key-field="id"
+            data={arrData}
+            columns={fieldColumns}
+            onrowselection={handleSelect}
+            onsort ={onHandleSort}
+            sorted-by={sortedBy}
+            default-sort-direction={defaultSortDirection}
+            sorted-direction={sortDirection}
+            onrowaction={handleRowAction}
+            onresize={handleResize}
+            selected-rows={selectedRows}
+            max-row-selection=1>  
+        </lightning-datatable>
+      </div>
+  </template>

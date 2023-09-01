@@ -1,0 +1,8 @@
+.btm-spread {
+    --sds-c-button-brand-color-background: GoldenRod;
+    --sds-c-button-brand-color-border: darkgray;
+    --slds-c-button-brand-color-background-hover: darkgoldenrod;
+    --slds-c-button-brand-color-border-hover: darkolivegreen;
+    --slds-c-button-brand-text-color-hover: ivory;
+    --slds-c-icon-color-foreground: ivory;
+}
