@@ -1,0 +1,87 @@
+<aura:component controller='APIT45_GetCallUta' implements="force:hasSObjectName,force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride,lightning:availableForFlowScreens,lightning:availableForFlowActions,force:lightningQuickAction"  access="global" >
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="data" type="Object[]"/>
+    <aura:attribute name="controlViewWorkflowDetail" type="boolean" default="false"/>
+    <aura:attribute name="errorMessage" type="String"/>
+    <aura:attribute name="showErrors" type="Boolean" default="false"/>
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    <aura:attribute name="TypeGetUta" type="String"/>
+    <aura:attribute name="pageNumber" type="Integer" default="1"/>
+    <aura:attribute name="isButtonActive" type="Boolean" default="true"/>
+    <aura:attribute name="isButtonActiveNext" type="Boolean" default="false"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <div style="border: 1px solid rgb(176, 173, 171); border-radius: 3px">
+        <aura:if isTrue="{!v.showErrors}">
+            <div class="slds-notify slds-notify_toast slds-theme_error" style="width:98%">
+                <span class="slds-assistive-text">ERROR</span>
+                <div class="slds-notify__content" style="width:90%">
+                    <h5 class="slds-text-heading_small slds-align_absolute-center">Error Message </h5>
+                    <br/>
+                    <p class="slds-align_absolute-center">{!v.errorMessage}</p>                
+                </div>
+            </div>
+        </aura:if>
+        <div style="padding:1rem;border-top-width: 3px;border-top-color: rgb(176, 173, 171);border-top-style: solid;">
+            <br></br><br></br>
+            <div class="slds-grid  slds-gutters" >
+                <div class="slds-col slds-size_0.5-of-4 header slds-float_left">
+                    <lightning:icon iconName="custom:custom61" alternativeText="custom:custom61" />
+                    <aura:if isTrue="{!v.TypeGetUta=='Order'}"><label style="margin:0.5rem"><b>ORDERS</b></label></aura:if>
+                    <aura:if isTrue="{!v.TypeGetUta=='Payment'}"><label style="margin:0.5rem"><b>PAYMENTS</b></label></aura:if>
+                </div>
+             </div>
+             <div class="slds-float_right">
+                        <button aura:id = "backButton" class="slds-button slds-button_icon slds-button_icon-border-filled slds-path__trigger buttonStyle" onclick="{!c.onButtonPressed2}" disabled="{!v.isButtonActive}">
+                            <lightning:icon iconName="utility:back" alternativeText="Back" size="x-small" aura:id="iconBack" class="iconStyle"/>
+                            <span class="slds-assistive-text">Back</span>
+                        </button>
+                        <button aura:id = "nextButton" class="slds-button slds-button_icon slds-button_icon-border-filled slds-path__trigger buttonStyle" onclick="{!c.onButtonPressed1}" disabled="{!v.isButtonActiveNext}">
+                            <lightning:icon iconName="utility:forward" alternativeText="Forward" size="x-small" aura:id="iconForward" class="iconStyle"/>
+                            <span class="slds-assistive-text">Next</span>
+                        </button>
+            </div>
+            <br></br>
+        </div>
+        
+        <br></br>
+        <aura:if isTrue="{! v.loaded }"> 
+            <aura:if isTrue="{!not(empty(v.data))}">
+                <div style="height: 200px;">
+                    <lightning:datatable
+                                         keyField="id"
+                                         data="{! v.data }"
+                                         columns="{! v.columns }"
+                                         hideCheckboxColumn="true"
+                                         minColumnWidth = "160"
+                                         enableInfiniteLoading="true"
+                                         loadMoreOffset="true"
+                                         resizeColumnDisabled = "false"/>
+                </div>
+                <!-- <div aura:id="actionButtonBar" class="slds-clearfix slds-p-top_small">
+                    <div class="slds-float_right">
+                        <lightning:button aura:id="Back" label="Back"
+                                          variant="brand-outline" onclick="{!c.onButtonPressed2}" disabled="{!v.isButtonActive}"/>
+                        <lightning:button aura:id="Next" label="Next"
+                                          variant="brand-outline" onclick="{!c.onButtonPressed1}" />
+                        
+                    </div>
+                </div> -->
+                <aura:set attribute="else">
+                    <div style = "text-align: center">
+                        <p >Nessun documento da visualizzare</p>
+                        <br></br>
+                    </div>
+                </aura:set>
+            </aura:if>
+            <aura:set attribute="else">
+                <div>
+                    <lightning:spinner alternativeText="Loading" size = "medium"/>
+                </div>
+            </aura:set>
+        </aura:if>
+    </div>
+    
+    
+</aura:component>

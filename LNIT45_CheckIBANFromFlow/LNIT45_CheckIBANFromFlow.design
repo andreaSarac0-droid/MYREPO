@@ -1,0 +1,9 @@
+<design:component>
+    <design:attribute name="iban" label="iban" /> 
+    <design:attribute name="force_abi" label="force_abi"/>
+    <design:attribute name="force_cab" label="force_cab"/>
+    <design:attribute name="force_cin" label="force_cin"/>
+    <design:attribute name="force_iban" label="force_iban"/>
+    <design:attribute name="ibanValid" label="ibanValid"/>
+
+</design:component>

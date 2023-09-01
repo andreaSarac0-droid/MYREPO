@@ -1,0 +1,4 @@
+<design:component>
+    <design:attribute name="OpportunityList" label="Opportunities" required="true"/>
+    <design:attribute name="ReturnList" label="Extended"/>
+</design:component>

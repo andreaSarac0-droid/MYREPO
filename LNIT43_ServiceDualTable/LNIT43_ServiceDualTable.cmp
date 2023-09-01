@@ -1,0 +1,184 @@
+<aura:component controller='APIT67_ServiceDualTableController' implements="force:hasSObjectName,force:lightningQuickActionWithoutHeader,force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride,lightning:availableForFlowScreens,lightning:availableForFlowActions"  access="global" >
+     
+    <aura:attribute name="allopplinespresenti" type="OpportunityLineItem[]"/> 
+    
+    <aura:attribute name="pathmerchant" type="String" />
+    
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="data" type="Object[]"/>
+    <aura:attribute name="columns2" type="List"/>
+    <aura:attribute name="data2" type="Object[]"/>
+    <aura:attribute name="columns3" type="List"/>
+    <aura:attribute name="data3" type="Object[]"/>
+    <aura:attribute name="draftValues" type="Object" default="[]"/>
+    <aura:attribute name="draftValues2" type="Object" default="[]"/>
+    <aura:attribute name="sortedBy" type="String" default="Name"/>
+    <aura:attribute name="sortedDirection" type="String" default="asc" />
+    <aura:attribute name="recordNumber" type="Integer" default="0"/>
+    <aura:attribute name="currentPageNumber" type="Integer" default="1"/>
+    <aura:attribute name="selectedPageSize" type="String" default="10"/>
+    <aura:attribute name="totalPages" type="String" />
+    <aura:attribute name="searchTerm" type="String" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="flowName" type="String" />
+    <aura:attribute name="serviceName" type="String" />
+    <aura:attribute name="componentLabel" type="String" />
+    <aura:attribute name="serviceIcon" type="String" />
+    <aura:attribute name="storeRef" type="String" />
+    <aura:attribute name="contractName" type="String" />
+    <aura:attribute name="marketingId" type="String"  />
+    <aura:attribute name="showButton" type="boolean" default="true"/>
+    <aura:attribute name="isFlow" type="boolean" default="false"/>
+    <aura:attribute name="isViewAll" type="boolean" default="false"/>
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    <aura:attribute name="loading" type="Boolean" default="false" />
+    <aura:attribute name="posChecked" type="Boolean" default="false" />
+    <aura:attribute name="xPosChecked" type="Boolean" default="false" />
+    <aura:attribute name="rinegoziazione" type="Boolean" default="false" />
+    <aura:attribute name="Nuovo" type="Boolean" default="false" />
+    <aura:attribute name="fterzi" type="boolean" default="false"/>
+    <aura:attribute name="errorMessage" type="String" default = "No Data Found" />
+    <aura:attribute name="pageList" type="List"/>
+    <lightning:workspaceAPI aura:id="workspace" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <div class="slds-modal__content" style = "border-radius: 0.25rem; border-color: rgb(221, 219, 218);" >
+        <div class="slds-page-header" style = "padding-bottom : 0.75rem;background-color : rgb(243, 242, 242);">
+            <div class="slds-grid slds-wrap row">
+                <div class="slds-col slds-size_1-of-2 slds-float_left">
+                    <lightning:icon size="small" iconName="standard:service_report" alternativeText="Tables" />
+                    <b style = "margin-left:0.7rem;font-size:14px;"><a style = "color: inherit;" onclick=""> Condizioni Economiche </a></b>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <!--<div style = "float:right;margin:0.7rem;">
+                            <lightning:button  variant="brand" label="Chiama Servizio" iconPosition="right" onclick="{!c.callWS}"/>
+                    </div> -->
+                    <div style = "float:right;margin:0.7rem;">
+                        <lightning:button variant="brand" label="Default" title="Default" class="slds-button" onclick= "{!c.refreshTable}" />
+                    </div>
+                </div>
+            </div>
+            <br/>
+            
+        </div>
+        <aura:if isTrue="{! v.loaded }">
+            <aura:if isTrue="{!v.data.length > 0}">  
+                <lightning:datatable aura:id="table1" columns="{!v.columns}" 
+                                     data="{!v.data}" 
+                                     keyField="Id" 
+                                     sortedBy="{!v.sortedBy}"
+                                     sortedDirection="{!v.sortedDirection}"
+                                     onsort="{!c.updateColumnSorting}"
+                                     onrowselection="{! c.onRowSelection}"
+                                     onrowaction="{! c.handleRowAction }"
+                                     onsave="{! c.handleSave }"
+                                     draftValues="{! v.draftValues }"
+                                     oncellchange = "{!c.handlecellchange}"
+                                     enableInfiniteLoading="true"
+                                     columnWidthsMode="auto"
+                                     hideCheckboxColumn="true"
+                                     suppressBottomBar="true"
+                                     showRowNumberColumn="false"/>
+            </aura:if>  
+            <aura:if isTrue="{!v.data.length == 0}">  
+                 
+            </aura:if> 
+            <aura:set attribute="else">
+                <div>
+                    <lightning:spinner alternativeText="Loading" size = "medium"/>
+                </div>
+            </aura:set>
+        </aura:if>
+        
+     <br/>
+     <br/>
+     
+        
+        
+        <aura:if isTrue="{! v.loaded }">
+            <!--<aura:if isTrue="{! v.posChecked }">-->
+                <aura:if isTrue="{!v.data2.length > 0}">  
+                    <div >
+                        <div style= "display: inline-block; margin-left: 2rem;">
+                            <lightning:input type="toggle" label="POS" name="pos" checked="{!v.posChecked}" onchange ="{!c.posChanged}"/>
+                        </div>
+                        <div style= "display: inline-block; vertical-align:top; margin-left: 2rem;">
+                            <lightning:input type="toggle" label="X-POS" name="xpos" checked="{!v.xPosChecked}" onchange ="{!c.xposChanged}"/>
+                        </div>
+                        <div style= "display: inline-block; vertical-align:top; margin-left: 2rem;">
+                            <lightning:input type="toggle" label="Flag Terzi" name="fterzi" checked="{!v.fterzi}" />
+                        </div>
+                        <div style= "display: inline-block; vertical-align:top; margin-left: 2rem;">
+                            <lightning:input type="toggle" label="Nuovo" name="Nuovo" checked="{!v.Nuovo}" onchange ="{!c.nuovoChanged}"/>
+                        </div>
+                        <div style= "display: inline-block; vertical-align:top; margin-left: 2rem;">
+                            <lightning:input type="toggle" label="Rinegoziazione" name="Rinegoziazione" checked="{!v.rinegoziazione}" onchange ="{!c.rinegoziazioneChanged}"/>
+                        </div>
+                    </div>
+                    <br/>
+                    <lightning:datatable aura:id="table2" columns="{!v.columns2}" 
+                                        data="{!v.data2}" 
+                                        keyField="Id" 
+                                        sortedBy="{!v.sortedBy}"
+                                        sortedDirection="{!v.sortedDirection}"
+                                        onsort="{!c.updateColumnSorting}"
+                                        onrowselection="{! c.onRowSelection}"
+                                        onrowaction="{! c.handleRowAction }"
+                                        onsave="{! c.handleSave }"
+                                        draftValues="{! v.draftValues2 }"
+                                         oncellchange = "{!c.handlecellchange2}"
+                                        enableInfiniteLoading="true"
+                                        hideCheckboxColumn="true"
+                                        suppressBottomBar="true"
+                                        showRowNumberColumn="false"/>
+                </aura:if>  
+                <aura:if isTrue="{!v.data2.length == 0}">  
+                     
+                </aura:if> 
+                <!--<aura:set attribute="else">
+                    <aura:if isTrue="{!v.data3.length > 0}">  
+                        <lightning:datatable aura:id="table" columns="{!v.columns3}" 
+                                            data="{!v.data3}" 
+                                            keyField="Id" 
+                                            sortedBy="{!v.sortedBy}"
+                                            sortedDirection="{!v.sortedDirection}"
+                                            onsort="{!c.updateColumnSorting}"
+                                            onrowselection="{! c.onRowSelection}"
+                                            onrowaction="{! c.handleRowAction }"
+                                            onsave="{! c.handleSave }"
+                                            draftValues="{! v.draftValues }"
+                                            enableInfiniteLoading="true"
+                                            loadMoreOffset="true"
+                                            hideCheckboxColumn="true"/>
+                    </aura:if>  
+                    <aura:if isTrue="{!v.data3.length == 0}">  
+                        {!v.errorMessage} 
+                    </aura:if> 
+                </aura:set>
+            </aura:if>-->
+            <div class="customButtons" draggable="false">
+                <div class="slds-m-top_medium">
+                    <lightning:button  variant="brand" name="Salva" label="Salva" onclick="{!c.handleSave}"/>
+                </div>
+            </div>
+            <aura:set attribute="else">
+                <div>
+                    <lightning:spinner alternativeText="Loading" size = "medium"/>
+                </div>
+            </aura:set>
+        </aura:if>
+
+    </div> 
+    
+    
+     <div>
+        <aura:if isTrue="{!v.loading}">
+            <lightning:spinner alternativeText="Loading" />
+        </aura:if>
+    </div>
+	
+    
+
+    
+</aura:component>

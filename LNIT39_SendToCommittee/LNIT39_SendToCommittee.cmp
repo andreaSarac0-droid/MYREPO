@@ -1,0 +1,47 @@
+<aura:component controller="APIT59_SendToCommittee_Controller" implements="force:hasSObjectName,force:lightningQuickActionWithoutHeader,force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,lightning:actionOverride" access="GLOBAL">
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="sObjectName" type="String" />
+    <aura:attribute name="notes" type="String" />
+    <aura:attribute name="value" type="String" />
+    <aura:attribute name="checked" type="String"/>
+
+    <lightning:button class="slds-button slds-button--neutral" label="Invio al comitato" title="Send to Committee" onclick="{!c.openModel}"/>
+
+    <div class="slds-m-around_medium">
+        
+        <aura:if isTrue="{!v.isModalOpen}">
+             
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <lightning:buttonIcon iconName="utility:close"
+                                          onclick="{! c.closeModel }"
+                                          alternativeText="close"
+                                          variant="bare-inverse"
+                                          class="slds-modal__close"/>
+                    <header class="slds-modal__header">
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Insert Notes</h2>
+                    </header>
+
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <ui:inputTextArea aura:id="notes" label="Notes"  value="" rows="3"/>
+                    </div>
+
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="neutral"
+                                          label="Cancel"
+                                          title="Cancel"
+                                          onclick="{! c.closeModel}"/>
+                        <lightning:button variant="brand"
+                                          label="Send"
+                                          title="Send"
+                                          onclick="{!c.saveInfo}"/>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+    </div>
+</aura:component>

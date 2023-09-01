@@ -1,0 +1,27 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName,lightning:actionOverride">    
+    <aura:attribute name="AgreementDefaultValue" type="Boolean" default="false"/>  
+    <aura:attribute name="showModal" type="Boolean" default="false"/>
+    <aura:attribute name="Icon" type="Boolean" default="false"/>
+    <lightning:workspaceAPI aura:id="workspace"/>
+    
+    <lightning:button name="Default Value"
+                      label="Assegna valori di default"
+                      onclick="{!c.runFlow }"/>
+
+        <div class="{! v.showModal ? 'slds-show' : 'slds-hide' }">
+        <section class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header slds-modal__header_empty">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{!c.closeModal}"
+                                              alternativeText="close"
+                                              class="slds-modal__close"/>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning:flow aura:id="flowData" onstatuschange="{!c.statusChange}"/>
+                </div>
+            </div>
+        </section>
+    </div>
+	
+</aura:component>

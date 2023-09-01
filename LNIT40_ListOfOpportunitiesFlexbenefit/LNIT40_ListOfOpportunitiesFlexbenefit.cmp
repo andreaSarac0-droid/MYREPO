@@ -1,0 +1,28 @@
+<aura:component implements="lightning:availableForFlowScreens" controller="APIT00_GetOppProductName">
+    <aura:attribute name="OpportunityList" type="Opportunity[]" />
+    <aura:attribute name="oppList" type="Opportunity[]" />
+    <aura:attribute name="CheckboxList" type="List" />
+    <aura:attribute name="SelectedList" type="string[]" />
+    <aura:attribute name="ReturnList" type="Opportunity[]" /> 
+    <aura:attribute name="columns" type="List"/> 
+
+
+    <aura:handler name="init" value="{!this}" action="{!c.oninit}" />
+
+    <!--<lightning:checkboxGroup    name="Seleziona"
+                                label="Seleziona"
+                                options="{!v.CheckboxList}"
+                                value="{!v.SelectedList}"
+                                />
+    -->
+
+    <lightning:datatable
+        data="{!v.oppList}"
+        columns="{!v.columns}"
+        keyField="Id" 
+        hideCheckboxColumn="false"
+        onrowselection="{!c.handleAddOppSelection}"
+    />
+    
+    <lightning:button class="slds-float--right" variant="brand" label="Next" onclick="{!c.handleNext}"/>
+</aura:component>

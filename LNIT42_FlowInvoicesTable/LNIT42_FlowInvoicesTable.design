@@ -1,0 +1,8 @@
+<design:component>
+    <design:attribute name="codCli" label="Client Code" description="Client Code"/>
+    <design:attribute name="FCId" label="Client Id" description="Client Id"/>
+    <design:attribute name="dataStart" label="Date From" description="Date From"/>
+    <design:attribute name="dataEnd" label="Date To" description="Date To"/>
+    <design:attribute name="recordId" label="Case ID" description="Case ID"/>
+    <design:attribute name="output" label="Output" description="Output"/>
+</design:component>

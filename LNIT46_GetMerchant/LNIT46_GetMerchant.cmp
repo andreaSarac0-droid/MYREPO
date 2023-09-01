@@ -1,0 +1,110 @@
+<aura:component controller='APIT71_WsGetMerchant' implements="force:hasSObjectName,force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride,lightning:availableForFlowScreens,lightning:availableForFlowActions,force:lightningQuickAction"  access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>	
+    <aura:attribute name="data" type="Object[]"/>  
+    
+     <aura:attribute name="loaded" type="Boolean" default="false" />
+    
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="errorMessage" type="String"/>
+    <aura:attribute name="showErrors" type="Boolean" default="false"/> 
+    <aura:attribute name="InputStringField" type="String"/>
+    <aura:attribute name="InputLicense" type="String"/>
+    <aura:attribute name="InputSubject" type="String"/>
+    <aura:attribute name="InputOpportunityId" type="String"/>
+    <aura:attribute name="isModalOpen" type="Boolean" default="false"/>
+    <aura:attribute name="OutputStringField" type="String"/>
+    
+    <aura:attribute name="ServicesType" type="String" />
+      
+    
+    <aura:attribute name="output" type="OpportunityLineItem[]"/> 
+    <aura:attribute name="opplinespresenti" type="OpportunityLineItem[]"/> 
+    
+    <aura:attribute name="selectedRows" type="List"/>
+    
+    
+    
+    <aura:if isTrue="{!v.ServicesType == 'GetWelfareProducts'}">
+        
+        <div style="height: 200px;">
+            
+            <lightning:datatable
+                                 aura:id="partnerTable"
+                                 keyField="Id"
+                                 data="{! v.data }"
+                                 columns="{! v.columns }"                                         
+                                 minColumnWidth = "160"
+                                 onrowaction="{!c.getBarcode}"
+                                 selectedRows="{!v.selectedRows}"
+                                 
+                                 />
+            
+        </div>
+        
+        
+        
+        
+        <lightning:button label="Salva" onclick="{!c.handleSelect}"/>
+        
+        
+        
+        
+        <aura:set attribute="else">
+            
+            <div style="height: 200px;">
+                
+                <lightning:datatable
+                                     aura:id="partnerTable"
+                                     keyField="Id"
+                                     data="{! v.data }"
+                                     columns="{! v.columns }"                                         
+                                     minColumnWidth = "160"
+                                     onrowaction="{!c.getBarcode}"
+                                     selectedRows="{!v.selectedRows}"
+                                     hideCheckboxColumn="true" 
+                                     
+                                     />
+                
+            </div>        
+            
+        </aura:set>
+    </aura:if> 
+        <aura:if isTrue="{!v.isModalOpen}">
+            <!--###### MODAL BOX Start######--> 
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- ###### MODAL BOX HEADER Start ######-->
+                    <header class="slds-modal__header">
+                        <!-- Close button-->
+                        <lightning:buttonIcon class="slds-button slds-button_icon slds-button__icon_large slds-modal__close slds-button_icon-inverse" iconName="utility:close" onclick="{! c.exitModal }" alternativeText="close" variant="bare-inverse"></lightning:buttonIcon>
+                    </header>
+                    <!--###### MODAL BOX BODY Part Start######-->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        Documento non presente in Indicom
+                    </div>
+                    <!--###### MODAL BOX FOOTER Part Start ######-->
+                    <footer class="slds-modal__footer">
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+            <!--###### MODAL BOX Part END Here ######-->
+    </aura:if>
+    
+    
+    
+    
+     <div>
+        <aura:if isTrue="{!v.loaded}">
+            <lightning:spinner alternativeText="Loading" />
+        </aura:if>
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+</aura:component>

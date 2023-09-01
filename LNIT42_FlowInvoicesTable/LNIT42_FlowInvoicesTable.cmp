@@ -1,0 +1,105 @@
+<aura:component controller="APIT02_InvoicesListController" implements="lightning:availableForFlowScreens" access="global">
+    
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+
+    <aura:attribute name="maxValues" type="Integer" default="100"/>
+    <aura:attribute name="showAll" type="Boolean"/>
+    <aura:attribute name="layout" type="Object"/>
+	<aura:attribute name="myRows" type="List" />
+    
+    <aura:attribute name="financialCenterSelected" type="String"/>
+    <aura:attribute name="financialCenters" type="List"/>
+    <aura:attribute name="output" type="IT_Edenred_Document__c[]"/>
+    <aura:attribute name="initFinancialCenter" type="String"/>
+    
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="listSize" type="Integer"/>
+    <aura:attribute name="dataStart" type="Date"/>
+    <aura:attribute name="dataEnd" type="Date"/>
+    <aura:attribute name="CodSociety" type="String"/>
+    <aura:attribute name="codCli" type="String"/>
+    <aura:attribute name="FCId" type="String"/>
+    <aura:attribute name="societyListName" type="List"/>
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    <aura:attribute name="importTotal" type="Decimal"/>
+    <aura:attribute name="scaduto" type="Decimal"/>
+    <aura:attribute name="InvoicesType" type="String" />
+    <aura:attribute name="recordId" type="String" />
+    
+    
+    <!--> Sorting attributes <!-->
+    <aura:attribute name="sortedBy"
+                type="String" />
+<aura:attribute name="sortedDirection"
+                type="Boolean"
+                default="true" />
+    
+    
+    
+    
+    
+    
+    
+    <lightning:workspaceAPI aura:id="workspace" />
+
+    <div style="border: 1px solid rgb(176, 173, 171); border-radius: 3px">
+        <div style="padding:1rem;border-top-width: 3px;border-top-color: rgb(176, 173, 171);border-top-style: solid;">
+            <div class="slds-grid slds-gutters slds-wrap" >
+                <div class="{!v.layout.refresh}" style="padding-top: 21px;">
+                    <button aura:id = "collapseButton" class="slds-button slds-button_icon slds-button_icon-border-filled slds-path__trigger buttonStyle" onclick= "{!c.showInvoices}">
+                        <lightning:icon iconName="utility:refresh" alternativeText="Refresh" size="x-small" aura:id="iconRef" class="iconStyle"/>
+                        <span class="slds-assistive-text">Refresh</span>
+                    </button>
+                </div>
+                <aura:if isTrue="{!v.showAll}">
+                    <div class="{!v.layout.search}" style="padding-top: 21px;"> 
+                        <lightning:button  variant="brand" name="affinaRicerca" label="Affina Ricerca" onclick = "{!c.openKiwi}"/>
+                    </div>
+                </aura:if>
+                <div class="{!v.layout.importTotal}" style="padding-top: 20px;"> 
+                    Importo Totale - <lightning:formattedText value="{!v.importTotal+'€'}" />
+                </div> 
+                <div class="{!v.layout.importExpired}" style="padding-top: 20px;"> 
+                    Scaduto - <lightning:formattedText value="{!v.scaduto+'€'}" />
+                </div>    
+            </div>   
+        </div>
+        <aura:if isTrue="{! v.loaded }">
+            <aura:if isTrue="{!not(empty(v.data))}">
+                <div>
+                    <lightning:datatable
+                                         keyField="id"
+                                         data="{! v.data }"
+                                         columns="{! v.columns }"
+                                         
+                                         hideCheckboxColumn="false"
+                                         onrowselection="{! c.updateSelectedRows }"
+                                         onsort="{!c.updateColumnSorting}"
+                                         sortedBy="{!v.sortedBy}"
+                     sortedDirection="{!v.sortedDirection}" />
+                </div>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <aura:set attribute="else">
+                    <div style = "text-align: center">
+                        <p>Nessuna fattura da visualizzare</p>
+                        <br></br>
+                    </div>
+                </aura:set>
+            </aura:if>
+            <aura:set attribute="else">
+                <div>
+                    <lightning:spinner alternativeText="Loading" size = "medium"/>
+                </div>
+            </aura:set>
+        </aura:if>
+    </div>
+</aura:component>

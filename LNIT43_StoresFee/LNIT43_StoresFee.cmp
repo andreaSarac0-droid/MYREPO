@@ -1,0 +1,95 @@
+<aura:component controller="APIT69_StoresFee_Controller" implements="force:hasSObjectName,force:lightningQuickActionWithoutHeader,force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride,lightning:availableForFlowScreens,lightning:availableForFlowActions" access="global">
+    <aura:attribute name="columns" type="List" />
+    <aura:attribute name="data" type="Object[]" />
+    <aura:attribute name="sortedBy_name" type="String" />
+    <aura:attribute name="sortedDirection" type="String" default="asc" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="sObjectName" type="String" />
+    <aura:attribute name="viewAllBool" type="boolean" default="true" />
+    <aura:attribute name="show5rows" type="boolean" default="true" />
+    <aura:attribute name="gruppoEconomico" type="Boolean" />
+    <aura:attribute name="storeRef" type="String"/>
+    <aura:attribute name="serviceName" type="String" default="fee"/>
+    <aura:attribute name="errorMessage" type="String" default="No Data Found" />
+	<aura:attribute name="isModalOpen" type="Boolean" default="false"/>
+    <lightning:workspaceAPI aura:id="workspace" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <aura:if isTrue="{! v.show5rows }">
+        <lightning:card>
+            <!--aura:if isTrue="{!v.data.length > 0}"-->
+                <div class="slds-m-around_none" style="height:160px;">
+                    <lightning:datatable
+                        aura:id="table"
+                        columns="{!v.columns}"
+                        data="{!v.data}"
+                        keyField="Id"
+                        sortedBy="{!v.sortedBy_name}"
+                        sortedDirection="{!v.sortedDirection}"
+                        onsort="{!c.updateColumnSorting}"
+                        enableInfiniteLoading="true"
+                        loadMoreOffset="true"
+                        resizeColumnDisabled="false"
+                        hideCheckboxColumn="true"
+                        onrowaction="{!c.getBarcode}"
+                    />
+                    <aura:if isTrue="{! v.viewAllBool }">
+                        <p style="text-align: center">
+                        <a onclick="{!c.openAll}">View All</a>
+                        </p>
+                    </aura:if>
+                </div>
+
+                <aura:if isTrue="{!v.data.length == 0}"> {!v.errorMessage} </aura:if>
+            <!--/aura:if-->
+        </lightning:card>
+
+        <aura:set attribute="else">
+            <lightning:card>
+                <aura:if isTrue="{!v.data.length > 0}">
+                    <lightning:datatable
+                        aura:id="table"
+                        columns="{!v.columns}"
+                        data="{!v.data}"
+                        keyField="Id"
+                        sortedBy="{!v.sortedBy_name}"
+                        sortedDirection="{!v.sortedDirection}"
+                        onsort="{!c.updateColumnSorting}"
+                        enableInfiniteLoading="true"
+                        loadMoreOffset="true"
+                        resizeColumnDisabled="false"
+                        hideCheckboxColumn="true"
+                        onrowaction="{!c.getBarcode}"
+                    />
+                    <aura:if isTrue="{! v.viewAllBool }">
+                        <p style="text-align: center">
+                            <a onclick="{!c.openAll}">View All</a>
+                        </p>
+                    </aura:if>
+                </aura:if>
+                <aura:if isTrue="{!v.data.length == 0}"> {!v.errorMessage} </aura:if>
+            </lightning:card>
+        </aura:set>
+    </aura:if>
+	<aura:if isTrue="{!v.isModalOpen}">
+            <!--###### MODAL BOX Start######--> 
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- ###### MODAL BOX HEADER Start ######-->
+                    <header class="slds-modal__header">
+                        <!-- Close button-->
+                        <lightning:buttonIcon class="slds-button slds-button_icon slds-button__icon_large slds-modal__close slds-button_icon-inverse" iconName="utility:close" onclick="{! c.exitModal }" alternativeText="close"></lightning:buttonIcon>
+                    </header>
+                    <!--###### MODAL BOX BODY Part Start######-->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        Documento non presente in Indicom
+                    </div>
+                    <!--###### MODAL BOX FOOTER Part Start ######-->
+                    <footer class="slds-modal__footer">
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+            <!--###### MODAL BOX Part END Here ######-->
+    </aura:if> 
+</aura:component>

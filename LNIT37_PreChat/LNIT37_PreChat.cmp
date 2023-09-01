@@ -1,0 +1,69 @@
+<aura:component implements="lightningsnapin:prechatUI" description="Sample custom pre-chat component for Embedded Chat. Implemented using Aura.">
+    <!-- You must implement "lightningsnapin:prechatUI" for this component to appear in the "Pre-chat Component" customization dropdown in the Embedded Service setup -->
+    
+    
+    <!--<ltng:require styles="{!$Resource.CSS_PerHeader_HFarm}"></ltng:require>-->
+
+    <!-- Pre-chat field components to render -->
+    <aura:attribute name="prechatFieldComponents" type="List" description="An array of objects representing the pre-chat fields specified in pre-chat setup."/>
+    
+    <aura:attribute name="leadEmail" type="String"></aura:attribute>
+    <aura:attribute name="leadCompany" type="String"></aura:attribute>
+    <aura:attribute name="leadVAT" type="String"></aura:attribute>
+    <aura:attribute name="leadPhone" type="String"></aura:attribute>
+    <aura:attribute name="leadPrivacy" type="Boolean"></aura:attribute>
+    <aura:attribute name="disabledAttr" type="Boolean" default="true"></aura:attribute>
+    <aura:attribute name="anchorLink" type="string"></aura:attribute>
+    <aura:attribute name="controlViewFiwlds" type="string"></aura:attribute>
+ 
+
+    <!-- Handler for when this component is initialized -->
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
+
+    <!-- For Aura performance -->
+    <aura:locator target="startButton" description="Pre-chat form submit button."/>
+    
+    <!-- Contains methods for getting pre-chat fields, starting a chat, and validating fields -->
+    <lightningsnapin:prechatAPI aura:id="prechatAPI"/>
+    
+    
+    <lightning:input hidden="true" type="text" value="-" label="Nome" name="FirstName" style="display: none"></lightning:input>
+    <lightning:input hidden="true" type="text" value="-" label="Cognome" name="LastName" style="display: none"></lightning:input>
+    
+
+    <!--<aura:handler name="change" value="{!v.leadCompany}" action="{!c.CompanyChangedHandler}"></aura:handler>-->
+    <aura:handler name="change" value="{!v.leadVAT}" action="{!c.VATNumberChangedHandler}"></aura:handler>
+    <aura:handler name="change" value="{!v.leadEmail}" action="{!c.EmailChangedHandler}"></aura:handler> 
+    <aura:handler name="change" value="{!v.leadPhone}" action="{!c.PhoneChangedHandler}"></aura:handler>
+    <div style="width: 90%; margin: auto; margin-top: 30px; font-family: 'Salesforce Sans', sans-serif; font-weight: 700">
+
+        <aura:if isTrue="{!(v.controlViewFiwlds!='true')}">
+            <lightning:input onchange="{!c.onChangeHandled}" type="text" value="{!v.leadCompany}" label="Ragione Sociale" aura:id="Company" name="IT_Company__c"></lightning:input>
+            
+            <lightning:input onchange="{!c.onChangeHandled}" type="text" value="{!v.leadVAT}" label="Partita IVA" aura:id="ER_VAT_Number__c" name="ER_VAT_Number__c" maxlength="11"></lightning:input>
+        </aura:if>
+        
+        <lightning:input onchange="{!c.onChangeHandled}" type="text" value="{!v.leadEmail}" label="Email" aura:id="Email" name="Email"></lightning:input>
+
+        <lightning:input onchange="{!c.onChangeHandled}" type="tel" value="{!v.leadPhone}" label="Telefono" aura:id="Phone" name="Phone" maxlength="18"></lightning:input>
+
+        <br></br>
+        
+        <div style="width: 89%; float: left; font-size: 11px; margin-top: 4px; text-align: left">
+            <span style="font-size: 13px">Dichiaro di aver preso visione della <a href="{!v.anchorLink}" target="_blank">informativa sul trattamento dei dati personali</a></span>    
+        </div>
+
+        <div style="width: 10%; float: right; margin-top: 10px">
+            <lightning:input onchange="{!c.onChangeHandled}" type="checkbox" checked="{!v.leadPrivacy}" name="Privacy"></lightning:input>
+        </div>
+    
+    
+        <!--<br></br>
+        <br></br>
+        <br></br>-->
+        
+        <!--<button class="slds-button slds-button_brand" onclick="{!c.onStartButtonClick}">Avvia la chat!</button>-->
+        
+        <lightning:button disabled="{!v.disabledAttr}" class="submitButton uiButton--default uiButton embeddedServiceSidebarButton" variant="brand" label="Avvia la chat!" onclick="{!c.onStartButtonClick}"/>
+    </div>
+</aura:component>

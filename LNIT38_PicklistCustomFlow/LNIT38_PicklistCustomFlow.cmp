@@ -1,0 +1,15 @@
+<aura:component controller="APIT56_PicklistFlowController" implements="force:hasSObjectName,force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride,lightning:availableForFlowScreens,lightning:availableForFlowActions,force:lightningQuickAction"  access="global">
+    <aura:attribute name="InputStringField" type="String"/>
+    <aura:attribute name="OutputStringField" type="String"/>
+    <aura:attribute name="valueSelected" type="String"/>
+    <aura:attribute name="returnValues" type="List" />
+
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+
+    <label style="margin:0.5rem">Tipo Richiesta</label> 
+    <ui:inputSelect aura:id="levels" class="fieldProd" value="{!v.OutputStringField}">
+        <aura:iteration items="{!v.returnValues}" var="option">
+            <option text="{!option.strLabel}" value="{!option.strValue}"/>
+        </aura:iteration>
+    </ui:inputSelect>
+</aura:component>

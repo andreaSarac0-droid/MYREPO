@@ -1,0 +1,13 @@
+<design:component>
+	<design:attribute name="serviceName" label="Service Name" />
+    <design:attribute name="componentLabel" label="Label Componente" />
+    <design:attribute name="serviceIcon" label="Icona Componente" />
+    <design:attribute name="contractName" label="Tipo Contratto" />
+    <design:attribute name="storeRef" label="Codice Store" />
+    <design:attribute name="marketingId" label="ID Azione di Marketing" />
+    <design:attribute name="isFlow" label="Mettere a true se Flow" />
+    
+    <design:attribute name="recordId" label="Opportunity Id" />
+              
+
+</design:component>

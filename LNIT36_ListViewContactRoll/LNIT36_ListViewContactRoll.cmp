@@ -1,0 +1,94 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName" access="global" controller="APIT46_ListViewContactRoll_Controller">
+     
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="pageNumber" type="Integer" default="1"/>
+    <aura:attribute name="pageSize" type="Integer" default="10"/>
+    <aura:attribute name="isLastPage" type="Boolean" default="false"/>
+    <aura:attribute name="dataSize" type="Integer" default="0"/>
+    <aura:attribute name="financialCenterId" type="String"/>
+    <aura:attribute name="flowName" type="String" default = "IT75_Contact_Role_Deactivation"/>
+    <aura:attribute name="flowNameMassivo" type="String" default = "IT76_Massive_Contact_Role_Deactivation"/>
+    <aura:attribute name="isModalOpen" type="Boolean"/>
+    <lightning:navigation aura:id="navService"/>
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+     
+    <div class="slds-modal__content" style = "border-radius: 0.25rem; border-color: rgb(221, 219, 218);">
+        <div class="slds-page-header" style = "padding-bottom : 0.75rem;padding-top : 0.75rem;background-color : rgb(243, 242, 242);">
+            <div class="slds-float_right slds-hide" >            
+                <lightning:button label="Nuovo" iconPosition="left"
+                                  onclick="{!c.createRecord}"/>
+                <lightning:button label="Disattiva Massivo" iconPosition="right"
+                                  onclick="{!c.openModelDisattivaMassivo}"/>
+            </div>
+            <div class="slds-grid slds-wrap row">
+                <div class="slds-col slds-size_1-of-2 slds-float_left">
+                    <lightning:icon size="small" iconName="custom:custom84" alternativeText="Contacts" />
+                    <b style = "margin-left:0.7rem;font-size:14px;"><a style = "color: inherit;" > Contact Roles ({!v.dataSize}) </a></b>
+                </div>
+            </div>
+        </div>
+
+         
+        <lightning:datatable aura:id = "accDT"
+                             columns = "{!v.columns}"
+                             maxRowSelection="{!v.maxRowSelection}"
+                             data = "{!v.data}"
+                             keyField = "Id"
+                             selectedRows = "{!v.selectedRowList}"
+                             onrowaction="{!c.handleRowAction}"/>
+         
+        <div class="slds-clearfix">
+            <div style ="margin-top:0.75rem;" class="slds-page-footer;" role="banner">
+                <div style = "padding-bottom : 0.75rem;padding-right : 0.5rem;" class="slds-float_right">            
+                    <lightning:button label="Prev" iconName="utility:chevronleft" iconPosition="left"
+                                      onclick="{!c.handlePrev}" disabled="{! v.pageNumber == 1}"/>
+                    <lightning:button label="Next" iconName="utility:chevronright" iconPosition="right"
+                                      disabled="{!v.isLastPage}" onclick="{!c.handleNext}"/>
+                </div>
+                <div style = "padding-left : 0.5rem;padding-top : 0.5rem;">
+                Page {!v.pageNumber} | Showing records from {! ((v.pageNumber-1)*v.pageSize)+' to '+((v.pageNumber-1)*v.pageSize+v.dataSize)}
+                </div>
+                
+            </div>
+        </div>
+    </div>
+        
+     <!-- MODAL START-->
+    <aura:if isTrue="{!v.isModalOpen}">
+             
+            <!-- Modal/Popup Box starts here-->
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- Modal/Popup Box Header Starts here-->
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{! c.closeModel }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Disattiva</h2>
+                    </header>
+                    <!--Modal/Popup Box Body Starts here-->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning:flow aura:id="flow" onstatuschange="{!c.statusChange}"/>
+                    </div>
+                    <!--Modal/Popup Box Footer Starts here
+                    <footer class="slds-modal__footer">
+                        <lightning:button variant="neutral"
+                                          label="Annulla"
+                                          title="Annulla"
+                                          onclick="{! c.closeModel }"/>
+                        <lightning:button variant="brand"
+                                          label="Coming Soon"
+                                          title="Conferma"
+                                          disabled = "true"
+                                          onclick="{!c.saveNewDetail}"/>
+                    </footer>-->
+                </div>
+            </section>
+        
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </aura:if>
+    <!-- MODAL END-->    
+</aura:component>

@@ -1,0 +1,12 @@
+<design:component label="">
+	<design:attribute name="ServicesType" label="ServicesType" description="Inserire il tipo di servizio richiesto(GetWelfareProducts o GetCommercialLicense)" datasource="GetDiscount,GetPromotion,GetWelfareProducts,GetCommercialLicense" Default="GetDiscount"/>
+    <design:attribute name="InputStringField" label="Input Field" description="Value input: inserire il service-ref" />
+    
+    <design:attribute name="InputLicense" label="Input License" description="Value input: inserire il commercial license" />
+    
+    <design:attribute name="InputSubject" label="Input Subject" description="Value input: inserire il subject" />
+    <design:attribute name="InputOpportunityId" label="Input OpportunityId" description="Value input: inserire l'opportunity id" />
+    
+     
+     <design:attribute name="OutputStringField" label="Output Field" description="Value output" />
+</design:component>

@@ -1,0 +1,78 @@
+<aura:component controller='APIT40_GetEDocumentsInvoices' implements="force:hasSObjectName,force:lightningQuickActionWithoutHeader,force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride,lightning:availableForFlowScreens,lightning:availableForFlowActions"  access="global" >
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="data" type="Object[]"/>
+    <aura:attribute name="controlViewWorkflowDetail" type="boolean" default="false"/>
+    <aura:attribute name="errorMessage" type="String"/>
+    <aura:attribute name="showErrors" type="Boolean" default="false"/>
+    <aura:attribute name="dataStart" type="Date"/>
+    <aura:attribute name="dataEnd" type="Date"/>
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    <aura:attribute name="viewAllBool" type="Boolean" default="true" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <div style="border: 1px solid rgb(176, 173, 171); border-radius: 3px">
+        <aura:if isTrue="{!v.showErrors}">
+            <div class="slds-notify slds-notify_toast slds-theme_error" style="width:98%">
+                <span class="slds-assistive-text">ERROR</span>
+                <div class="slds-notify__content" style="width:90%">
+                <h5 class="slds-text-heading_small slds-align_absolute-center">Error Message </h5>
+                <br/>
+                <p class="slds-align_absolute-center">{!v.errorMessage}</p>                
+                </div>
+            </div>
+        </aura:if>
+        <div style="padding:1rem;border-top-width: 3px;border-top-color: rgb(176, 173, 171);border-top-style: solid;">
+            <br></br><br></br>
+            <div class="slds-grid slds-gutters" >
+                <div class="slds-col slds-size_0.5-of-4 header">
+                    <lightning:icon iconName="custom:custom61" alternativeText="custom:custom61" />
+                </div>
+
+                <label style="margin:0.5rem">DA</label> 
+                <ui:inputDate value="{!v.dataStart}" class="field" displayDatePicker="true"/> 
+
+                <label style="margin:0.5rem">A</label> 
+                <ui:inputDate value="{!v.dataEnd}" class="field" displayDatePicker="true"/>
+        
+                <div class="slds-col slds-size_0.5-of-4 header"> 
+                    <button aura:id = "collapseButton" class="slds-button slds-button_icon slds-button_icon-border-filled slds-path__trigger buttonStyle" onclick= "{!c.showDocumentFilter}">
+                        <lightning:icon iconName="utility:refresh" alternativeText="Refresh" size="x-small" aura:id="iconRef" class="iconStyle"/>
+                        <span class="slds-assistive-text">Refresh</span>
+                    </button>
+                </div>
+            </div> 
+        </div>
+        <br></br>
+        <aura:if isTrue="{! v.loaded }"> 
+            <aura:if isTrue="{!not(empty(v.data))}">
+                <div style="height: 200px;">
+                    <lightning:datatable
+                                        keyField="id"
+                                        data="{! v.data }"
+                                        columns="{! v.columns }"
+                                        hideCheckboxColumn="true"
+                                        minColumnWidth = "160"
+                                        enableInfiniteLoading="true"
+                                        loadMoreOffset="true"
+                                        resizeColumnDisabled = "false"/>
+                </div>
+                <aura:set attribute="else">
+                    <div style = "text-align: center">
+                        <p >Nessun documento da visualizzare</p>
+                        <br></br>
+                    </div>
+                </aura:set>
+            </aura:if>
+            <aura:set attribute="else">
+                <div>
+                    <lightning:spinner alternativeText="Loading" size = "medium"/>
+                </div>
+            </aura:set>
+        </aura:if>
+        <aura:if isTrue="{! v.viewAllBool }"> 
+            <p style="text-align: center"><a onclick="{!c.openAllEInvoice}">View All</a></p>
+        </aura:if>
+    </div>
+
+    
+</aura:component>
