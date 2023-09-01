@@ -1,0 +1,98 @@
+<template>
+    <template if:true={text_options.W_Terminale_accettazione}>
+        <h1 class="text-style-title">{text_options.W_Terminale_accettazione}</h1>
+    </template>
+    <br>
+    <template if:true={text_options.W_Dati_installazione}>
+        <h3 class="text-style-subtitle">{text_options.W_Dati_installazione}</h3>
+    </template>
+    <br><br>
+    <div class="form show-ease">
+        <div class="left-ribbon"></div>
+        <div class="slds-form-element slds-form-element_compound" style="width: 100%;">
+            <lightning-layout multiple-rows vertical-align="end">
+                <template if:true={text_options.W_Cassa_integrata}>
+                    <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                        <h3 class="text-style-subtitle-2">{text_options.W_Cassa_integrata}</h3>
+                    </lightning-layout-item> 
+                </template>
+                <template if:true={button_options.B_No_Cassa_integrata}>
+                    <lightning-layout-item style="padding-top:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="3" padding="around-small">
+                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label={button_options.B_No_Cassa_integrata} disabled={variables.noCassaIntegrata} is-checked={variables.noCassaIntegrata} onchange={handleChangeNoCassaIntegrata}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                    </lightning-layout-item> 
+                </template>
+                <template if:true={button_options.B_Si_Cassa_integrata}>
+                    <lightning-layout-item style="padding-top:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="3" padding="around-small">
+                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label={button_options.B_Si_Cassa_integrata} disabled={variables.siCassaIntegrata} is-checked={variables.siCassaIntegrata} onchange={handleChangeSiCassaIntegrata}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                    </lightning-layout-item> 
+                </template>  
+                <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                </lightning-layout-item> 
+                <template if:true={variables.siCassaIntegrata}>
+                    <template if:true={text_options.W_Cassa_integrata_info}>
+                        <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                            <h3 class="text-style-subtitle-3">{text_options.W_Cassa_integrata_info}</h3>
+                        </lightning-layout-item>
+                    </template>
+                </template>
+                <template if:true={variables.noCassaIntegrata}>
+                    <template if:true={text_options.W_Cassa_integrata_No_info}>
+                        <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                            <h3 class="text-style-subtitle-3">{text_options.W_Cassa_integrata_No_info}</h3>
+                        </lightning-layout-item>
+                    </template>
+                </template>
+                
+                <template if:true={text_options.W_Referente_terminale}>
+                    <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                        <h3 class="text-style-subtitle">{text_options.W_Referente_terminale}</h3>
+                    </lightning-layout-item>
+                </template>
+                <template if:true={text_options.W_Referente_installazione}>
+                    <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                        <h3 class="text-style-subtitle-2">{text_options.W_Referente_installazione}</h3>
+                    </lightning-layout-item>
+                </template>
+                <template if:true={button_options.B_Ref_terminale_uguale_a_Rappr_Legale}>
+                    <lightning-layout-item style="padding-top:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label={button_options.B_Ref_terminale_uguale_a_Rappr_Legale} onchange={handleChangeRefTerminale}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                    </lightning-layout-item>
+                </template>
+                <template if:false={variables.refTerminale}>
+                    <template if:true={input_options.F_Nome_ReferenteTerminale}>
+                        <lightning-layout-item style="padding-top:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                            <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeReferenteName} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Nome_ReferenteTerminale.value} required={input_options.F_Nome_ReferenteTerminale.required} value=""></c-l-w-c-i-t10_-self-Affiliation-Input>
+                        </lightning-layout-item>
+                    </template>
+                    <template if:true={input_options.F_Cognome_ReferenteTerminale}>
+                        <lightning-layout-item style="padding-top:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                            <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeReferenteSurname} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Cognome_ReferenteTerminale.value} required={input_options.F_Cognome_ReferenteTerminale.required} value=""></c-l-w-c-i-t10_-self-Affiliation-Input>
+                        </lightning-layout-item>
+                    </template>
+                    <template if:true={input_options.F_Telefono_ReferenteTerminale}>
+                        <lightning-layout-item style="padding-top:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                            <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeReferentePhone} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Telefono_ReferenteTerminale.value} required={input_options.F_Telefono_ReferenteTerminale.required} value=""></c-l-w-c-i-t10_-self-Affiliation-Input>
+                        </lightning-layout-item>
+                    </template>
+                    <template if:true={input_options.F_Email_ReferenteTerminale}>
+                        <lightning-layout-item style="padding-top:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                            <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeReferenteEmail} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Email_ReferenteTerminale.value} required={input_options.F_Email_ReferenteTerminale.required} value=""></c-l-w-c-i-t10_-self-Affiliation-Input>
+                        </lightning-layout-item>
+                    </template>
+                    
+                </template>
+            </lightning-layout>
+        </div>
+    </div>
+    <template if:true={button_options.B_Next}>
+        <br>
+        <lightning-layout multiple-rows vertical-align="end">
+            <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                <c-l-w-c-i-t09_-self-Affiliation-Button onclick={goToStep2} label={button_options.B_Precedente} size="small" alignment="left" responsive="x-large"></c-l-w-c-i-t09_-self-Affiliation-Button>
+            </lightning-layout-item> 
+            <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                <c-l-w-c-i-t09_-self-Affiliation-Button onclick={goToStep4} label={button_options.B_Next} size="small" alignment="right" responsive="x-large"></c-l-w-c-i-t09_-self-Affiliation-Button>
+            </lightning-layout-item> 
+        </lightning-layout>
+    </template>
+</template>

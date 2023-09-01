@@ -1,0 +1,17 @@
+<!-- sldsValidatorIgnore -->
+<template>
+    <lightning-quick-action-panel header="Seleziona un Quote Template">
+        <lightning-combobox
+            label="Seleziona un'opzione"
+            options={templateIdAndName}
+            onchange={onChangeSelect}
+            value={status}>
+        </lightning-combobox>
+        <br>
+        <template if:true={showPdfButton}>
+            <div slot="footer">
+                <lightning-button variant="brand" label="Genera PDF" onclick={handleClick}></lightning-button>
+            </div>
+        </template>
+    </lightning-quick-action-panel>
+</template>

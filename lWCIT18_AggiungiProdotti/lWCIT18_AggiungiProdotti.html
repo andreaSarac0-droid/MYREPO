@@ -1,0 +1,40 @@
+<!-- sldsValidatorIgnore -->
+<template>
+    <template if:false={step}>
+        <lightning-quick-action-panel header="Aggiungi prodotti">
+            <p><b>Prodotti e servizi inclusi nell'opportunità:</b></p>
+            <ul>
+                <template for:each={dataAddedP} for:item="p">
+                    <li key={p}>- {p}</li>
+                </template>
+            </ul>
+            <br>
+            <p><b>Prodotti e servizi opzionali:</b></p>
+            <lightning-datatable key-field="MasterLabel" data={data} columns={columns} onrowselection={handleSelectedRows}></lightning-datatable>   
+            <br>
+            <div slot="footer">
+                <!--<lightning-button variant="brand-outline" label="Chiudi" onclick={handleTermina}></lightning-button>-->
+                <lightning-button variant="brand" label="Fine" onclick={handleAvanti}></lightning-button>
+            </div>
+        </lightning-quick-action-panel>
+    </template>
+    <template if:true={step}>
+        <lightning-quick-action-panel header="Aggiungi prodotti">
+            <p><b>VAS inclusi nell'opportunità:</b></p>
+            <ul>
+                <template for:each={dataAddedV} for:item="v">
+                    <li key={v}>- {v}</li>
+                </template>
+            </ul>
+            <br>
+            <p><b>VAS opzionali:</b></p>
+            <lightning-datatable key-field="MasterLabel" data={dataVas} columns={columns} onrowselection={handleSelectedRows}></lightning-datatable>
+            <br>
+            <div slot="footer">
+                <!--<lightning-button variant="brand-outline" label="Indietro" onclick={handleBackToFlex}></lightning-button>-->
+                <!--<lightning-button variant="brand-outline" label="Chiudi" onclick={handleTermina}></lightning-button>-->
+                <lightning-button variant="brand" label="Fine" onclick={handleAvanti}></lightning-button>
+            </div>
+        </lightning-quick-action-panel>
+    </template>
+</template>

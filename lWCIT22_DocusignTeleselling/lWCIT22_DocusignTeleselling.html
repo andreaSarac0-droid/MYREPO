@@ -1,0 +1,109 @@
+<!-- sldsValidatorIgnore -->
+<template>
+    <template if:true={buttonVisible}>
+        <template if:false={buttonSent}>
+            <lightning-button style="margin:0px;" label="Invia Contratto con Docusign" onclick={openModalSelectQuote} class="slds-m-left_x-small"></lightning-button>
+        </template>
+        <template if:true={buttonSent}>
+            <lightning-button style="margin:0px;" label="Contratto inviato" class="slds-m-left_x-small buttonContractSent" variant="brand"></lightning-button>
+        </template>
+    </template>
+
+    <!-- START MODAL SELECT QUOTE -->
+    <template if:true={modalOpenSelectQuote}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModalSelectQuote}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Quale Quote vuoi inviare con Docusign?</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium modalBody" id="modal-content-id-1">
+                    <template if:true={isLoading}>
+                        <div class="spinnerContainer">
+                            <br>
+                            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                            <br>
+                        </div>
+                    </template>
+                    <template if:false={isLoading}>
+                        <div style="height: 300px;">
+                            <lightning-datatable key-field="QuoteId" data={quoteTableData} columns={quoteTableColumns} max-row-selection="1" onrowselection={setSelectedQuote}></lightning-datatable>
+                        </div>
+                    </template>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button variant="brand-outline" label="Annulla" onclick={closeModalSelectQuote} class="slds-m-left_x-small"></lightning-button>
+                    <lightning-button variant="brand" disabled={nextButtonDisabled} label="Procedi" onclick={controlRegimeIVA} class="slds-m-left_x-small"></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!-- START MODAL EMAIL COMPOSER -->
+    <template if:true={modalOpenComposer}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container sendEmailContainer">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeEmailComposer}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse" size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Crea la tua email</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium modalBody" id="modal-content-id-2">
+                    <template if:true={isLoading}>
+                        <div class="spinnerContainer">
+                            <br>
+                            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                            <br>
+                        </div>
+                    </template>
+                    <template if:false={isLoading}>
+                        <lightning-combobox label="Da" value={valueFromAddress} options={optionsFromAddress} onchange={handleChangeFromAddress} ></lightning-combobox>
+                        <br>
+                        <lightning-layout>
+                            <lightning-layout-item class="slds-p-right_x-small" size="6">
+                                <lightning-input type="text" required ="true" onchange={handleChangeEmailToAddresses} label="A" placeholder="Scrivi qui le email separate da ';'"></lightning-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item class="slds-p-left_x-small" size="6">
+                                <lightning-input type="text" onchange={handleChangeEmailCCAddresses} label="Cc" placeholder="Scrivi qui le email separate da ';'"></lightning-input>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                        <br>
+                        <lightning-layout>
+                            <lightning-layout-item class="slds-p-right_x-small" size="6">
+                                <lightning-input type="text" required ="true" onchange={handleChangeEmailObject} label="Oggetto" placeholder="Scrivi qui .."></lightning-input>
+                            </lightning-layout-item>
+                            <lightning-layout-item class="slds-p-left_x-small" size="6">
+                                <lightning-combobox label="Template" value={valueTemplate} options={optionsTemplate} onchange={handleChangeTemplate} ></lightning-combobox>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                        <br>
+                        <br>
+                        <lightning-input-rich-text required ="true" value={emailBody} onchange={handleChangeEmailBody}></lightning-input-rich-text>
+                        <br>
+                        <template for:each={files} for:item="file" for:index="index">
+                            <lightning-pill key={file.contentVersionId} label={file.name} onremove={handleRemove} data-id={file.contentVersionId} data-index={index}>
+                                <lightning-icon icon-name="doctype:attachment" size="xx-small" alternative-text="attach"></lightning-icon>
+                            </lightning-pill>
+                        </template>
+                        <br>
+                        <div class="slds-align_absolute-center">
+                            <lightning-file-upload label="Allega files" name="fileUploader" accept={acceptedFormats} record-id={recordId} onuploadfinished={handleUploadFinished} multiple>
+                        </lightning-file-upload>
+                        </div>
+                    </template>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button variant="brand-outline" label="Annulla" onclick={closeEmailComposer} class="slds-m-left_x-small"></lightning-button>
+                    <lightning-button variant="brand" label="Invia" onclick={sendEmail} class="slds-m-left_x-small"></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

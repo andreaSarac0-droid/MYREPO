@@ -1,0 +1,22 @@
+<template>
+    <lightning-card>
+        <h3 slot="title">
+            <div class="highlights-icon-container slds-avatar slds-m-right_small icon" style="background-color: #F2CF5B">
+                <img src="https://er-italy.my.salesforce.com/img/icon/t4v35/standard/case_120.png" alt="">
+            </div>
+            Casi da Approvare
+        </h3>
+        <div slot="actions">
+            <lightning-button-icon
+                icon-name="utility:refresh"
+                onclick={handleRefresh}
+            ></lightning-button-icon>
+        </div>
+        <lightning-datatable
+        key-field="Id"
+        hide-checkbox-column="true"
+        data={data}
+        columns={columns}>
+        </lightning-datatable>
+    </lightning-card>
+</template>

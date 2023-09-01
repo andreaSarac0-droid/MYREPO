@@ -1,0 +1,45 @@
+<!-- sldsValidatorIgnore -->
+<template>
+    <template if:true={step0}>
+        <lightning-quick-action-panel header="Convenzione">
+            <div>
+                <lightning-record-edit-form object-api-name="Opportunity" id="createContractForm">
+                    <div class="slds-m-around_x-small">
+                        <label for="fieldid">Convenzione</label>
+                        <lightning-input-field variant="label-hidden" field-name="ContractId" onchange={handleChangeContract}> </lightning-input-field>
+                        <!-- FILTRARE I CONTRATTI IN BASE AL FLAG CONVENZIONE-->
+                    </div>
+                </lightning-record-edit-form>
+            </div>
+            <br>
+            <!--<input id="searchbar" onkeyup={searchConvenzione} type="text" name="search" placeholder="Cerca convenzioni...">
+            <br>-->
+            <div>
+                <lightning-input type="checkbox" label="No Convenzione" onchange={handleCheckbox}> </lightning-input>
+            </div>
+            <div slot="footer">
+                <lightning-button variant="brand-outline" label="Chiudi" onclick={handleTermina}></lightning-button>
+                <lightning-button variant="brand" label="Avanti" onclick={handleAvanti}></lightning-button>
+            </div>
+        </lightning-quick-action-panel>
+    </template>
+    <template if:true={step1}>
+        <lightning-quick-action-panel header="Convenzione">
+            <p>CONVENZIONE CAMBIATA CON SUCCESSO</p>
+
+            <div slot="footer">
+                <lightning-button variant="brand" label="Termina" onclick={handleTermina}></lightning-button>
+            </div>
+        </lightning-quick-action-panel>
+    </template>
+    <template if:true={errorStep}>
+        <lightning-quick-action-panel header="Convenzione">
+            <p>Inserire la convenzione o selezionare la casella "No Convenzione"</p>
+
+            <div slot="footer">
+                <lightning-button variant="brand-outline" label="Indietro" onclick={handleIndietro}></lightning-button>
+                <lightning-button variant="brand" label="Termina" onclick={handleTermina}></lightning-button>
+            </div>
+        </lightning-quick-action-panel>
+    </template>
+</template>

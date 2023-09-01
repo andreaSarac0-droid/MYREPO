@@ -1,0 +1,55 @@
+<template>
+    <template if:true={text_options.W_Dati_Bancari}>
+        <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+            <h1 class="text-style-title">{text_options.W_Dati_Bancari}</h1>
+        </lightning-layout-item> 
+    </template>
+    <br>
+    <template if:true={text_options.W_Inserire_coord_bancarie}>
+        <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+            <p class="text-style-subtitle" style="margin-left:10px;">{text_options.W_Inserire_coord_bancarie}</p>
+        </lightning-layout-item> 
+    </template>
+    <br><br>
+    <div class="form show-ease">
+        <div class="left-ribbon"></div>
+        <div class="slds-form-element slds-form-element_compound" style="width: 100%;">
+            <lightning-layout multiple-rows vertical-align="end">
+                
+                <template if:true={input_options.F_Iban}>
+                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                        <lightning-layout vertical-align="end">
+                            <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeIban} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Iban.value} required={input_options.F_Iban.required} value={defaultIBAN}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item> 
+                </template>
+                <template if:true={input_options.F_Denominazione_Banca}>
+                    <lightning-layout-item class="text-style-subtitle-2" style="font-weight: bold;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                        {input_options.F_Denominazione_Banca.value}
+                    </lightning-layout-item> 
+                </template>
+                <lightning-layout-item class="text-style-subtitle-2" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                    {bankName}
+                </lightning-layout-item> 
+                <template if:true={text_options.W_Delegato}>
+                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                        <h5 class="text-style-subtitle-5">{text_options.W_Delegato}</h5>
+                    </lightning-layout-item> 
+                </template>
+            </lightning-layout>
+        </div>
+    </div>
+    <template if:true={button_options.B_Verifica_Iban}>
+        <br>
+        <lightning-layout multiple-rows vertical-align="end">
+            <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                <c-l-w-c-i-t09_-self-Affiliation-Button onclick={goToStep4} label={button_options.B_Precedente} size="small" alignment="left" responsive="x-large"></c-l-w-c-i-t09_-self-Affiliation-Button>
+            </lightning-layout-item> 
+            <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                <c-l-w-c-i-t09_-self-Affiliation-Button onclick={goToStep6} label={button_options.B_Verifica_Iban} size="small" alignment="right" responsive="x-large"></c-l-w-c-i-t09_-self-Affiliation-Button>
+            </lightning-layout-item> 
+        </lightning-layout>
+    </template>
+</template>

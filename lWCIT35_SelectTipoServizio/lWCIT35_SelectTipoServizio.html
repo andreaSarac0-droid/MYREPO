@@ -1,0 +1,19 @@
+<template>
+    <lightning-radio-group name="radioGroup"
+                        class="radio-combo-inline"
+                        label="Seleziona Tipo Servizio"
+                        options={options}
+                        value={value}
+                        onchange={handleChange}
+                        type="radio">
+    </lightning-radio-group>
+    <br>
+    <lightning-combobox
+            name="annoInizioServizio"
+            label="Anno Inizio del Servizio"
+            value={dataDefault}
+            placeholder="Seleziona una data"
+            options={optionsData}
+            onchange={handleChangeData}>
+    </lightning-combobox>
+</template>

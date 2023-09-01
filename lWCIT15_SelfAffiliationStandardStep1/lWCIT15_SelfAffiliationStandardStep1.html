@@ -1,0 +1,336 @@
+<template>
+    <template if:false={error}>
+        <template if:true={text_options.W_Diventa_Partner}>
+            <h1 class="text-style-title">{text_options.W_Diventa_Partner}</h1>
+        </template>
+        <br>
+        <template if:true={text_options.W_Partner}>
+            <h3 class="text-style-subtitle">{text_options.W_Partner}</h3>
+        </template>
+        <br>
+        <br>
+        <div class="form show-ease">
+            <div class="left-ribbon"></div>
+            <div class="slds-form-element slds-form-element_compound" style="width: 100%;">
+                <lightning-layout multiple-rows vertical-align="end">
+                    <template if:true={input_options.F_Partita_Iva}>
+                        <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="7" padding="around-small">
+                            <c-l-w-c-i-t10_-self-Affiliation-Input disabled={variables.piva_field_disabled} onchange={handleChangePIVA} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Partita_Iva.value} value={variables.piva} required={input_options.F_Partita_Iva.required} ></c-l-w-c-i-t10_-self-Affiliation-Input>
+                        </lightning-layout-item>    
+                    </template>
+                </lightning-layout>
+                <template if:true={input_options.F_Licenza_Commerciale}>
+                    <lightning-layout multiple-rows vertical-align="end">
+                        <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="7" padding="around-small">
+                            <c-l-w-c-i-t11_-self-Affiliation-Picklist place-holder-text="" value={variables.licenza_commerciale} disabled={variables.piva_field_disabled} input-label={input_options.F_Licenza_Commerciale.value} pk-entries={licenze_commerciali} required={input_options.F_Licenza_Commerciale.required} onchange={handleChangeLicenzaCommerciale}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                        </lightning-layout-item>    
+                    </lightning-layout>
+                </template>
+                <template if:false={variables.piva_field_disabled}>
+                    <template if:true={text_options.W_eCommerce}>
+                        <lightning-layout multiple-rows vertical-align="end">
+                            <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="10" padding="around-small">
+                                <h1 class="slds-form-element__label">{text_options.W_eCommerce}</h1>
+                            </lightning-layout-item>   
+                            <template if:true={button_options.B_eCommerce_Si}>
+                                <lightning-layout-item style="padding:5px 12px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="7" padding="around-small">
+                                    <button class="button-style-convention" name="B_eCommerce_Si" disabled={variables.piva_field_disabled} onclick={handleChangeConvention}>{button_options.B_eCommerce_Si}</button>
+                                </lightning-layout-item> 
+                            </template> 
+                            <template if:true={button_options.B_eCommerce_No}>
+                                <lightning-layout-item style="padding:5px 12px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="7" padding="around-small">
+                                    <button class="button-style-convention-selected" name="B_eCommerce_No" disabled={variables.piva_field_disabled} onclick={handleChangeConvention}>{button_options.B_eCommerce_No}</button>
+                                </lightning-layout-item> 
+                            </template> 
+                        </lightning-layout>
+                        
+                            
+                    </template>
+                </template>
+                <template if:true={variables.piva_field_disabled}>
+                    <template if:true={text_options.W_Inserire_Info}>
+                        <br>
+                        <h3 class="text-style-subtitle">{text_options.W_Inserire_Info}</h3>
+                        <lightning-layout multiple-rows vertical-align="end">
+                            <template if:true={input_options.F_Luogo}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeLuogoEC} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Luogo.value} value="" required={input_options.F_Luogo.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={input_options.F_Luogo}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={input_options.F_Ragione_Sociale}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t10_-self-Affiliation-Input max-length="30" onchange={handleChangeRagioneSocialeEC} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Ragione_Sociale.value} value="" required={input_options.F_Ragione_Sociale.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={input_options.F_Codice_Fiscale_EsercizioCommerciale}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeCodiceFiscaleEC} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Codice_Fiscale_EsercizioCommerciale.value} value="" required={input_options.F_Codice_Fiscale_EsercizioCommerciale.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={input_options.F_Codice_Destinatario}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t10_-self-Affiliation-Input max-length="7" onchange={handleChangeCodiceDestinatarioEC} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Codice_Destinatario.value} value="" required={input_options.F_Codice_Destinatario.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={input_options.F_PIva_Gruppo}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangePivaGruppoEC} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_PIva_Gruppo.value} value={variables.pivaGruppoEC} required={input_options.F_PIva_Gruppo.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                </lightning-layout-item>    
+                            </template>
+                        </lightning-layout>
+                    </template>
+                    <template if:true={text_options.W_Sede_Legale}>
+                        <br>
+                        <h3 class="text-style-subtitle">{text_options.W_Sede_Legale}</h3>
+                        <lightning-layout multiple-rows vertical-align="end">
+                            <template if:true={input_options.F_Provincia_SedeLegale}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t11_-self-Affiliation-Picklist input-label={input_options.F_Provincia_SedeLegale.value} pk-entries={province} required={input_options.F_Provincia_SedeLegale.required} onchange={handleChangeProvinciaSL}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={input_options.F_Comune_SedeLegale}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t11_-self-Affiliation-Picklist disabled={disabledComune} class="comuniSL" input-label={input_options.F_Comune_SedeLegale.value} pk-entries={comuniSL} required={input_options.F_Comune_SedeLegale.required} value={variables.comuneSL} onchange={handleChangeComuneSL}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                                </lightning-layout-item>   
+                            </template>
+                            <template if:true={input_options.F_Via_SedeLegale}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                    <c-l-w-c-i-t10_-self-Affiliation-Input disabled={disabledVia} onchange={handleChangeViaSL} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Via_SedeLegale.value} value={variables.viaSL} required={input_options.F_Via_SedeLegale.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                    <template if:true={variables.viaListSL}>
+                                        <ul class="slds-dropdown slds-dropdown_fluid" style="width:95%; max-height: 40vh; overflow:scroll;">
+                                            <template for:each={variables.viaListSL} for:item="object">
+                                                <li key={object.key} class="slds-listbox__item" style="text-align:center; margin-top:5px;">
+                                                    <a onclick={selectViaSL} data-id={object.key} data-name={object.value} data-title={object.toponym} data-postal={object.postal_code} style="text-align:center">{object.value}</a>
+                                                </li>
+                                                <hr key={object.key} style="margin:10px;">
+                                            </template>
+                                        </ul>
+                                    </template>
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={input_options.F_Civico_SedeLegale}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t10_-self-Affiliation-Input disabled={disabledFrazione} onchange={handleChangeCivicoSL} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Civico_SedeLegale.value} value="" required={input_options.F_Civico_SedeLegale.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={input_options.F_Cap_EsercizioCommerciale}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t10_-self-Affiliation-Input disabled="true" onchange={handleChangeCAPSL} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Cap_EsercizioCommerciale.value} value={variables.postalcodeSL} required={input_options.F_Cap_EsercizioCommerciale.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={input_options.F_Frazione_SedeLegale}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                    <c-l-w-c-i-t11_-self-Affiliation-Picklist disabled={disabledFrazione} class="frazioniSL" input-label={input_options.F_Frazione_SedeLegale.value} pk-entries={frazioniSL} value={variables.frazioneSL} required={input_options.F_Frazione_SedeLegale.required} onchange={handleChangeFrazioneSL}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={input_options.F_Note_Indirizzo_SedeLegale}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                    <c-l-w-c-i-t10_-self-Affiliation-Input max-length="40" onchange={handleChangeNoteIndirizzoSL} property-name="enterpriseNb" place-holder-text="" required={input_options.F_Note_Indirizzo_SedeLegale.required} input-label={input_options.F_Note_Indirizzo_SedeLegale.value} value=""></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                </lightning-layout-item>    
+                            </template>
+                        </lightning-layout>
+                    </template>
+                    <template if:true={text_options.W_Sede_Amministrativa}>
+                        <br>
+                        <h3 class="text-style-subtitle">{text_options.W_Sede_Amministrativa}</h3>
+                        <lightning-layout multiple-rows vertical-align="end">
+                            <template if:true={button_options.B_Sede_Amministrativa_VS_Legale}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                    <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label={button_options.B_Sede_Amministrativa_VS_Legale}  onchange={handleChangeCheckboxSA}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={variables.checkboxSA}>
+                                <template if:true={input_options.F_Provincia_SedeAmministrativa}>
+                                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                        <c-l-w-c-i-t11_-self-Affiliation-Picklist input-label={input_options.F_Provincia_SedeAmministrativa.value} pk-entries={province} required={input_options.F_Provincia_SedeAmministrativa.required} onchange={handleChangeProvinciaSA}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                                    </lightning-layout-item>    
+                                </template>
+                                <template if:true={input_options.F_Comune_SedeAmministrativa}>
+                                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                        <c-l-w-c-i-t11_-self-Affiliation-Picklist disabled={disabledComuneSA} class="comuniSA" input-label={input_options.F_Comune_SedeAmministrativa.value} pk-entries={comuniSA} required={input_options.F_Comune_SedeAmministrativa.required} onchange={handleChangeComuneSA}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                                    </lightning-layout-item>    
+                                </template>
+
+                                <template if:true={input_options.F_Via_SedeAmministrativa}>
+                                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                        <c-l-w-c-i-t10_-self-Affiliation-Input disabled={disabledViaSA} onchange={handleChangeViaSA} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Via_SedeAmministrativa.value} value={variables.viaSA} required={input_options.F_Via_SedeAmministrativa.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                        <template if:true={variables.viaListSA}>
+                                            <ul class="slds-dropdown slds-dropdown_fluid" style="width:95%; max-height: 40vh; overflow:scroll;">
+                                                <template for:each={variables.viaListSA} for:item="object">
+                                                    <li key={object.key} class="slds-listbox__item streetSelection" style="text-align:center; margin-top:5px;">
+                                                        <a onclick={selectViaSA} data-id={object.key} data-name={object.value} data-title={object.toponym} data-postal={object.postal_code} style="text-align:center">{object.value}</a>
+                                                    </li>
+                                                    <hr key={object.key} style="margin:10px;">
+                                                </template>
+                                            </ul>
+                                        </template>
+                                    </lightning-layout-item>    
+                                </template>
+                                <template if:true={input_options.F_Civico_SedeAmministrativa}>
+                                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                        <c-l-w-c-i-t10_-self-Affiliation-Input disabled={disabledFrazioneSA} onchange={handleChangeCivicoSA} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Civico_SedeAmministrativa.value} value="" required={input_options.F_Civico_SedeAmministrativa.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                    </lightning-layout-item>    
+                                </template>
+                                <template if:true={input_options.F_Cap_SedeAmministrativa}>
+                                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                        <c-l-w-c-i-t10_-self-Affiliation-Input disabled="true" onchange={handleChangeCAPSA} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Cap_SedeAmministrativa.value} value={variables.postalcodeSA} required={input_options.F_Cap_SedeAmministrativa.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                    </lightning-layout-item>    
+                                </template>
+                                <template if:true={input_options.F_Frazione_SedeAmministrativa}>
+                                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                        <c-l-w-c-i-t11_-self-Affiliation-Picklist disabled={disabledFrazioneSA} class="frazioniSA" input-label={input_options.F_Frazione_SedeAmministrativa.value} pk-entries={frazioniSA} required={input_options.F_Frazione_SedeAmministrativa.required} onchange={handleChangeFrazioneSA}></c-l-w-c-i-t11_-self-Affiliation-Picklist>                                            </lightning-layout-item>    
+                                </template>
+                                <template if:true={input_options.F_Note_Indirizzo_SedeAmministrativa}>
+                                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                        <c-l-w-c-i-t10_-self-Affiliation-Input max-length="40" onchange={handleChangeNoteIndirizzoSA} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Note_Indirizzo_SedeAmministrativa.value} value="" required={input_options.F_Note_Indirizzo_SedeAmministrativa.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                    </lightning-layout-item>    
+                                </template>
+                            </template>
+                        </lightning-layout>
+                    </template>
+                    <template if:true={text_options.W_Referente_Legale}>
+                        <br>
+                        <h3 class="text-style-subtitle">{text_options.W_Referente_Legale}</h3>
+                        <template if:true={text_options.W_Ref_Legale}>
+                            <h5 class="text-style-subtitle-2">{text_options.W_Ref_Legale}</h5>
+                        </template>
+                        <lightning-layout multiple-rows vertical-align="end">
+                            <template if:true={input_options.F_Nome_ReferenteLegale}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeNameRL} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Nome_ReferenteLegale.value} value="" required={input_options.F_Nome_ReferenteLegale.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={input_options.F_Cognome_ReferenteLegale}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeSurnameRL} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Cognome_ReferenteLegale.value} value="" required={input_options.F_Cognome_ReferenteLegale.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={input_options.F_Codice_Fiscale_ReferenteLegale}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeFiscalCodeRL} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Codice_Fiscale_ReferenteLegale.value} value="" required={input_options.F_Codice_Fiscale_ReferenteLegale.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={input_options.F_Email_ReferenteLegale}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeEmailRL} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Email_ReferenteLegale.value} value="" required={input_options.F_Email_ReferenteLegale.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={input_options.F_Cellulare_ReferenteLegale}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeMobileRL} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Cellulare_ReferenteLegale.value} value="" required={input_options.F_Cellulare_ReferenteLegale.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={input_options.F_Telefono_ReferenteLegale}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangePhoneRL} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Telefono_ReferenteLegale.value} value="" required={input_options.F_Telefono_ReferenteLegale.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={input_options.F_Fax}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeFaxRL} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Fax.value} value="" required={input_options.F_Fax.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={input_options.F_Pec}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangePECRL} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Pec.value} value="" required={input_options.F_Pec.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                </lightning-layout-item>    
+                            </template>
+                        </lightning-layout>
+                    </template>
+                    <template if:true={text_options.W_Referente_Amministrativo}>
+                        <br>
+                        <h3 class="text-style-subtitle">{text_options.W_Referente_Amministrativo}</h3>
+                        <template if:true={text_options.W_Ref_Legale}>
+                            <h5 class="text-style-subtitle-2">{text_options.W_Ref_Amministrativo}</h5>
+                        </template>
+                        <lightning-layout multiple-rows vertical-align="end">
+                            <template if:true={button_options.B_Ref_Amministrativo_VS_Legale}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                    <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label={button_options.B_Ref_Amministrativo_VS_Legale}  onchange={handleChangeCheckboxRA}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={variables.checkboxRA}>
+                                <template if:true={input_options.F_Nome_ReferenteAmministrativo}>
+                                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                        <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeNameRA} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Nome_ReferenteAmministrativo.value} value="" required={input_options.F_Nome_ReferenteAmministrativo.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                    </lightning-layout-item>    
+                                </template>
+                                <template if:true={input_options.F_Cognome_ReferenteAmministrativo}>
+                                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                        <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeSurnameRA} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Cognome_ReferenteAmministrativo.value} value="" required={input_options.F_Cognome_ReferenteAmministrativo.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                    </lightning-layout-item>    
+                                </template>
+                                <template if:true={input_options.F_Codice_Fiscale_ReferenteAmministrativo}>
+                                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                        <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeFiscalCodeRA} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Codice_Fiscale_ReferenteAmministrativo.value} value="" required={input_options.F_Codice_Fiscale_ReferenteAmministrativo.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                    </lightning-layout-item>    
+                                </template>
+                                <template if:true={input_options.F_Email_ReferenteAmministrativo}>
+                                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                        <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeEmailRA} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Email_ReferenteAmministrativo.value} value="" required={input_options.F_Email_ReferenteAmministrativo.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                    </lightning-layout-item>    
+                                </template>
+                                <template if:true={input_options.F_Cellulare_ReferenteAmministrativo}>
+                                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                        <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeMobileRA} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Cellulare_ReferenteAmministrativo.value} value="" required={input_options.F_Cellulare_ReferenteAmministrativo.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                    </lightning-layout-item>    
+                                </template>
+                                <template if:true={input_options.F_Telefono_ReferenteAmministrativo}>
+                                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                        <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangePhoneRA} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Telefono_ReferenteAmministrativo.value} value="" reqired={input_options.F_Telefono_ReferenteAmministrativo.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                    </lightning-layout-item>    
+                                </template>
+                                <template if:true={input_options.F_Fax_ReferenteAmministrativo}>
+                                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                        <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeFaxRA} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Fax_ReferenteAmministrativo.value} value="" required={input_options.F_Fax_ReferenteAmministrativo.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                    </lightning-layout-item>    
+                                </template>
+                                <template if:true={input_options.F_Pec_ReferenteAmministrativo}>
+                                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                        <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangePECRA} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Pec_ReferenteAmministrativo.value} value="" required={input_options.F_Pec_ReferenteAmministrativo.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                    </lightning-layout-item>    
+                                </template>
+                            </template>
+                        </lightning-layout>
+                    </template>
+                    <template if:true={button_options.B_Next}>
+                        <br>
+                        <lightning-layout multiple-rows vertical-align="end">
+                            <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                            </lightning-layout-item> 
+                            <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                <c-l-w-c-i-t09_-self-Affiliation-Button onclick={goToStep2} label={button_options.B_Next} size="small" alignment="right" responsive="x-large"></c-l-w-c-i-t09_-self-Affiliation-Button>
+                            </lightning-layout-item> 
+                        </lightning-layout>
+                    </template>
+                </template>
+            </div>
+        </div>
+        <template if:false={variables.piva_field_disabled}>
+            <br>
+            <lightning-layout multiple-rows vertical-align="end">
+                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="8" padding="around-small">
+                    <div class="slds-align_absolute-center">
+                        <iframe src={navigateTo} style="border:none;width: 310px;height:500px;" name="captchaFrame" onload={captchaLoaded}></iframe>
+                    </div>
+                </lightning-layout-item> 
+            </lightning-layout>
+        </template>
+    </template>
+    <template if:true={error}>
+        <template if:true={text_options.W_Testo_KO_Title}>
+            <div class="text-style-ko">
+                {text_options.W_Testo_KO_Title}
+            </div>
+        </template>
+        <template if:true={text_options.W_Testo_KO_Message}>
+            <div class="text-style-ko">
+                {text_options.W_Testo_KO_Message}
+            </div>
+        </template>
+    </template>
+</template>

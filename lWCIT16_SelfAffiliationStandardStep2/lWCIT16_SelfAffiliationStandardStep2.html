@@ -1,0 +1,710 @@
+<template>
+    <template if:false={error}>
+    <template if:true={text_options.W_Info_Punto_Vendita}>
+        <h1 class="text-style-title">{text_options.W_Info_Punto_Vendita}</h1>
+    </template>
+    <br>
+    <template if:true={text_options.W_Info_P_Vendita}>
+        <h3 class="text-style-subtitle">{text_options.W_Info_P_Vendita}</h3>
+    </template>
+    <br><br>
+    <div class="form show-ease">
+        <div class="left-ribbon"></div>
+        <div class="slds-form-element slds-form-element_compound" style="width: 100%;">
+            <lightning-layout multiple-rows vertical-align="end">
+                <template if:true={input_options.F_Insegna_PuntoVendita1}>
+                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                        <c-l-w-c-i-t10_-self-Affiliation-Input max-length="30" onchange={handleChangeInsegnaPuntoVendita} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Insegna_PuntoVendita1.value} required={input_options.F_Insegna_PuntoVendita1.required} ></c-l-w-c-i-t10_-self-Affiliation-Input>
+                    </lightning-layout-item>    
+                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                    </lightning-layout-item>   
+                </template>
+                <template if:true={text_options.W_Indirizzo_Punto_Vendita}>
+                    <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                        <h3 class="text-style-subtitle">{text_options.W_Indirizzo_Punto_Vendita}</h3>
+                    </lightning-layout-item>    
+                </template>
+                <template if:true={button_options.B_Punto_Vendita_VS_Sede_Legale}>
+                    <lightning-layout-item style="padding-top:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="7" padding="around-small">
+                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label={button_options.B_Punto_Vendita_VS_Sede_Legale}  onchange={handleChangeCheckboxIPV}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                    </lightning-layout-item>    
+                </template>
+                <template if:true={variables.checkboxIPV}>
+                    <template if:true={input_options.F_Provincia_PuntoVendita1}>
+                        <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                            <c-l-w-c-i-t11_-self-Affiliation-Picklist input-label={input_options.F_Provincia_PuntoVendita1.value} class="provincePV" pk-entries={province} required={input_options.F_Provincia_PuntoVendita1.required} value={variables.provinciaPV} onchange={handleChangeProvinciaPV}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                        </lightning-layout-item>    
+                    </template>
+                    <template if:true={input_options.F_Comune_PuntoVendita1}>
+                        <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                            <c-l-w-c-i-t11_-self-Affiliation-Picklist disabled={disabledComunePV} class="comuniPV" input-label={input_options.F_Comune_PuntoVendita1.value} pk-entries={comuniPV} required={input_options.F_Comune_PuntoVendita1.required} value={variables.comunePV} onchange={handleChangeComunePV}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                        </lightning-layout-item>    
+                    </template>
+                    <template if:true={input_options.F_Via_PuntoVendita1}>
+                        <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                            <c-l-w-c-i-t10_-self-Affiliation-Input disabled={disabledViaPV} onchange={handleChangeViaPV} value={variables.viaPV} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Via_PuntoVendita1.value} required={input_options.F_Via_PuntoVendita1.required} ></c-l-w-c-i-t10_-self-Affiliation-Input>
+                            <template if:true={variables.viaListPV}>
+                                <ul class="slds-dropdown slds-dropdown_fluid" style="width:95%; max-height: 40vh; overflow:scroll;">
+                                    <template for:each={variables.viaListPV} for:item="object">
+                                        <li key={object.key} class="slds-listbox__item" style="text-align:center; margin-top:5px;">
+                                            <a onclick={selectViaPV} data-id={object.key} data-name={object.value} data-title={object.toponym} data-postal={object.postal_code} style="text-align:center">{object.value}</a>
+                                        </li>
+                                        <hr key={object.key} style="margin:10px;">
+                                    </template>
+                                </ul>
+                            </template>
+                        </lightning-layout-item>    
+                    </template>
+                    <template if:true={input_options.F_Civico_puntoVendita1}>
+                        <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                            <c-l-w-c-i-t10_-self-Affiliation-Input disabled={disabledFrazionePV} onchange={handleChangeCivicoPV} value={variables.civicoPV} property-name="civico" place-holder-text="" input-label={input_options.F_Civico_puntoVendita1.value} required={input_options.F_Civico_puntoVendita1.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                        </lightning-layout-item>    
+                    </template>
+                    <template if:true={input_options.F_Cap_puntoVendita1}>
+                        <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                            <c-l-w-c-i-t10_-self-Affiliation-Input disabled="true" onchange={handleChangeCAPPV} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Cap_puntoVendita1.value} value={variables.postalcodePV} required={input_options.F_Cap_puntoVendita1.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                        </lightning-layout-item>    
+                    </template>
+                    <template if:true={input_options.F_Frazione_PuntoVendita1}>
+                        <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                            <c-l-w-c-i-t11_-self-Affiliation-Picklist disabled={disabledFrazionePV} class="frazioniPV" input-label={input_options.F_Frazione_PuntoVendita1.value} pk-entries={frazioniPV} required={input_options.F_Frazione_PuntoVendita1.required} onchange={handleChangeFrazionePV}></c-l-w-c-i-t11_-self-Affiliation-Picklist>                                
+                        </lightning-layout-item>    
+                    </template>
+                    <template if:true={input_options.F_Note_Indirizzo_PuntoVendita1}>
+                        <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                            <c-l-w-c-i-t10_-self-Affiliation-Input max-length="40" onchange={handleChangeNoteIndirizzoPV} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Note_Indirizzo_PuntoVendita1.value} value={variables.noteIndirizzoPV} required={input_options.F_Note_Indirizzo_PuntoVendita1.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                        </lightning-layout-item>    
+                    </template>
+                </template>
+            </lightning-layout>
+
+            <!-- MODALE CAMBIO GESTIONE -->
+            <template if:true={variables.isModalCambioGestioneOpen}>
+                <template if:true={text_options.W_Attenzione}>
+                    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                        <div class="slds-modal__container">
+                            <header class="slds-modal__header">
+                            </header>
+                            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                                <h1 style="text-align:center;" class="text-style-title">{text_options.W_Attenzione}</h1>
+                                <br>
+                                <h2 class="text-style-subtitle-3">{text_options.W_Attenzione_Info}</h2>
+                                <br>
+                                <lightning-layout multiple-rows vertical-align="end">
+                                    <template if:true={button_options.B_No_modifica_indirizzo}>
+                                        <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                            <c-l-w-c-i-t09_-self-Affiliation-Button onclick={closeModalCambioGestione} label={button_options.B_No_modifica_indirizzo} size="small" alignment="center" responsive="x-large"></c-l-w-c-i-t09_-self-Affiliation-Button>
+                                        </lightning-layout-item>  
+                                    </template>
+                                    <template if:true={button_options.B_Si_modifica_indirizzo}>
+                                        <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                            <c-l-w-c-i-t09_-self-Affiliation-Button onclick={viewCambioGestione} label={button_options.B_Si_modifica_indirizzo} size="small" alignment="center" responsive="x-large"></c-l-w-c-i-t09_-self-Affiliation-Button>
+                                        </lightning-layout-item>  
+                                    </template>
+                                </lightning-layout>
+                            </div>
+                        </div>
+                    </section>
+                    <div class="slds-backdrop slds-backdrop_open"></div>
+                </template>
+            </template>
+            <template if:true={variables.isCambioGestione}>
+                <br>
+                <lightning-layout multiple-rows vertical-align="end">
+                    <template if:true={text_options.W_Cambio_Gestione_Punto_Vendita}>
+                        <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                            <h3 class="text-style-subtitle">{text_options.W_Cambio_Gestione_Punto_Vendita}</h3>
+                        </lightning-layout-item>    
+                    </template>
+                    <template if:true={input_options.F_Data_Subentro_puntoVendita1}>
+                        <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                            <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeDataSubentroCG} property-name="enterpriseNb" place-holder-text="gg/mm/aaaa" input-label={input_options.F_Data_Subentro_puntoVendita1.value} value="" required={input_options.F_Data_Subentro_puntoVendita1.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                        </lightning-layout-item>  
+                    </template>
+                    <template if:true={input_options.F_PIVA_gestore_precedente1}>
+                        <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                            <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangePivaPrecedenteCG} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_PIVA_gestore_precedente1.value} value="" required={input_options.F_PIVA_gestore_precedente1.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                        </lightning-layout-item>  
+                    </template>
+                    <template if:true={input_options.F_Codice_Locale_precedente1}>
+                        <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                            <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeCodiceLocalePrecedenteCG} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Codice_Locale_precedente1.value} value="" required={input_options.F_Codice_Locale_precedente1.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                        </lightning-layout-item>  
+                    </template>
+                    <template if:true={text_options.W_Atto_di_Subentro}>
+                        <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                            <div class="slds-form-element">
+                                <label class="slds-form-element__label" style="font-family: Ubuntu;"><abbr class="slds-required" title="required">* </abbr>{text_options.W_Atto_di_Subentro}</label>
+                                <lightning-input  type="file" accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf" label="" onchange={uploadFileCG}></lightning-input>
+                                <template if:true={variables.attoSubentroFileCG}>
+                                    <p class="text-style-subtitle-4">{variables.attoSubentroFileCG.filename}</p>
+                                </template>
+                            </div>
+                        </lightning-layout-item>  
+                    </template>
+                    <template if:false={variables.isCambioGestioneSaved}>
+                        <template if:true={button_options.B_Salva}>
+                            <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                            </lightning-layout-item> 
+                            <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                <c-l-w-c-i-t09_-self-Affiliation-Button onclick={saveCambioGestione} label={button_options.B_Salva} size="small" alignment="right" responsive="x-large"></c-l-w-c-i-t09_-self-Affiliation-Button>
+                            </lightning-layout-item> 
+                        </template>
+                    </template>
+                </lightning-layout>
+            </template>
+            <br>
+            <lightning-layout multiple-rows vertical-align="end">
+                <template if:true={text_options.W_Referente_P_Vendita}>
+                    <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                        <h3 class="text-style-subtitle">{text_options.W_Referente_P_Vendita}</h3>
+                    </lightning-layout-item>    
+                </template>
+                <template if:true={text_options.W_Titolare}>
+                    <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                        <h3 class="text-style-subtitle-2">{text_options.W_Titolare}</h3>
+                    </lightning-layout-item>    
+                </template>
+                <template if:true={button_options.B_Ref_P_Vendita_VS_Rappr_Legale}>
+                    <lightning-layout-item style="padding-top:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="7" padding="around-small">
+                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label={button_options.B_Ref_P_Vendita_VS_Rappr_Legale}  onchange={handleChangeCheckboxRLPV}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                    </lightning-layout-item>    
+                </template>
+                <template if:true={variables.checkboxRLPV}>
+                    <template if:true={input_options.F_Nome_ReferentePuntoVendita}>
+                        <lightning-layout-item style="padding-top:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                            <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeNameRLPV} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Nome_ReferentePuntoVendita.value} required={input_options.F_Nome_ReferentePuntoVendita.required} value=""></c-l-w-c-i-t10_-self-Affiliation-Input>
+                        </lightning-layout-item>
+                    </template>
+                    <template if:true={input_options.F_Cognome_ReferentePuntoVendita}>
+                        <lightning-layout-item style="padding-top:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                            <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeSurnameRLPV} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Cognome_ReferentePuntoVendita.value} required={input_options.F_Cognome_ReferentePuntoVendita.required} value=""></c-l-w-c-i-t10_-self-Affiliation-Input>
+                        </lightning-layout-item>
+                    </template>
+                    <template if:true={input_options.F_Telefono_ReferentePuntoVendita}>
+                        <lightning-layout-item style="padding-top:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                            <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangePhoneRLPV} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Telefono_ReferentePuntoVendita.value} required={input_options.F_Telefono_ReferentePuntoVendita.required} value=""></c-l-w-c-i-t10_-self-Affiliation-Input>
+                        </lightning-layout-item>
+                    </template>
+                    <template if:true={input_options.F_Email_ReferentePuntoVendita}>
+                        <lightning-layout-item style="padding-top:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                            <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeEmailRLPV} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Email_ReferentePuntoVendita.value} required={input_options.F_Email_ReferentePuntoVendita.required} value=""></c-l-w-c-i-t10_-self-Affiliation-Input>
+                        </lightning-layout-item>
+                    </template>
+                </template>
+            </lightning-layout>
+            <br><br><br>
+            <lightning-layout multiple-rows vertical-align="end">
+                <template if:true={text_options.W_Orari_Apertura}>
+                    <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                        <h3 class="text-style-subtitle">{text_options.W_Orari_Apertura}</h3>
+                    </lightning-layout-item>
+                    <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="8" padding="around-small">
+                        <lightning-layout multiple-rows vertical-align="end">
+                            <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="3" padding="around-small">
+                            </lightning-layout-item>
+                            <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="4" padding="around-small">
+                                <p style="font-family: 'Ubuntu'; font-size: 1.1rem; color: var(--parent-main-color); text-align: center;font-weight: bold;">Apertura</p>
+                            </lightning-layout-item>
+                            <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="4" padding="around-small">
+                                <p style="font-family: 'Ubuntu'; font-size: 1.1rem; color: var(--parent-main-color); text-align: center;font-weight: bold;">Chiusura</p>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                    
+                    <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="8" padding="around-small">
+                        <lightning-layout multiple-rows vertical-align="end" style="padding-top:0px;">
+                            <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="3" padding="around-small">
+                                <p style="font-family: 'Ubuntu'; font-size: 1.1rem; color: var(--parent-main-color);font-weight: bold;">Feriali</p>
+                            </lightning-layout-item>
+                            <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="2" padding="around-small">
+                                <c-l-w-c-i-t11_-self-Affiliation-Picklist input-label="Da ora" pk-entries={orari} onchange={daOraFerialeChange}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                            </lightning-layout-item>
+                            <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="2" padding="around-small">
+                                <c-l-w-c-i-t11_-self-Affiliation-Picklist input-label="A ora" pk-entries={orari} onchange={aOraFerialeChange}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                            </lightning-layout-item>
+                            <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="2" padding="around-small">
+                                <c-l-w-c-i-t11_-self-Affiliation-Picklist input-label="Da ora" pk-entries={orari} onchange={daOraFerialeChangeChiusura}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                            </lightning-layout-item>
+                            <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="2" padding="around-small">
+                                <c-l-w-c-i-t11_-self-Affiliation-Picklist input-label="A ora" pk-entries={orari} onchange={aOraFerialeChangeChiusura}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                            </lightning-layout-item>
+                            <template if:true={variables.availableDomenica}>
+                                <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="3" padding="around-small">
+                                    <p style="font-family: 'Ubuntu'; font-size: 1.1rem; color: var(--parent-main-color);">Domenica</p>
+                                </lightning-layout-item>
+                                <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="2" padding="around-small">
+                                    <c-l-w-c-i-t11_-self-Affiliation-Picklist input-label="Da ora" pk-entries={orari} onchange={daOraDomenicaChange}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                                </lightning-layout-item>
+                                <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="2" padding="around-small">
+                                    <c-l-w-c-i-t11_-self-Affiliation-Picklist input-label="A ora" pk-entries={orari} onchange={aOraDomenicaChange}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                                </lightning-layout-item>
+                                <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="2" padding="around-small">
+                                    <c-l-w-c-i-t11_-self-Affiliation-Picklist input-label="Da ora" pk-entries={orari} onchange={daOraDomenicaChangeClose}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                                </lightning-layout-item>
+                                <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="2" padding="around-small">
+                                    <c-l-w-c-i-t11_-self-Affiliation-Picklist input-label="A ora" pk-entries={orari} onchange={aOraDomenicaChangeClose}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                                </lightning-layout-item>
+                                <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="1" padding="around-small">
+                                    <p style="font-family: 'Ubuntu'; font-size: 1.2rem; color: grey; padding-bottom: 5px;" onclick={closeDomenica}>x</p>
+                                </lightning-layout-item>
+                            </template>
+                            <template if:true={variables.availableFestivi}>
+                                <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="3" padding="around-small">
+                                    <p style="font-family: 'Ubuntu'; font-size: 1.1rem; color: var(--parent-main-color);">Festivi</p>
+                                </lightning-layout-item>
+                                <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="2" padding="around-small">
+                                    <c-l-w-c-i-t11_-self-Affiliation-Picklist input-label="Da ora" pk-entries={orari} onchange={daOraFestiviChange}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                                </lightning-layout-item>
+                                <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="2" padding="around-small">
+                                    <c-l-w-c-i-t11_-self-Affiliation-Picklist input-label="A ora" pk-entries={orari} onchange={aOraFestiviChange}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                                </lightning-layout-item>
+                                <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="2" padding="around-small">
+                                    <c-l-w-c-i-t11_-self-Affiliation-Picklist input-label="Da ora" pk-entries={orari} onchange={daOraFestiviChangeClose}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                                </lightning-layout-item>
+                                <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="2" padding="around-small">
+                                    <c-l-w-c-i-t11_-self-Affiliation-Picklist input-label="A ora" pk-entries={orari} onchange={aOraFestiviChangeClose}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                                </lightning-layout-item>
+                                <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="1" padding="around-small">
+                                    <p  style="font-family: 'Ubuntu'; font-size: 1.2rem; color: grey; padding-bottom: 5px;" onclick={closeFestivi}>x</p>
+                                </lightning-layout-item>
+                            </template>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                    <br><br>
+                    <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="8" padding="around-small">
+                        <lightning-layout multiple-rows vertical-align="end" style="padding-top:0px;">
+                            <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="3" padding="around-small">
+                                <p style="font-family: 'Ubuntu'; font-size: 1.1rem; color: grey;font-weight: bold;"> AGGIUNGI </p>
+                            </lightning-layout-item>
+                            <template if:false={variables.availableDomenica}>
+                                <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="3" padding="around-small">
+                                    <p style="font-family: 'Ubuntu'; font-size: 1.1rem; color: var(--parent-main-color); cursor:pointer;font-weight: bold;" onclick={aggiungiDomenica}> + DOMENICA </p>
+                                </lightning-layout-item>
+                            </template>
+                            <template if:false={variables.availableFestivi}>
+                                <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="3" padding="around-small">
+                                    <p style="font-family: 'Ubuntu'; font-size: 1.1rem; color: var(--parent-main-color); cursor:pointer;font-weight: bold;" onclick={aggiungiFestivi}> + FESTIVI </p>
+                                </lightning-layout-item>
+                            </template>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                </template>
+            </lightning-layout>
+            <br><br><br><br>
+            <lightning-layout multiple-rows vertical-align="end">
+                <template if:true={text_options.W_Giorni_chiusura}>
+                    <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                        <h3 class="text-style-subtitle">{text_options.W_Giorni_chiusura}</h3>
+                    </lightning-layout-item>    
+                    <lightning-layout-item style="padding-bottom:0px;" size="1" xx-small-device-size="1" x-small-device-size="1" small-device-size="1" medium-device-size="1" large-device-size="1" padding="around-small">
+                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label="Lun" onchange={handleChangeCheckboxChiusuraLunedi}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                    </lightning-layout-item>  
+                    <lightning-layout-item style="padding-bottom:0px;" size="1" xx-small-device-size="1" x-small-device-size="1" small-device-size="1" medium-device-size="1" large-device-size="1" padding="around-small">
+                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label="Mar" onchange={handleChangeCheckboxChiusuraMartedi}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                    </lightning-layout-item>  
+                    <lightning-layout-item style="padding-bottom:0px;" size="1" xx-small-device-size="1" x-small-device-size="1" small-device-size="1" medium-device-size="1" large-device-size="1" padding="around-small">
+                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label="Mer" onchange={handleChangeCheckboxChiusuraMercoledi}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                    </lightning-layout-item>  
+                    <lightning-layout-item style="padding-bottom:0px;" size="1" xx-small-device-size="1" x-small-device-size="1" small-device-size="1" medium-device-size="1" large-device-size="1" padding="around-small">
+                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label="Gio" onchange={handleChangeCheckboxChiusuraGiovedi}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                    </lightning-layout-item> 
+                    <lightning-layout-item style="padding-bottom:0px;" size="1" xx-small-device-size="1" x-small-device-size="1" small-device-size="1" medium-device-size="1" large-device-size="1" padding="around-small">
+                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label="Ven" onchange={handleChangeCheckboxChiusuraVenerdi}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                    </lightning-layout-item> 
+                    <lightning-layout-item style="padding-bottom:0px;" size="1" xx-small-device-size="1" x-small-device-size="1" small-device-size="1" medium-device-size="1" large-device-size="1" padding="around-small">
+                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label="Sab" onchange={handleChangeCheckboxChiusuraSabato}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                    </lightning-layout-item>   
+                    <lightning-layout-item style="padding-bottom:0px;" size="1" xx-small-device-size="1" x-small-device-size="1" small-device-size="1" medium-device-size="1" large-device-size="1" padding="around-small">
+                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label="Dom" onchange={handleChangeCheckboxChiusuraDomenica}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                    </lightning-layout-item>     
+                </template>  
+            </lightning-layout>
+            <br>
+            <lightning-layout multiple-rows vertical-align="end">
+                <template if:true={text_options.W_Convenzionare_P_Vendita}>
+                    <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                        <h3 class="text-style-subtitle">{text_options.W_Convenzionare_P_Vendita}</h3>
+                    </lightning-layout-item>  
+                    <template if:true={button_options.B_No_convenzione}>
+                        <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="3" padding="around-small">
+                            <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label={button_options.B_No_convenzione} is-checked={variables.checkboxNoOtherPV} onchange={handleChangeCheckboxNoOtherPV}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                        </lightning-layout-item> 
+                    </template>
+                    <template if:true={button_options.B_Si_convenzione}>
+                        <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="3" padding="around-small">
+                            <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label={button_options.B_Si_convenzione} is-checked={variables.checkboxOtherPV} onchange={handleChangeCheckboxOtherPV}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                        </lightning-layout-item> 
+                    </template>  
+                </template>
+            </lightning-layout>
+            <br>
+            <template if:true={variables.checkboxOtherPV}>
+                <lightning-layout multiple-rows vertical-align="end">
+                    <template if:true={button_options.B_Multi_P_Vendita}>
+                        <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="3" padding="around-small">
+                            <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label={button_options.B_Multi_P_Vendita} is-checked={variables.checkboxMoreThan3PV} onchange={handleChangeCheckboxMoreThank3PV}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                        </lightning-layout-item> 
+                    </template>
+                    <template if:true={button_options.B_Max_3_P_Vendita}>
+                        <lightning-layout-item style="padding-bottom:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="3" padding="around-small">
+                            <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label={button_options.B_Max_3_P_Vendita} is-checked={variables.checkboxLessThan3PV} onchange={handleChangeCheckboxLessThan3PV}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                        </lightning-layout-item> 
+                    </template>  
+                </lightning-layout>
+            </template>
+            <!-- MODAL FOR MORE THAN 3 PV -->
+            <template if:true={variables.checkboxMoreThan3PV}>
+                <template if:true={text_options.W_Attenzione}>
+                    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                        <div class="slds-modal__container">
+                            <header class="slds-modal__header">
+                            </header>
+                            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                                <h1 style="text-align:center;" class="text-style-title">{text_options.W_Attenzione}</h1>
+                                <br>
+                                <h2 class="text-style-subtitle-3">{text_options.W_Pi_3_P_Vendita}</h2>
+                                <br>
+                                <lightning-layout multiple-rows vertical-align="end">
+                                    <template if:true={button_options.B_Indietro}>
+                                        <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                            <c-l-w-c-i-t09_-self-Affiliation-Button onclick={closeModalMoreThan3PVContinue} label={button_options.B_Indietro} size="small" alignment="center" responsive="x-large"></c-l-w-c-i-t09_-self-Affiliation-Button>
+                                        </lightning-layout-item>  
+                                    </template>
+                                    <template if:true={button_options.B_Chiudi_procedura}>
+                                        <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                            <c-l-w-c-i-t09_-self-Affiliation-Button onclick={closeModalMoreThan3PVCancel} label={button_options.B_Chiudi_procedura} size="small" alignment="center" responsive="x-large"></c-l-w-c-i-t09_-self-Affiliation-Button>
+                                        </lightning-layout-item>  
+                                    </template>
+                                </lightning-layout>
+                            </div>
+                        </div>
+                    </section>
+                    <div class="slds-backdrop slds-backdrop_open"></div>
+                </template>
+            </template>
+            <template if:true={variables.checkboxLessThan3PV}>
+                <template if:true={variables.checkboxOtherPV}>
+                    <!-- START SECOND PV -->
+                    <br>
+                    <br>
+                    <br>
+                    <lightning-layout multiple-rows vertical-align="end">
+                        <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                            <h2 class="text-style-subtitle">{text_options.W_Secondo_P_Vendita}</h2>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                    <lightning-layout multiple-rows vertical-align="end">
+                        <template if:true={input_options.F_Insegna_PuntoVendita2}>
+                            <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                <c-l-w-c-i-t10_-self-Affiliation-Input max-length="30" onchange={handleChangeInsegnaPuntoVendita2} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Insegna_PuntoVendita2.value} required={input_options.F_Insegna_PuntoVendita2.required} ></c-l-w-c-i-t10_-self-Affiliation-Input>
+                            </lightning-layout-item>    
+                        </template>
+                        <template if:true={input_options.F_Categoria_Merceologica}>
+                            <lightning-layout-item style="padding-top:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                <c-l-w-c-i-t11_-self-Affiliation-Picklist input-label={input_options.F_Categoria_Merceologica.value} pk-entries={availableLicense} required={input_options.F_Categoria_Merceologica.required} value={variables.categoriaPV2} onchange={handleChangeCategoriaPV2}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                            </lightning-layout-item>    
+                        </template>
+                        <template if:true={input_options.F_Provincia_PuntoVendita2}>
+                            <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                <c-l-w-c-i-t11_-self-Affiliation-Picklist input-label={input_options.F_Provincia_PuntoVendita2.value} class="provincePV2" pk-entries={province} required={input_options.F_Provincia_PuntoVendita2.required} value={variables.provinciaPV2} onchange={handleChangeProvinciaPV2}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                            </lightning-layout-item>    
+                        </template>
+                        <template if:true={input_options.F_Comune_PuntoVendita2}>
+                            <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                <c-l-w-c-i-t11_-self-Affiliation-Picklist disabled={disabledComunePV2} class="comuniPV2" input-label={input_options.F_Comune_PuntoVendita2.value} pk-entries={comuniPV2} required={input_options.F_Comune_PuntoVendita2.value} value={variables.comunePV2} onchange={handleChangeComunePV2}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                            </lightning-layout-item>    
+                        </template>
+                        <template if:true={input_options.F_Via_PuntoVendita2}>
+                            <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                <c-l-w-c-i-t10_-self-Affiliation-Input disabled={disabledViaPV2} onchange={handleChangeViaPV2} value={variables.viaPV2} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Via_PuntoVendita2.value} required={input_options.F_Via_PuntoVendita2.required} ></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                <template if:true={variables.viaListPV2}>
+                                    <ul class="slds-dropdown slds-dropdown_fluid" style="width:95%; max-height: 40vh; overflow:scroll;">
+                                        <template for:each={variables.viaListPV2} for:item="object">
+                                            <li key={object.key} class="slds-listbox__item" style="text-align:center; margin-top:5px;">
+                                                <a onclick={selectViaPV2} data-id={object.key} data-name={object.value} data-title={object.toponym} data-postal={object.postal_code} style="text-align:center">{object.value}</a>
+                                            </li>
+                                            <hr key={object.key} style="margin:10px;">
+                                        </template>
+                                    </ul>
+                                </template>
+                            </lightning-layout-item>    
+                        </template>
+                        <template if:true={input_options.F_Civico_puntoVendita2}>
+                            <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                <c-l-w-c-i-t10_-self-Affiliation-Input disabled={disabledFrazionePV2} onchange={handleChangeCivicoPV2} value={variables.civicoPV2} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Civico_puntoVendita2.value} required={input_options.F_Civico_puntoVendita2.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                            </lightning-layout-item>    
+                        </template>
+                        <template if:true={input_options.F_Cap_puntoVendita2}>
+                            <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                <c-l-w-c-i-t10_-self-Affiliation-Input disabled="true" onchange={handleChangeCAPPV2} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Cap_puntoVendita2.value} value={variables.postalcodePV2} required={input_options.F_Cap_puntoVendita2.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                            </lightning-layout-item>    
+                        </template>
+                        <template if:true={input_options.F_Frazione_PuntoVendita1}>
+                            <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                <c-l-w-c-i-t11_-self-Affiliation-Picklist disabled={disabledFrazionePV2} class="frazioniPV2" input-label={input_options.F_Frazione_PuntoVendita1.value} pk-entries={frazioniPV2} required={input_options.F_Frazione_PuntoVendita1.required} onchange={handleChangeFrazionePV2}></c-l-w-c-i-t11_-self-Affiliation-Picklist>                                    </lightning-layout-item>    
+                        </template>
+                        <template if:true={input_options.F_Note_Indirizzo_PuntoVendita2}>
+                            <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                <c-l-w-c-i-t10_-self-Affiliation-Input max-length="40" onchange={handleChangeNoteIndirizzoPV2} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Note_Indirizzo_PuntoVendita2.value} value={variables.noteIndirizzoPV2} required={input_options.F_Note_Indirizzo_PuntoVendita2.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                            </lightning-layout-item>    
+                        </template>
+                    </lightning-layout>
+                    <!-- MODALE CAMBIO GESTIONE -->
+                    <template if:true={variables.isModalCambioGestioneOpen2}>
+                        <template if:true={text_options.W_Attenzione}>
+                            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                                <div class="slds-modal__container">
+                                    <header class="slds-modal__header">
+                                    </header>
+                                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3">
+                                        <h1 style="text-align:center;" class="text-style-title">{text_options.W_Attenzione}</h1>
+                                        <br>
+                                        <h2 class="text-style-subtitle-3">{text_options.W_Attenzione_Info}</h2>
+                                        <br>
+                                        <lightning-layout multiple-rows vertical-align="end">
+                                            <template if:true={button_options.B_No_modifica_indirizzo}>
+                                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                                    <c-l-w-c-i-t09_-self-Affiliation-Button onclick={closeModalCambioGestione2} label={button_options.B_No_modifica_indirizzo} size="small" alignment="center" responsive="x-large"></c-l-w-c-i-t09_-self-Affiliation-Button>
+                                                </lightning-layout-item>  
+                                            </template>
+                                            <template if:true={button_options.B_Si_modifica_indirizzo}>
+                                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                                    <c-l-w-c-i-t09_-self-Affiliation-Button onclick={viewCambioGestione2} label={button_options.B_Si_modifica_indirizzo} size="small" alignment="center" responsive="x-large"></c-l-w-c-i-t09_-self-Affiliation-Button>
+                                                </lightning-layout-item>  
+                                            </template>
+                                        </lightning-layout>
+                                    </div>
+                                </div>
+                            </section>
+                            <div class="slds-backdrop slds-backdrop_open"></div>
+                        </template>
+                    </template>
+                    <template if:true={variables.isCambioGestione2}>
+                        <br>
+                        <lightning-layout multiple-rows vertical-align="end">
+                            <template if:true={text_options.W_Cambio_Gestione_Punto_Vendita}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                    <h3 class="text-style-subtitle-2">{text_options.W_Cambio_Gestione_Punto_Vendita}</h3>
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={input_options.F_Data_Subentro_puntoVendita2}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeDataSubentroCG2} property-name="enterpriseNb" place-holder-text="gg/mm/aaaa" input-label={input_options.F_Data_Subentro_puntoVendita2.value} value="" required={input_options.F_Data_Subentro_puntoVendita2.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                </lightning-layout-item>  
+                            </template>
+                            <template if:true={input_options.F_PIVA_gestore_precedente2}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangePivaPrecedenteCG2} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_PIVA_gestore_precedente2.value} value="" required={input_options.F_PIVA_gestore_precedente2.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                </lightning-layout-item>  
+                            </template>
+                            <template if:true={input_options.F_Codice_Locale_precedente2}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeCodiceLocalePrecedenteCG2} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Codice_Locale_precedente2.value} value="" required={input_options.F_Codice_Locale_precedente2.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                </lightning-layout-item>  
+                            </template>
+                            <template if:true={text_options.W_Atto_di_Subentro}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                    <div class="slds-form-element">
+                                        <label class="slds-form-element__label" style="font-family: Ubuntu;"><abbr class="slds-required" title="required">* </abbr>{text_options.W_Atto_di_Subentro}</label>
+                                        <lightning-input  type="file" accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf" label="" onchange={uploadFileCG2}></lightning-input>
+                                        <template if:true={variables.attoSubentroFileCG2}>
+                                            <p class="text-style-subtitle-4">{variables.attoSubentroFileCG2.filename}</p>
+                                        </template>
+                                    </div>
+                                </lightning-layout-item>  
+                            </template>
+                            <template if:false={variables.isCambioGestioneSaved2}>
+                            <template if:true={button_options.B_Salva}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                </lightning-layout-item> 
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t09_-self-Affiliation-Button onclick={saveCambioGestione2} label={button_options.B_Salva} size="small" alignment="right" responsive="x-large"></c-l-w-c-i-t09_-self-Affiliation-Button>
+                                </lightning-layout-item> 
+                            </template>
+                        </template>
+                        </lightning-layout>
+                    </template>
+                    <!-- END SECOND PV -->
+                    <br>
+                    <template if:true={button_options.B_Aggiungi_P_Vendita}>
+                        <template if:true={variables.newPV}>
+                            <lightning-layout multiple-rows vertical-align="end">
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                    <h3 style="cursor:pointer;" class="text-style-subtitle-2" onclick={openThirdPV}>{button_options.B_Aggiungi_P_Vendita}</h3>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </template>
+                    </template>
+                    <!-- START THIRD PV -->
+                    <template if:false={variables.newPV}>
+                        <br>
+                        <br>
+                        <lightning-layout multiple-rows vertical-align="end">
+                            <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                <h2 class="text-style-subtitle">{text_options.W_Terzo_P_Vendita}</h2>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                        <lightning-layout multiple-rows vertical-align="end">
+                            <template if:true={input_options.F_Insegna_PuntoVendita3}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t10_-self-Affiliation-Input max-length="30" onchange={handleChangeInsegnaPuntoVendita3} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Insegna_PuntoVendita3.value} required={input_options.F_Insegna_PuntoVendita3.required} ></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={input_options.F_Categoria_Merceologica}>
+                                <lightning-layout-item style="padding-top:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t11_-self-Affiliation-Picklist input-label={input_options.F_Categoria_Merceologica.value} pk-entries={availableLicense} required={input_options.F_Categoria_Merceologica.required} value={variables.categoriaPV3} onchange={handleChangeCategoriaPV3}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={input_options.F_Provincia_PuntoVendita3}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t11_-self-Affiliation-Picklist input-label={input_options.F_Provincia_PuntoVendita3.value} pk-entries={province} class="provincePV3" required={input_options.F_Provincia_PuntoVendita3.required} value={variables.provinciaPV3} onchange={handleChangeProvinciaPV3}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={input_options.F_Comune_PuntoVendita3}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t11_-self-Affiliation-Picklist disabled={disabledComunePV3} class="comuniPV3" input-label={input_options.F_Comune_PuntoVendita3.value} pk-entries={comuniPV3} required={input_options.F_Comune_PuntoVendita3.required} value={variables.comunePV3} onchange={handleChangeComunePV3}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={input_options.F_Via_PuntoVendita3}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                    <c-l-w-c-i-t10_-self-Affiliation-Input disabled={disabledViaPV3} onchange={handleChangeViaPV3} value={variables.viaPV3} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Via_PuntoVendita3.value} required={input_options.F_Via_PuntoVendita3.required} ></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                    <template if:true={variables.viaListPV3}>
+                                    <ul class="slds-dropdown slds-dropdown_fluid" style="width:95%; max-height: 40vh; overflow:scroll;">
+                                        <template for:each={variables.viaListPV3} for:item="object">
+                                            <li key={object.key} class="slds-listbox__item" style="text-align:center; margin-top:5px;">
+                                                <a onclick={selectViaPV3} data-id={object.key} data-name={object.value} data-title={object.toponym} data-postal={object.postal_code} style="text-align:center">{object.value}</a>
+                                            </li>
+                                            <hr key={object.key} style="margin:10px;">
+                                        </template>
+                                    </ul>
+                                </template>
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={input_options.F_Civico_puntoVendita3}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t10_-self-Affiliation-Input disabled={disabledFrazionePV3} onchange={handleChangeCivicoPV3} value={variables.civicoPV3} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Civico_puntoVendita3.value} required={input_options.F_Civico_puntoVendita3.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={input_options.F_Cap_puntoVendita3}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                    <c-l-w-c-i-t10_-self-Affiliation-Input disabled="true" onchange={handleChangeCAPPV3} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Cap_puntoVendita3.value} value={variables.postalcodePV3} required={input_options.F_Cap_puntoVendita3.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                </lightning-layout-item>    
+                            </template>
+                            <template if:true={input_options.F_Frazione_PuntoVendita3}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                    <c-l-w-c-i-t11_-self-Affiliation-Picklist disabled={disabledFrazionePV3} class="frazioniPV3" input-label={input_options.F_Frazione_PuntoVendita3.value} pk-entries={frazioniPV3} required={input_options.F_Frazione_PuntoVendita3.required} onchange={handleChangeFrazionePV3}></c-l-w-c-i-t11_-self-Affiliation-Picklist>                                        </lightning-layout-item>    
+                            </template>
+                            <template if:true={input_options.F_Note_Indirizzo_PuntoVendita3}>
+                                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                    <c-l-w-c-i-t10_-self-Affiliation-Input max-length="40" onchange={handleChangeNoteIndirizzoPV3} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Note_Indirizzo_PuntoVendita3.value} value={variables.noteIndirizzoPV3} required={input_options.F_Note_Indirizzo_PuntoVendita3.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                </lightning-layout-item>    
+                            </template>
+                        </lightning-layout>
+                        <!-- MODALE CAMBIO GESTIONE -->
+                        <template if:true={variables.isModalCambioGestioneOpen3}>
+                            <template if:true={text_options.W_Attenzione}>
+                                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                                    <div class="slds-modal__container">
+                                        <header class="slds-modal__header">
+                                        </header>
+                                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-4">
+                                            <h1 style="text-align:center;" class="text-style-title">{text_options.W_Attenzione}</h1>
+                                            <br>
+                                            <h2 class="text-style-subtitle-3">{text_options.W_Attenzione_Info}</h2>
+                                            <br>
+                                            <lightning-layout multiple-rows vertical-align="end">
+                                                <template if:true={button_options.B_No_modifica_indirizzo}>
+                                                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                                        <c-l-w-c-i-t09_-self-Affiliation-Button onclick={closeModalCambioGestione3} label={button_options.B_No_modifica_indirizzo} size="small" alignment="center" responsive="x-large"></c-l-w-c-i-t09_-self-Affiliation-Button>
+                                                    </lightning-layout-item>  
+                                                </template>
+                                                <template if:true={button_options.B_Si_modifica_indirizzo}>
+                                                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                                        <c-l-w-c-i-t09_-self-Affiliation-Button onclick={viewCambioGestione3} label={button_options.B_Si_modifica_indirizzo} size="small" alignment="center" responsive="x-large"></c-l-w-c-i-t09_-self-Affiliation-Button>
+                                                    </lightning-layout-item>  
+                                                </template>
+                                            </lightning-layout>
+                                        </div>
+                                    </div>
+                                </section>
+                                <div class="slds-backdrop slds-backdrop_open"></div>
+                            </template>
+                        </template>
+                        <template if:true={variables.isCambioGestione3}>
+                            <br>
+                            <lightning-layout multiple-rows vertical-align="end">
+                                <template if:true={text_options.W_Cambio_Gestione_Punto_Vendita}>
+                                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                        <h3 class="text-style-subtitle-2">{text_options.W_Cambio_Gestione_Punto_Vendita}</h3>
+                                    </lightning-layout-item>    
+                                </template>
+                                <template if:true={input_options.F_Data_Subentro_puntoVendita3}>
+                                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                        <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeDataSubentroCG3} property-name="enterpriseNb" place-holder-text="gg/mm/aaaa" input-label={input_options.F_Data_Subentro_puntoVendita3.value} value="" required={input_options.F_Data_Subentro_puntoVendita3.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                    </lightning-layout-item>  
+                                </template>
+                                <template if:true={input_options.F_PIVA_gestore_precedente3}>
+                                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                        <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangePivaPrecedenteCG3} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_PIVA_gestore_precedente3.value} value="" required={input_options.F_PIVA_gestore_precedente3.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                    </lightning-layout-item>  
+                                </template>
+                                <template if:true={input_options.F_Codice_Locale_precedente3}>
+                                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                        <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeCodiceLocalePrecedenteCG3} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Codice_Locale_precedente3.value} value="" required={input_options.F_Codice_Locale_precedente3.required}></c-l-w-c-i-t10_-self-Affiliation-Input>
+                                    </lightning-layout-item>  
+                                </template>
+                                <template if:true={text_options.W_Atto_di_Subentro}>
+                                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label"><abbr class="slds-required" title="required">* </abbr>{text_options.W_Atto_di_Subentro}</label>
+                                            <lightning-input  type="file" accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf" label="" onchange={uploadFileCG3}></lightning-input>
+                                            <template if:true={variables.attoSubentroFileCG3}>
+                                                <p class="text-style-subtitle-4">{variables.attoSubentroFileCG3.filename}</p>
+                                            </template>
+                                        </div>
+                                    </lightning-layout-item>  
+                                </template>
+                                <template if:false={variables.isCambioGestioneSaved3}>
+                                    <template if:true={button_options.B_Salva}>
+                                        <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                        </lightning-layout-item> 
+                                        <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                            <c-l-w-c-i-t09_-self-Affiliation-Button onclick={saveCambioGestione3} label={button_options.B_Salva} size="small" alignment="right" responsive="x-large"></c-l-w-c-i-t09_-self-Affiliation-Button>
+                                        </lightning-layout-item> 
+                                    </template>
+                                </template>
+                                
+                            </lightning-layout>
+                        </template>
+                    </template>
+                    <!-- END THIRD PV -->
+                </template>
+            </template>
+            <template if:true={button_options.B_Next}>
+                <br>
+                <lightning-layout multiple-rows vertical-align="end">
+                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                        <c-l-w-c-i-t09_-self-Affiliation-Button onclick={goToStep1} label={button_options.B_Precedente} size="small" alignment="left" responsive="x-large"></c-l-w-c-i-t09_-self-Affiliation-Button>
+                    </lightning-layout-item> 
+                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                        <c-l-w-c-i-t09_-self-Affiliation-Button onclick={goToStep3} label={button_options.B_Next} size="small" alignment="right" responsive="x-large"></c-l-w-c-i-t09_-self-Affiliation-Button>
+                    </lightning-layout-item> 
+                </lightning-layout>
+            </template>
+        </div>
+    </div>
+</template>
+<template if:true={error}>
+    <template if:true={errorTitle}>
+        <div class="text-style-ko">
+            <lightning-formatted-rich-text value={errorTitle}></lightning-formatted-rich-text>
+        </div>
+    </template>
+    <template if:true={errorMessage}>
+        <div class="text-style-ko">
+            <lightning-formatted-rich-text value={errorMessage}></lightning-formatted-rich-text>
+        </div>
+    </template>
+</template>
+</template>

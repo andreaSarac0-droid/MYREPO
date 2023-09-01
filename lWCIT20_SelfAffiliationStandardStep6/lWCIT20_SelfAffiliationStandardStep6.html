@@ -1,0 +1,113 @@
+<template>
+    <template if:true={text_options.W_Caricamento_Documenti}>
+        <h1 class="text-style-title">{text_options.W_Caricamento_Documenti}</h1>
+    </template>
+    <br>
+    <template if:true={text_options.W_Allegare_Documenti}>
+        <h3 class="text-style-subtitle">{text_options.W_Allegare_Documenti}</h3>
+    </template>
+    <br><br>
+    <div class="form show-ease">
+        <div class="left-ribbon"></div>
+        <div class="slds-form-element slds-form-element_compound" style="width: 100%;">
+            <lightning-layout multiple-rows vertical-align="end">
+                <template if:true={text_options.W_Documento}>
+                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                        <h3 class="text-style-subtitle" style="font-weight: bold;">{text_options.W_Documento}</h3>
+                    </lightning-layout-item> 
+                </template>
+                <template if:true={text_options.W_Rappresentante_negoziante}>
+                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                        <h3 class="text-style-subtitle-5">{text_options.W_Rappresentante_negoziante}</h3>
+                    </lightning-layout-item> 
+                </template>
+                <template if:true={input_options.F_Tipo_documento}>
+                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                        <c-l-w-c-i-t11_-self-Affiliation-Picklist input-label={input_options.F_Tipo_documento.value} pk-entries={tipologie_documenti} required={input_options.F_Tipo_documento.required} onchange={handleChangeTipoDocumento}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                    </lightning-layout-item> 
+                </template>
+                <template if:true={input_options.F_Numero_documento}>
+                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                        <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeNumeroDocumento} property-name="enterpriseNb" place-holder-text="" required={input_options.F_Numero_documento.required} input-label={input_options.F_Numero_documento.value} value=""></c-l-w-c-i-t10_-self-Affiliation-Input>
+                    </lightning-layout-item> 
+                </template>
+                <template if:true={input_options.F_Data_di_emissione}>
+                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                        <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeDataEmissioneDocumento} place-holder-text="gg/mm/aaaa" property-name="enterpriseNb" required={input_options.F_Data_di_emissione.required} input-label={input_options.F_Data_di_emissione.value} value=""></c-l-w-c-i-t10_-self-Affiliation-Input>
+                    </lightning-layout-item> 
+                </template>
+                <template if:true={input_options.F_Data_di_scadenza}>
+                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                        <c-l-w-c-i-t10_-self-Affiliation-Input onchange={handleChangeDataScadenzaDocumento} place-holder-text="gg/mm/aaaa" property-name="enterpriseNb"  required={input_options.F_Data_di_scadenza.required} input-label={input_options.F_Data_di_scadenza.value} value=""></c-l-w-c-i-t10_-self-Affiliation-Input>
+                    </lightning-layout-item> 
+                </template>
+                <template if:true={input_options.F_Ente_di_rilascio}>
+                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                        <c-l-w-c-i-t10_-self-Affiliation-Input max-length="30" onchange={handleChangeEnteRilascioDocumento} property-name="enterpriseNb" place-holder-text="" input-label={input_options.F_Ente_di_rilascio.value} required={input_options.F_Ente_di_rilascio.required} value=""></c-l-w-c-i-t10_-self-Affiliation-Input>
+                    </lightning-layout-item> 
+                </template>
+                <template if:true={button_options.B_Upload}>
+                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label"><abbr class="slds-required" title="required">* </abbr>{button_options.B_Upload}</label>
+                            <lightning-input type="file" accept=".png, .doc, .docx, .pdf, .jpg" label="" onchange={uploadDocumento}></lightning-input>
+                            <template if:true={variables.documento}>
+                                <p class="text-style-subtitle-4">{variables.documento.filename}</p>
+                            </template>
+                        </div>
+                    </lightning-layout-item> 
+                </template>
+            </lightning-layout>
+            <br><br>
+            <lightning-layout multiple-rows vertical-align="end">
+                <template if:true={text_options.W_Scontrino_fiscale}>
+                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                        <h3 class="text-style-subtitle" style="font-weight: bold;">{text_options.W_Scontrino_fiscale}</h3>
+                    </lightning-layout-item> 
+                </template>
+                <template if:true={text_options.W_Inviare_scontrino_fiscale}>
+                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                        <h3 class="text-style-subtitle-5">{text_options.W_Inviare_scontrino_fiscale}</h3>
+                    </lightning-layout-item> 
+                </template>
+                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                    <div class="slds-form-element">
+                        <!--<label class="slds-form-element__label"><abbr class="slds-required" title="required">* </abbr>{button_options.B_Upload}</label>-->
+                        <lightning-input type="file" accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf, .jpg" label="" onchange={uploadScontrino}></lightning-input>
+                        <template if:true={variables.scontrino}>
+                            <p class="text-style-subtitle-4">{variables.scontrino.filename}</p>
+                        </template>
+                    </div>
+                </lightning-layout-item> 
+            </lightning-layout>
+            <br><br>
+            <lightning-layout multiple-rows vertical-align="end">
+                <template if:true={text_options.W_CCIAA}>
+                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                        <h3 class="text-style-subtitle" style="font-weight: bold;">{text_options.W_CCIAA}</h3>
+                    </lightning-layout-item> 
+                </template>
+                <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                    <div class="slds-form-element">
+                        <!--<label class="slds-form-element__label"><abbr class="slds-required" title="required">* </abbr>{button_options.B_Upload}</label>-->
+                        <lightning-input type="file" accept=".xlsx, .xls, .csv, .png, .doc, .docx, .pdf, .jpg" label="" onchange={uploadVisura}></lightning-input>
+                        <template if:true={variables.visura}>
+                            <p class="text-style-subtitle-4">{variables.visura.filename}</p>
+                        </template>
+                    </div>
+                </lightning-layout-item> 
+            </lightning-layout>
+            <template if:true={button_options.B_Next}>
+                <br>
+                <lightning-layout multiple-rows vertical-align="end">
+                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                        <c-l-w-c-i-t09_-self-Affiliation-Button onclick={goToStep5} label={button_options.B_Precedente} size="small" alignment="left" responsive="x-large"></c-l-w-c-i-t09_-self-Affiliation-Button>
+                    </lightning-layout-item> 
+                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                        <c-l-w-c-i-t09_-self-Affiliation-Button onclick={goToStep7} label={button_options.B_Next} size="small" alignment="right" responsive="x-large"></c-l-w-c-i-t09_-self-Affiliation-Button>
+                    </lightning-layout-item> 
+                </lightning-layout>
+            </template>
+        </div>
+    </div>
+</template>

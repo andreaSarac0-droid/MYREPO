@@ -1,0 +1,63 @@
+<template>
+    <template if:true={text_options.W_Offerta}>
+        <h1 class="text-style-title">{text_options.W_Offerta}</h1>
+    </template>
+    <br>
+    <template if:true={text_options.W_Condizioni_generali}>
+        <h3 class="text-style-subtitle">{text_options.W_Condizioni_generali}</h3>
+    </template>
+    <br><br>
+    <div class="form show-ease">
+        <div class="left-ribbon"></div>
+        <div class="slds-form-element slds-form-element_compound" style="width: 100%;">
+            <lightning-layout multiple-rows vertical-align="end">
+                <template if:true={text_options.W_Accettare_cond_finanziarie}>
+                    <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                        <b class="text-style-subtitle">{text_options.W_Accettare_cond_finanziarie}</b>
+                    </lightning-layout-item>
+                </template>
+                <template if:true={button_options.B_Sottoscrizione_contratto}>
+                    <lightning-layout-item style="font-weight: bold;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox required="true" input-label={button_options.B_Sottoscrizione_contratto}  onchange={handleChangeCheckboxSottoscrizione}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                    </lightning-layout-item>
+                </template>
+                <template if:true={text_options.W_Sottoscrizione_contratto_info}>
+                    <lightning-layout-item style="padding-top:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                        <h3 class="text-style-subtitle-4">{text_options.W_Sottoscrizione_contratto_info} <a href="https://er-italy.my.salesforce.com/sfc/p/1t000000uc7Y/a/6N000000k1rm/_5FeWMxBCgoVqmWfn2selLs_P6yCIrGw07PnZOPeREw" target="_blank"> Clausole contrattuali</a> </h3>
+                    </lightning-layout-item>
+                </template>
+                <template if:true={button_options.B_Approvazione_art}>
+                    <lightning-layout-item style="font-weight: bold;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox required="true" input-label={button_options.B_Approvazione_art}  onchange={handleChangeCheckboxApprovazioneArt}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                    </lightning-layout-item>
+                </template>
+                <template if:true={text_options.W_Approvazione_art_info}>
+                    <lightning-layout-item style="padding-top:0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                        <h3 class="text-style-subtitle-4">{text_options.W_Approvazione_art_info}</h3>
+                    </lightning-layout-item>
+                </template>
+                <template if:true={button_options.B_Accettare_notizie}>
+                    <lightning-layout-item style="font-weight: bold;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label={button_options.B_Accettare_notizie}  onchange={handleChangeCheckboxNotizie}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                    </lightning-layout-item>
+                </template>
+                <template if:true={button_options.B_Accettare_notizie2}>
+                    <lightning-layout-item style="font-weight: bold;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label={button_options.B_Accettare_notizie2}  onchange={handleChangeCheckboxNotizie2}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                    </lightning-layout-item>
+                </template>
+            </lightning-layout>
+        </div>
+    </div>
+    <template if:true={button_options.B_Next}>
+        <br>
+        <lightning-layout multiple-rows vertical-align="end">
+            <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                <c-l-w-c-i-t09_-self-Affiliation-Button onclick={goToStep6} label={button_options.B_Precedente} size="small" alignment="left" responsive="x-large"></c-l-w-c-i-t09_-self-Affiliation-Button>
+            </lightning-layout-item> 
+            <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                <c-l-w-c-i-t09_-self-Affiliation-Button onclick={signContract} label="Conferma e Firma" size="small" alignment="right" responsive="x-large"></c-l-w-c-i-t09_-self-Affiliation-Button>
+            </lightning-layout-item> 
+        </lightning-layout>
+    </template>
+</template>

@@ -1,0 +1,135 @@
+<!-- sldsValidatorIgnore -->
+<template>
+    <div if:true={isLoading}>
+        <lightning-spinner
+            alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <!--<template if:false={convenzione}>-->
+        <lightning-quick-action-panel>
+            <div>
+                <lightning-button-group>
+                    <lightning-button label="Invia Autorizzazione" onclick={inviaAutorizzazione}></lightning-button>
+                    <lightning-button label="Sincronizza" onclick={sincronizza}></lightning-button>
+                    <lightning-button label="Vinci" onclick={vinci}></lightning-button>
+                    <lightning-button label="Convenzione" title="Successful action" onclick={openConvenzione}></lightning-button>
+                    <lightning-button icon-name="utility:refresh" variant="border-filled" alternative-text="Ricarica" onclick={refreshView}></lightning-button>
+                </lightning-button-group>
+            </div>
+            <br>
+            <div style="height: 300px;">
+                    <lightning-datatable
+                        key-field="recordId"
+                        data={opptyList}
+                        columns={columns}
+                        show-row-number-column="true"
+                        onrowselection={handleSelectedRows}
+                        onrowaction={handleRowAction}>
+                    </lightning-datatable>
+            </div>
+            <p style="display:none">Opportunity Id: {recordId}</p>
+        </lightning-quick-action-panel>
+    <!--</template>-->
+    <!--<template if:true={convenzione}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <c-l-w-c-i-t17_-tasto-convenzione record-id={recordId} oncloseconvenzione={openConvenzione}></c-l-w-c-i-t17_-tasto-convenzione>
+            </div>
+        </section>
+    </template>-->
+    <template if:true={convenzione}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={openConvenzione}>
+                    <lightning-icon
+                        icon-name="utility:close"
+                        alternative-text="close"
+                        variant="inverse"
+                        size="small" >
+                    </lightning-icon>
+                    <span class="slds-assistive-text">Cancel and close</span>
+                </button>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-4">
+                    <lightning-flow flow-api-name='IT_GroupAgreement' flow-input-variables={inputVariablesConvenzione} onstatuschange={handleStatusChangeConvenzione}></lightning-flow>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+    <template if:true={chAddr}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={changeAddress}>
+                    <lightning-icon
+                        icon-name="utility:close"
+                        alternative-text="close"
+                        variant="inverse"
+                        size="small" >
+                    </lightning-icon>
+                    <span class="slds-assistive-text">Cancel and close</span>
+                </button>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <lightning-flow flow-api-name='IT_Opp_ChangeAddress' flow-input-variables={inputVariablesChAddr} onstatuschange={handleStatusChangeChAddr}></lightning-flow>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+    <template if:true={chAcct}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={changeAccount}>
+                    <lightning-icon
+                        icon-name="utility:close"
+                        alternative-text="close"
+                        variant="inverse"
+                        size="small" >
+                    </lightning-icon>
+                    <span class="slds-assistive-text">Cancel and close</span>
+                </button>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                    <lightning-flow flow-api-name='IT98_EditAccountData' flow-input-variables={inputVariablesChAcct} onstatuschange={handleStatusChangeChAcct}></lightning-flow>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+    <template if:true={upCond}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={updateCond}>
+                    <lightning-icon
+                        icon-name="utility:close"
+                        alternative-text="close"
+                        variant="inverse"
+                        size="small" >
+                    </lightning-icon>
+                    <span class="slds-assistive-text">Cancel and close</span>
+                </button>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3">
+                    <lightning-flow flow-api-name='IT110_UpdateGroupValuesWelfare' flow-input-variables={inputVariablesUpCond} onstatuschange={handleStatusChangeUpCond}></lightning-flow>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+    <template if:true={showPdf}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={openPdf}>
+                    <lightning-icon
+                        icon-name="utility:close"
+                        alternative-text="close"
+                        variant="inverse"
+                        size="small" >
+                    </lightning-icon>
+                    <span class="slds-assistive-text">Cancel and close</span>
+                </button>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-5">
+                    <c-l-w-c-i-t19_-open-pdf record-id={pdfRecordId} onclosepdf={openPdf}></c-l-w-c-i-t19_-open-pdf>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+</template>

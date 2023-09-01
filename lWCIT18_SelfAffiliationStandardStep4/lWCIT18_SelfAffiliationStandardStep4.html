@@ -1,0 +1,504 @@
+<template>
+    <template if:true={text_options.W_Condizioni_economiche}>
+        <h1 class="text-style-title">{text_options.W_Condizioni_economiche}</h1>
+        <br>
+        <template if:true={text_options.W_Cond_economiche_partnership}>
+            <h3 class="text-style-subtitle">{text_options.W_Cond_economiche_partnership}</h3>
+        </template>
+        <br>
+        <template if:true={text_options.W_Cond_economiche_P_Vendita}>
+            <h3 class="text-style-subtitle-5">{text_options.W_Cond_economiche_P_Vendita}</h3>
+        </template>
+        <br><br>
+        <div class="form show-ease">
+            <div class="left-ribbon"></div>
+            <div class="slds-form-element slds-form-element_compound" style="width: 100%;">
+                <lightning-layout multiple-rows style="border: solid grey 1px;">
+                    <lightning-layout-item style="padding:0px; border-right: solid grey 1px;" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+            
+                        <lightning-layout multiple-rows >
+                            <lightning-layout-item style="border-bottom: solid grey 2px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                <lightning-layout multiple-rows>
+                                    <lightning-layout-item class="text2-style-subtitle" size="4" xx-small-device-size="4" x-small-device-size="4" small-device-size="4" medium-device-size="4" large-device-size="4" padding="around-small">
+                                        SSM
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle" size="4" xx-small-device-size="4" x-small-device-size="4" small-device-size="4" medium-device-size="4" large-device-size="4" padding="around-small">
+                                        SMD
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle" size="4" xx-small-device-size="4" x-small-device-size="4" small-device-size="4" medium-device-size="4" large-device-size="4" padding="around-small">
+                                        BS
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="padding-top:0px;" class="text2-style-subtitle-2" size="4" xx-small-device-size="4" x-small-device-size="4" small-device-size="4" medium-device-size="4" large-device-size="4" padding="around-small">
+                                        Servizio Sostitutivo di Mensa
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="padding-top:0px;" class="text2-style-subtitle-2" size="4" xx-small-device-size="4" x-small-device-size="4" small-device-size="4" medium-device-size="4" large-device-size="4" padding="around-small">
+                                        Servizio di mensa diffusa
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="padding-top:0px;" class="text2-style-subtitle-2" size="4" xx-small-device-size="4" x-small-device-size="4" small-device-size="4" medium-device-size="4" large-device-size="4" padding="around-small">
+                                        Buono Somministrazione
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                        SERVIZIO
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                        SCONTO
+                                    </lightning-layout-item>
+                                    <!--<lightning-layout-item class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="5" padding="around-small">
+                                        <img src={logo_tr} style="width: 100%">
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="5" padding="around-small">
+                                        <img src={logo_el} style="width: 100%">
+                                    </lightning-layout-item>-->
+                                    <lightning-layout-item class="text2-style-subtitle" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                        <lightning-layout style="padding:0px;">
+                                            <lightning-layout-item style="padding:0px;" class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="4" large-device-size="4" padding="around-small">
+                                                <img src={logo_tr} style="width: 100%">
+                                            </lightning-layout-item>
+                                            <lightning-layout-item style="padding:0px;" class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="4" large-device-size="4" padding="around-small">
+                                                <img src={logo_el} style="width: 100%">
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-4" size="9" xx-small-device-size="9" x-small-device-size="9" small-device-size="9" medium-device-size="9" large-device-size="9" padding="around-small">
+                                        STANDARD, CARD, FLEX
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <template if:true={discounts.Standard_Card_Flex}>{discounts.Standard_Card_Flex} %</template> <template if:false={discounts.Standard_Card_Flex}>-</template>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+                                        <hr style="margin: 10px 10px;">
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                        <lightning-layout style="padding:0px;">
+                                            <lightning-layout-item style="padding:0px;" class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="4" padding="around-small">
+                                                <img src={logo_tr} style="width: 100%">
+                                            </lightning-layout-item>
+                                            <lightning-layout-item class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="4" padding="around-small">
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-4" size="9" xx-small-device-size="9" x-small-device-size="9" small-device-size="9" medium-device-size="9" large-device-size="9" padding="around-small">
+                                        MAX
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <template if:true={discounts.Max}>{discounts.Max} %</template> <template if:false={discounts.Max}>-</template>
+                                    </lightning-layout-item>   
+                                </lightning-layout>
+                            </lightning-layout-item>
+
+                            <lightning-layout-item style="border-bottom: solid grey 2px; border-top: 0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                <lightning-layout multiple-rows>
+                                    <lightning-layout-item class="text2-style-subtitle" size="9" xx-small-device-size="9" x-small-device-size="9" small-device-size="9" medium-device-size="9" large-device-size="9" padding="around-small">
+                                        CITY TIME MAX
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                        SERVIZIO
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                        SCONTO
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-4" size="9" xx-small-device-size="9" x-small-device-size="9" small-device-size="9" medium-device-size="9" large-device-size="9" padding="around-small">
+                                        SCONTO INCONDIZIONATO
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <template if:true={discounts.City_Time_Max}>{discounts.City_Time_Max} %</template> <template if:false={discounts.City_Time_Max}>-</template>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-2" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                        (Comprende: Corrispettivo a Voucher transato per Easy Check Plus - Dispositivo Base per TL elettronici e Opzione di rimborso Base ex art. 8.2.4).
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+            
+                            <lightning-layout-item style="border-bottom: solid grey 2px; border-top: 0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                <lightning-layout multiple-rows>
+                                    <lightning-layout-item class="text2-style-subtitle" size="9" xx-small-device-size="9" x-small-device-size="9" small-device-size="9" medium-device-size="9" large-device-size="9" padding="around-small">
+                                        CITY TIME PLUS
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-2" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        (Art. 31)
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                        <lightning-layout style="padding:0px;">
+                                            <lightning-layout-item style="padding:0px;" class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="4" padding="around-small">
+                                                <img src={logo_ct} style="width: 100%">
+                                            </lightning-layout-item>
+                                            <lightning-layout-item class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="4" padding="around-small">
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                        SERVIZIO
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                        SCONTO
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-4" size="9" xx-small-device-size="9" x-small-device-size="9" small-device-size="9" medium-device-size="9" large-device-size="9" padding="around-small">
+                                        SCONTO INCONDIZIONATO
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <template if:true={discounts.City_Plus_Sconto_incondizionato}>{discounts.City_Plus_Sconto_incondizionato} %</template> <template if:false={discounts.City_Plus_Sconto_incondizionato}>-</template>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-4" size="9" xx-small-device-size="9" x-small-device-size="9" small-device-size="9" medium-device-size="9" large-device-size="9" padding="around-small">
+                                        CORRISPETTIVO PER VOUCHER
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <template if:true={prices.City_CitPlus_Corrispettivo_a_transazione}>{prices.City_CitPlus_Corrispettivo_a_transazione} €</template> <template if:false={prices.City_CitPlus_Corrispettivo_a_transazione}>-</template>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-2" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                        (Comprende: Corrispettivo a Voucher transato per Easy Check Plus – Dispositivo Base per TL elettronici, Opzione di rimborso FLY2, abilitazione POS bancario e Edenred4you).                                    
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+            
+                            
+                            <lightning-layout-item style="border-bottom: solid grey 2px; border-top: 0px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                <lightning-layout multiple-rows>
+                                    <lightning-layout-item class="text2-style-subtitle" size="4" xx-small-device-size="4" x-small-device-size="4" small-device-size="4" medium-device-size="4" large-device-size="4" padding="around-small">
+                                        BA
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle" size="4" xx-small-device-size="4" x-small-device-size="4" small-device-size="4" medium-device-size="4" large-device-size="4" padding="around-small"></lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle" size="4" xx-small-device-size="4" x-small-device-size="4" small-device-size="4" medium-device-size="4" large-device-size="4" padding="around-small"></lightning-layout-item>
+                                    <lightning-layout-item style="padding-top:0px;" class="text2-style-subtitle-2" size="4" xx-small-device-size="4" x-small-device-size="4" small-device-size="4" medium-device-size="4" large-device-size="4" padding="around-small">
+                                        Buoni acquisto multiuso
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-2" size="4" xx-small-device-size="4" x-small-device-size="4" small-device-size="4" medium-device-size="4" large-device-size="4" padding="around-small"></lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-2" size="4" xx-small-device-size="4" x-small-device-size="4" small-device-size="4" medium-device-size="4" large-device-size="4" padding="around-small"></lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                        SERVIZIO
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                        SCONTO
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                        <lightning-layout style="padding:0px;">
+                                            <lightning-layout-item style="padding:0px;" class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="4" padding="around-small">
+                                                <img src={logo_es} style="width: 100%"> <!--<img src={logo_tr} style="width: 100%">-->
+                                            </lightning-layout-item>
+                                            <lightning-layout-item class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="4" padding="around-small">
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-4" size="9" xx-small-device-size="9" x-small-device-size="9" small-device-size="9" medium-device-size="9" large-device-size="9" padding="around-small">
+                                        TOP PREMIUM, SPESA
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <template if:true={variables.availableBA}>
+                                            <template if:true={discounts.Top_Premium_Spesa}>{discounts.Top_Premium_Spesa} %</template> <template if:false={discounts.Top_Premium_Spesa}>-</template>
+                                        </template>
+                                        <template if:false={variables.availableBA}>-</template>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-4" size="9" xx-small-device-size="9" x-small-device-size="9" small-device-size="9" medium-device-size="9" large-device-size="9" padding="around-small">
+                                        SELECTION
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <template if:true={variables.availableBA}>
+                                            <template if:true={discounts.Selection}>{discounts.Selection} %</template> <template if:false={discounts.Selection}>-</template>
+                                        </template>
+                                        <template if:false={variables.availableBA}>-</template>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+                                        <hr style="margin: 10px 10px;">
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3" size="9" xx-small-device-size="9" x-small-device-size="9" small-device-size="9" medium-device-size="9" large-device-size="9" padding="around-small">
+                                        <lightning-layout style="padding:0px;">
+                                            <lightning-layout-item style="padding:0px;" class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                                <img src={logo_ts} style="width: 100%"> <!--<img src={logo_es} style="width: 100%">-->
+                                            </lightning-layout-item>
+                                            <lightning-layout-item class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <template if:true={variables.availableBA}>
+                                            <template if:true={discounts.Ticket_Service}>{discounts.Ticket_Service} %</template> <template if:false={discounts.Ticket_Service}>-</template>
+                                        </template>
+                                        <template if:false={variables.availableBA}>-</template>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+            
+                            <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                <lightning-layout multiple-rows>
+                                    <lightning-layout-item class="text2-style-subtitle" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                        Sistema di dematerializzazione
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                        <lightning-layout style="padding:0px;">
+                                            <lightning-layout-item style="padding:0px;" class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="5" padding="around-small">
+                                                <img src={logo_ecp} style="width: 100%">
+                                            </lightning-layout-item>
+                                            <lightning-layout-item class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-4" size="9" xx-small-device-size="9" x-small-device-size="9" small-device-size="9" medium-device-size="9" large-device-size="9" padding="around-small">
+                                        CORRISPETTIVO A VOUCHER TRANSATO
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <template if:true={prices.Dematerializzazione_Voucher_Transato}>{prices.Dematerializzazione_Voucher_Transato} €</template> <template if:false={prices.Dematerializzazione_Voucher_Transato}>-</template>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+                                        <hr style="margin: 10px 10px;">
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                        TIPO DI DISPOSITIVO
+                                    </lightning-layout-item>
+                                    <lightning-layout-item  size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label="POS"  onchange={handleChangeCheckboxPOS} disabled ="true" is-checked={variables.checkPos}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item  size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label="WEB"  onchange={handleChangeCheckboxWEB} disabled ="true" is-checked={variables.checkWeb}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item  size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label="APP"  onchange={handleChangeCheckboxAPP} disabled ="true" is-checked={variables.checkApp}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item  size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label="TERZI" disabled="true" is-checked={variables.checkBoxTerzi} onchange={handleChangeCheckboxTERZI}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                                    </lightning-layout-item>
+                                    <!--<template if:true={variables.checkBoxTerzi}>
+                                        <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                            <c-l-w-c-i-t11_-self-Affiliation-Picklist input-label="Partner demat" pk-entries={picklistPosType} value={variables.posType} onchange={handleChangePosType}></c-l-w-c-i-t11_-self-Affiliation-Picklist>
+                                        </lightning-layout-item>    
+                                    </template>-->
+                                </lightning-layout>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item> 
+            
+            
+            
+            
+                    <lightning-layout-item style="padding:0px; border-left: solid grey 1px;" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                        <lightning-layout multiple-rows style="height: 0px;">
+                            <lightning-layout-item style="border-bottom: solid grey 2px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                <lightning-layout multiple-rows vertical-align="center" >
+                                    <lightning-layout-item class="text2-style-subtitle" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                        Dispositivo base per TL eletronici
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="padding-top:0px;" class="text2-style-subtitle-2" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                        Condizioni economiche (POS Edenred e di terzi)
+                                    </lightning-layout-item>  
+                                    <lightning-layout-item class="text2-style-subtitle-4" size="9" xx-small-device-size="9" x-small-device-size="9" small-device-size="9" medium-device-size="9" large-device-size="9" padding="around-small">
+                                        CORRISPETTIVO A VOUCHER TRANSATO
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <template if:true={prices.Corrispettivo_per_transazione}>{prices.Corrispettivo_per_transazione} €</template> <template if:false={prices.Corrispettivo_per_transazione}>-</template>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+                                        <hr style="margin: 10px 10px;">
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-4" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                        POS EDENRED
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                        SERVIZIO INSTALLAZIONE
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3 slds-align_absolute-center" style="text-align: center;" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        CORRISPETTIVO INSTALLAZIONE
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3 slds-align_absolute-center" style="text-align: center;" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        CANONE MENSILE
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                        <lightning-layout multiple-rows>
+                                            <lightning-layout-item class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                                <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label="Si" disabled="true" is-checked={variables.posEdenredYes} onchange={handleChangeCheckboxPosEdenredYes}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                                <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label="No" disabled="true"  is-checked={variables.posEdenredNo} onchange={handleChangeCheckboxPosEdenredNo}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-5 slds-align_absolute-center" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <template if:true={prices.Corrispettivo_per_installazione_termin}>-</template> <template if:false={prices.Corrispettivo_per_installazione_termin}>-</template>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-5 slds-align_absolute-center" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <template if:true={prices.Canone_mensile}>-</template> <template if:false={prices.Canone_mensile}>-</template>
+                                    </lightning-layout-item>
+            
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+                                        <hr style="margin: 10px 10px;">
+                                    </lightning-layout-item>
+            
+                                    <lightning-layout-item class="text2-style-subtitle-4" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                        X-POS EDENRED
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                        SERVIZIO INSTALLAZIONE
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3 slds-align_absolute-center" style="text-align: center;" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        CORRISPETTIVO INSTALLAZIONE
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3 slds-align_absolute-center" style="text-align: center;" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        CANONE MENSILE
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                        <lightning-layout multiple-rows>
+                                            <lightning-layout-item class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                                <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label="Si" disabled ="true" is-checked={variables.xposEdenredYes} onchange={handleChangeCheckboxXPosEdenredYes}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                                <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label="No" disabled ="true" is-checked={variables.xposEdenredNo} onchange={handleChangeCheckboxXPosEdenredNo}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-5 slds-align_absolute-center" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <template if:true={prices.Corrispettivo_per_installazione_termin}> {prices.Corrispettivo_per_installazione_termin} €</template> <template if:false={prices.Corrispettivo_per_installazione_termin}>-</template>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-5 slds-align_absolute-center" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <template if:true={prices.Canone_mensile}>{prices.Canone_mensile} €</template> <template if:false={prices.Canone_mensile}>-</template>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+                                        <hr style="margin: 10px 10px;">
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox input-label="Di Terzi" is-checked={variables.xposDiTerzi} disabled="true" onchange={handleChangeCheckboxxPosDiTerzi}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                                    </lightning-layout-item>
+                                    
+            
+            
+                                    
+                                </lightning-layout>
+                            </lightning-layout-item>
+                            <lightning-layout-item style="border-bottom: solid grey 2px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                <lightning-layout multiple-rows>
+                                    <lightning-layout-item class="text2-style-subtitle" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                        Opzioni di rimborso
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                        SERVIZIO
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                        SCONTO
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3" size="9" xx-small-device-size="9" x-small-device-size="9" small-device-size="9" medium-device-size="9" large-device-size="9" padding="around-small">
+                                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox disabled="true" input-label="BASE (Art 5.4.1)" is-checked={variables.rimborsoBase} onchange={handleChangeCheckboxRimborsoBase}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <template if:true={discounts.Rimborso_Base}>/</template> <template if:false={discounts.Rimborso_Base}>-</template>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3" size="9" xx-small-device-size="9" x-small-device-size="9" small-device-size="9" medium-device-size="9" large-device-size="9" padding="around-small">
+                                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox disabled="true" input-label="FLYDUE" is-checked={variables.rimborsoFlyDue} onchange={handleChangeCheckboxFlyDue}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <template if:true={discounts.Rimborso_Flydue}>/</template> <template if:false={discounts.Rimborso_Flydue}>-</template>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3" size="9" xx-small-device-size="9" x-small-device-size="9" small-device-size="9" medium-device-size="9" large-device-size="9" padding="around-small">
+                                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox disabled={variables.rimborsoFlyQuindici} input-label="FLYQUINDICI" is-checked={variables.rimborsoFlyQuindici} onchange={handleChangeCheckboxFlyQuindici}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;"  class="text2-style-subtitle-5" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <template if:true={prices.Rimborso_Flyquindici}>{prices.Rimborso_Flyquindici} %</template> <template if:false={prices.Rimborso_Flyquindici}>-</template>
+                                    </lightning-layout-item>
+                                    
+                                </lightning-layout>
+                            </lightning-layout-item>
+                            <lightning-layout-item style="border-bottom: solid grey 2px;" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                <lightning-layout multiple-rows>
+                                    <lightning-layout-item class="text2-style-subtitle" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                        Opzioni di prefatturazione
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                        SERVIZIO
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                        SCONTO
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3" size="9" xx-small-device-size="9" x-small-device-size="9" small-device-size="9" medium-device-size="9" large-device-size="9" padding="around-small">
+                                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox disabled={variables.fatturazioneBase} input-label="BASE" is-checked={variables.fatturazioneBase} onchange={handleChangeCheckboxFatturazioneBase}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <template if:true={discounts.Prefatturazione_Base}>{discounts.Prefatturazione_Base} %</template> <template if:false={discounts.Prefatturazione_Base}>-</template>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3" size="9" xx-small-device-size="9" x-small-device-size="9" small-device-size="9" medium-device-size="9" large-device-size="9" padding="around-small">
+                                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox disabled="true" input-label="SETTIMANALE" is-checked={variables.fatturazioneSettimanale} onchange={handleChangeCheckboxFatturazioneSettimanale}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <template if:true={discounts.Prefatturazione_Settimanale}>-</template> <template if:false={discounts.Prefatturazione_Settimanale}>-</template>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-3" size="9" xx-small-device-size="9" x-small-device-size="9" small-device-size="9" medium-device-size="9" large-device-size="9" padding="around-small">
+                                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox disabled="true" input-label="QUINDICINALE" is-checked={variables.fatturazioneQuindicinale} onchange={handleChangeCheckboxFatturazioneQuindicinale}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <template if:true={discounts.Prefatturazione_Quindicinale}>-</template> <template if:false={discounts.Prefatturazione_Quindicinale}>-</template>
+                                    </lightning-layout-item>
+                                    
+                                </lightning-layout>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                <lightning-layout multiple-rows>
+                                    <lightning-layout-item class="text2-style-subtitle" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                        Superpranzo business (Art 13.5.1)
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                        <lightning-layout style="padding:0px;">
+                                            <lightning-layout-item class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="4" large-device-size="3" padding="around-small">
+                                                <img src={logo_sp} style="width: 100%">
+                                            </lightning-layout-item>
+                                            <lightning-layout-item class="text2-style-subtitle-3" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="4" large-device-size="4" padding="around-small">
+                                                <img src={logo_tr} style="width: 100%">
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox disabled={variables.opzione1} input-label="OPZIONE 1" is-checked={variables.opzione1} onchange={handleChangeCheckboxOpzione1}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-6" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Corrispettivo
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <template if:true={discounts.Superpranzo_Opzione_1}>{discounts.Superpranzo_Opzione_1} %</template> <template if:false={discounts.Superpranzo_Opzione_1}>-</template>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <template if:true={prices.Superpranzo_Opzione_1}>{prices.Superpranzo_Opzione_1} €</template> <template if:false={prices.Superpranzo_Opzione_1}>-</template>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle" size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                                        <c-l-w-c-i-t12_-self-Affiliation-Checkbox disabled="true" input-label="OPZIONE 2" is-checked={variables.opzione2} onchange={handleChangeCheckboxOpzione2}> </c-l-w-c-i-t12_-self-Affiliation-Checkbox>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-6" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Valore della transazione
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                    
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <!-- 8.20 € -->
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-6" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Se inferiore o uguale:
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                       <!-- 5% --> 
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <!-- - € -->
+                                    </lightning-layout-item>
+                                    <lightning-layout-item class="text2-style-subtitle-6" size="6" xx-small-device-size="6" x-small-device-size="6" small-device-size="6" medium-device-size="6" large-device-size="6" padding="around-small">
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Se superiore:
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="2" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                       <!-- - %--> 
+                                    </lightning-layout-item>
+                                    <lightning-layout-item style="text-align:right;" class="text2-style-subtitle-5" size="3" xx-small-device-size="3" x-small-device-size="3" small-device-size="3" medium-device-size="3" large-device-size="3" padding="around-small">
+                                        <!--10.50 €-->
+                                    </lightning-layout-item>
+            
+                                </lightning-layout>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item> 
+                </lightning-layout>
+            </div>
+        </div>
+    </template>
+    <template if:true={button_options.B_Next}>
+        <br>
+        <lightning-layout multiple-rows vertical-align="end">
+            <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                <c-l-w-c-i-t09_-self-Affiliation-Button onclick={goToStep3} label={button_options.B_Precedente} size="small" alignment="left" responsive="x-large"></c-l-w-c-i-t09_-self-Affiliation-Button>
+            </lightning-layout-item> 
+            <lightning-layout-item size="12" xx-small-device-size="12" x-small-device-size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                <c-l-w-c-i-t09_-self-Affiliation-Button onclick={goToStep5} label={button_options.B_Next} size="small" alignment="right" responsive="x-large"></c-l-w-c-i-t09_-self-Affiliation-Button>
+            </lightning-layout-item> 
+        </lightning-layout>
+    </template>
+</template>

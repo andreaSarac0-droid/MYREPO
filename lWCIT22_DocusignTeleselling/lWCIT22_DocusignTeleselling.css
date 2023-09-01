@@ -1,0 +1,19 @@
+:host {
+    --sds-c-textarea-sizing-min-height: 20em;
+}
+
+.modalBody {
+    position: relative;
+}
+
+.sendEmailContainer {
+    max-width: 80rem !important;
+    width: 80% !important;
+}
+.buttonContractSent {
+    /*color:green;*/
+    --sds-c-button-brand-color-background: #2e844a;
+    --slds-c-button-brand-color-background-hover: #2e844a;
+    --slds-c-button-brand-color-border: #2e844a; 
+    /*--slds-c-button-brand-color-border-hover: #2e844a;*/
+}

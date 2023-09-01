@@ -1,0 +1,154 @@
+<!-- sldsValidatorIgnore -->
+<template>
+    <div if:true={isLoading}>
+        <lightning-spinner
+            alternative-text="Loading..." variant="brand" class="slds-is-fixed">
+        </lightning-spinner>
+    </div>
+    <template if:true={recordId}>
+        <lightning-quick-action-panel>
+
+            <lightning-layout>
+                <lightning-layout-item size="4">
+                    <template if:true={optionsSoldTo}>
+                        <lightning-combobox
+                            label="Filtra per Account Sold-To"
+                            options={optionsSoldTo}
+                            onchange={handleChangeSoldTo}
+                            value={value}>
+                        </lightning-combobox>
+                    </template>
+                </lightning-layout-item>
+                <template if:true={zuoraSwitch}>
+                    <lightning-layout-item size="4">
+                        <template if:true={optionsBillTo}>
+                            <lightning-combobox
+                                label="Filtra per Account Bill-To"
+                                options={optionsBillTo}
+                                onchange={handleChangeBillTo}>
+                            </lightning-combobox>
+                        </template>
+                    </lightning-layout-item>
+                </template>
+                <template if:true={zuoraSwitch}>
+                    <lightning-layout-item size="4">
+                        <template if:true={optionsInvoice}>
+                            <lightning-combobox
+                                label="Filtra per Fattura"
+                                options={optionsInvoice}
+                                onchange={handleChangeInvoice}>
+                            </lightning-combobox>
+                        </template>
+                    </lightning-layout-item>
+                </template>
+            </lightning-layout>
+
+            <br>
+            
+            <div>
+                <lightning-button-group>
+                    <!--<lightning-button label="Estendi a Gruppo" onclick={extendToGroup}></lightning-button>-->
+                    <lightning-button label="Aggiungi Prodotti e VAS" onclick={openAddProducts} disabled={disableAggiungi}></lightning-button>
+                    <template if:true={zuoraSwitch}>
+                        <lightning-button label="Gestisci Fatturazione"></lightning-button>
+                    </template>
+                    <template if:true={zuoraSwitch}>
+                        <lightning-button label="Fattura tutto su Capogruppo"></lightning-button>
+                    </template>
+                    <template if:true={mostraTabVas}>
+                        <lightning-button label="Raggruppa tutti i VAS" onclick={groupVas}></lightning-button>
+                    </template>
+                    <lightning-button icon-name="utility:refresh" variant="border-filled" alternative-text="Ricarica" onclick={refreshView}></lightning-button>
+                </lightning-button-group>
+            </div>
+            <br>
+                <!--<lightning-card title="Prodotti" icon-name="custom:custom63">-->
+                    <div class="slds-m-around_medium" style="height: 100%;">
+                        <template if:true={displayList}>
+                            <lightning-datatable
+                                key-field="Id"
+                                data={displayList}
+                                columns={columns}
+                                onsave={handleSave}
+                                onrowaction={handleRowAction}
+                                draft-values={draftValues}>
+                            </lightning-datatable>
+                        </template>
+                        <template if:true={QuoteRatePlanCharge.error}>
+                            <!-- handle Apex error -->
+                        </template>
+                    </div>
+                    <template if:true={showMostraTutti}>
+                        <div style="width: 100%;">
+                            <lightning-button variant="brand-outline" label={buttonLabel} onclick={handleMostraTutti} class="slds-align_absolute-center"></lightning-button>
+                        </div>
+                    </template>
+                <!--</lightning-card>-->
+        </lightning-quick-action-panel>
+    </template>
+    <!--<template if:true={addProducts}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <c-l-w-c-i-t18_-aggiungi-prodotti record-id={recordId} oncloseaddprod={closeAddProducts}></c-l-w-c-i-t18_-aggiungi-prodotti>
+            </div>
+        </section>
+    </template>-->
+    <template if:true={addProducts}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={closeAddProducts}>
+                    <lightning-icon
+                        icon-name="utility:close"
+                        alternative-text="close"
+                        variant="inverse"
+                        size="small" >
+                    </lightning-icon>
+                    <span class="slds-assistive-text">Cancel and close</span>
+                </button>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <c-l-w-c-i-t18_-aggiungi-prodotti record-id={recordId} oncloseaddprod={closeAddProducts} hide-flowee={disableAggiungi}></c-l-w-c-i-t18_-aggiungi-prodotti>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+    <template if:true={upCond}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={updateCond}>
+                    <lightning-icon
+                        icon-name="utility:close"
+                        alternative-text="close"
+                        variant="inverse"
+                        size="small" >
+                    </lightning-icon>
+                    <span class="slds-assistive-text">Cancel and close</span>
+                </button>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-3">
+                    <lightning-flow flow-api-name='IT100_UpdateProductValues' flow-input-variables={inputVariablesUpCond} onstatuschange={handleStatusChangeUpCond}></lightning-flow>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+    <template if:true={showVal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={updateVal}>
+                    <lightning-icon
+                        icon-name="utility:close"
+                        alternative-text="close"
+                        variant="inverse"
+                        size="small" >
+                    </lightning-icon>
+                    <span class="slds-assistive-text">Cancel and close</span>
+                </button>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-6">
+                    <lightning-input label="Nuovo valore"></lightning-input>
+                    <lightning-button label="Aggiorna Valore" onclick={finalizeVal}></lightning-button>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+</template>

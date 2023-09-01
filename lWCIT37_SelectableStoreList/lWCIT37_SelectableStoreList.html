@@ -1,0 +1,37 @@
+<template>
+    <div class="slds-grid slds-gutters">
+        <div class="slds-col slds-size_1-of-2">
+            <h2 class="slds-text-align_left">
+                <b>Altri locali da selezionare</b>
+            </h2>
+            <lightning-input 
+                data-id="tutti" 
+                type="checkbox" 
+                label="Tutti" 
+                onchange={handleAllChecked}
+                checked={checked}
+                disabled={disableT}>
+            </lightning-input>
+            <template for:each={stores} for:item="store">
+                <lightning-input 
+                    data-id="stores" 
+                    type="checkbox" 
+                    key={store.Id} 
+                    value={store.Id} 
+                    label={store.IT_Desc_Store__c}
+                    onchange={handleCheck} 
+                    checked={checkedAll} 
+                    disabled={disableAll}>
+                </lightning-input>    
+            </template>
+        </div>
+
+        <div class="slds-col slds-size_1-of-2">
+            <h2 class="slds-text-align_left"><b>Locali selezionati</b></h2>
+            <lightning-formatted-text value={ListaNomiStore}></lightning-formatted-text>
+        </div>
+    </div>
+    <br>
+    <lightning-button class="slds-m-right_x-small" variant="brand-outline" label="Aggiungi" onclick={aggiungi}
+        disabled={disableButton}></lightning-button>
+</template>
