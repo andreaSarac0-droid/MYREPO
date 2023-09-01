@@ -1,0 +1,5 @@
+<design:component>
+	<design:attribute name="serviceName" label="Service Name" />
+    <design:attribute name="componentLabel" label="Label Componente" />
+    <design:attribute name="serviceIcon" label="Icona Componente" />
+</design:component>

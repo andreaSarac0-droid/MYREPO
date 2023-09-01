@@ -1,0 +1,100 @@
+<aura:component controller='APIT34_WS_Datatable_Controller' implements="force:hasSObjectName,force:lightningQuickActionWithoutHeader,force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride,lightning:availableForFlowScreens,lightning:availableForFlowActions"  access="global" >
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="data" type="Object[]"/>
+    <aura:attribute name="draftValues" type="Object" default="[]"/>
+    <aura:attribute name="sortedBy" type="String" default="Name"/>
+    <aura:attribute name="sortedDirection" type="String" default="asc" />
+    <aura:attribute name="recordNumber" type="Integer" default="0"/>
+    <aura:attribute name="currentPageNumber" type="Integer" default="1"/>
+    <aura:attribute name="selectedPageSize" type="String" default="10"/>
+    <aura:attribute name="totalPages" type="String" />
+    <aura:attribute name="searchTerm" type="String" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="flowName" type="String" />
+    <aura:attribute name="serviceName" type="String" />
+    <aura:attribute name="componentLabel" type="String" />
+    <aura:attribute name="serviceIcon" type="String" />
+    <aura:attribute name="showButton" type="boolean" default="true"/>
+    <aura:attribute name="isFlow" type="boolean" default="false"/>
+    <aura:attribute name="isViewAll" type="boolean" default="false"/>
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    <aura:attribute name="errorMessage" type="String" default = "No Data Found" />
+    <aura:attribute name="pageList" type="List"/>
+    <lightning:workspaceAPI aura:id="workspace" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <div class="slds-modal__content" style = "border-radius: 0.25rem; border-color: rgb(221, 219, 218);" >
+        <div class="slds-page-header" style = "padding-bottom : 0.75rem;background-color : rgb(243, 242, 242);">
+            <div class="slds-grid slds-wrap row">
+                <div class="slds-col slds-size_1-of-2 slds-float_left">
+                    <lightning:icon size="small" iconName="{!v.serviceIcon}" alternativeText="Contacts" />
+                    <b style = "margin-left:0.7rem;font-size:14px;"><a style = "color: inherit;" onclick=""> {!v.componentLabel} </a></b>
+                </div>
+                <div class="slds-col slds-size_1-of-2">
+                    <!-- <div style = "float:right;">
+                            <lightning:button  variant="Neutral" label="Nuovo" iconPosition="right" onclick="{!c.openModel}"/>
+                        </div> -->
+                    <div style = "float:right;">
+                        <button aura:id = "collapseButton" class="slds-button slds-button_icon slds-button_icon-border-filled slds-path__trigger buttonStyle" onclick= "{!c.refreshTable}">
+                            <lightning:icon iconName="utility:refresh" alternativeText="Refresh" size="x-small" aura:id="iconRef" class="iconStyle"/>
+                            <span class="slds-assistive-text">Refresh</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            
+        </div>
+        <aura:if isTrue="{! v.loaded }">
+            <aura:if isTrue="{!v.data.length > 0}">  
+                <lightning:datatable aura:id="table" columns="{!v.columns}" 
+                                     data="{!v.data}" 
+                                     keyField="Id" 
+                                     sortedBy="{!v.sortedBy}"
+                                     sortedDirection="{!v.sortedDirection}"
+                                     onsort="{!c.updateColumnSorting}"
+                                     onrowselection="{! c.onRowSelection}"
+                                     onrowaction="{! c.getBarcode}"
+                                     onsave="{! c.handleSave }"
+                                     draftValues="{! v.draftValues }"
+                                     minColumnWidth = "160"
+                                     enableInfiniteLoading="true"
+                                     loadMoreOffset="true"
+                                     resizeColumnDisabled = "true"
+                                     hideCheckboxColumn="true"/>
+            </aura:if>  
+            <aura:if isTrue="{!v.data.length == 0}">  
+                {!v.errorMessage} 
+            </aura:if> 
+            <aura:set attribute="else">
+                <div>
+                    <lightning:spinner alternativeText="Loading" size = "medium"/>
+                </div>
+            </aura:set>
+        </aura:if>
+    </div> 
+	<aura:if isTrue="{!v.isModalOpen}">
+            <!--###### MODAL BOX Start######--> 
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- ###### MODAL BOX HEADER Start ######-->
+                    <header class="slds-modal__header">
+                        <!-- Close button-->
+                        <!--<lightning:buttonIcon class="slds-button slds-button_icon slds-button__icon_large slds-modal__close slds-button_icon-inverse" iconName="utility:close" onclick="{! c.exitModal }" alternativeText="close"></lightning:buttonIcon>-->
+                        <lightning:buttonIcon class="slds-button slds-button_icon slds-button__icon_large slds-modal__close slds-button_icon-inverse" iconName="utility:close" onclick="{! c.exitModal }" alternativeText="close" variant="bare-inverse"></lightning:buttonIcon>
+                    </header>
+                    <!--###### MODAL BOX BODY Part Start######-->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        Documento non presente in Indicom
+                    </div>
+                    <!--###### MODAL BOX FOOTER Part Start ######-->
+                    <footer class="slds-modal__footer">
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+            <!--###### MODAL BOX Part END Here ######-->
+    </aura:if>	
+
+</aura:component>

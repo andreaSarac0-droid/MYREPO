@@ -1,0 +1,11 @@
+<design:component>
+	<design:attribute name="masterContactId" label="masterContactId" />
+    <design:attribute name="slaveContactId" label="slaveContactId" />
+    <design:attribute name="chosenFirstName" label="chosenFirstName"  />
+    <design:attribute name="chosenLastName" label="chosenLastName"  />
+    <design:attribute name="chosenEmail" label="chosenEmail"  />
+    <design:attribute name="chosenPhone" label="chosenPhone"  />
+    <design:attribute name="chosenFax" label="chosenFax"  />
+    <design:attribute name="chosenPec" label="chosenPec"  />
+    <design:attribute name="chosenMobile" label="chosenMobile"  />
+</design:component>

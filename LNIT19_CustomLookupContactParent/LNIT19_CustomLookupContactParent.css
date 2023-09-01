@@ -1,0 +1,15 @@
+.THIS .bigContainer{
+    padding-top: 0.5rem;
+    padding-right: 0.75rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.5rem;
+}
+
+.THIS .slds-col{
+	padding-right : 0.30rem;
+    padding-left : 0.30rem;
+} 
+.THIS .slds-grid{
+	/*margin-right : 2rem;*/
+    margin-right : 5%;
+}

@@ -1,0 +1,47 @@
+.THIS .slds-button__icon{
+    float:right;
+    /*margin-right:4.5rem;*/
+    
+}
+.THIS .bigContainer{
+    padding-top: 0.5rem;
+    padding-right: 0.75rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.5rem;
+}
+.THIS .slds-col{
+	padding-right : 0.30rem;
+    padding-left : 0.30rem;
+} 
+.THIS .slds-grid{
+	/*margin-right : 2rem;*/
+    margin-right : 5%;
+} 
+.THIS .slds-pill_link{
+    width:100%
+}
+.THIS .rotator{
+    transition: 0.4s;
+    transform: rotateZ(360deg);
+}
+
+.THIS .buttonStyle:hover .iconStyle svg{
+    fill: #d62718;
+}
+
+.THIS .expandable {
+  background: #fff;
+  overflow: hidden;
+
+  transition: all .5s ease-in-out;
+  line-height: 0;
+  padding: 0 1em;
+  color: transparent;
+}
+ 
+.THIS .expandable:target {
+  line-height: 1.5;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  color: black;
+}

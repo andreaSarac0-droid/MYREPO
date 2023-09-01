@@ -1,0 +1,56 @@
+<aura:component controller="APIT34_CustomRelatedListController" implements="force:hasSObjectName,force:lightningQuickActionWithoutHeader,force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride,lightning:availableForFlowScreens,lightning:availableForFlowActions"  access="global">
+    <aura:attribute name="NomeOggetto" type="String"/>
+    <aura:attribute name="CampoLookup" type="String" />
+    <aura:attribute name="LabelComponente"  type="String"/>
+    <aura:attribute name="NumeroColonne"  type="String"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="BottoneOFreccetta" type="Boolean" default="false"/>
+    <aura:attribute name="whereCondition" type="String"/>
+    <aura:attribute name="AltraLookup" type="String"/>
+    <aura:attribute name="OrderBy" type="String"/>
+    <aura:attribute name="OrderDirection" type="String"/>
+    <aura:attribute name="ReadOnly" type="Boolean"  default="false"/>
+    
+    <aura:attribute name="sortedBy" type="String" />
+    <aura:attribute name="sortedDirection" type="Boolean" default="true" />
+    <aura:attribute name="accountId" type="String"/>  
+    <aura:attribute name="data" type="List"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="columnTypes" type="Map"/>
+    <aura:attribute name="errors" type="Object" default="[]"/>
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+     
+    
+    <lightning:card>
+        <table>
+        	<tr>
+                <td>
+                	<div class="slds-m-around_x-small" style="padding-left:5px"><b>{!v.LabelComponente}</b></div>
+                </td>
+        		<td style="text-align:right;padding-right:5px">
+        			<lightning:buttonIcon class="slds-m-horizontal_medium" iconName="utility:refresh" variant="bare" onclick="{! c.refresh }" alternativeText="Refresh" title="Refresh" />
+        		</td>    
+        	</tr>
+        </table>
+        
+        <div class="slds-m-around_x-small">
+            <lightning:datatable
+                                 aura:id="datatable"                 
+                                 columns="{! v.columns }"
+                                 data="{! v.data }"
+                                 keyField="Id"
+                                 hideCheckboxColumn="true"                 
+                                 onsave="{! c.handleSaveEdition }"
+                                 onrowaction="{! c.open }"
+                                 onsort="{!c.updateColumnSorting}"
+                                 sortedBy="{!v.sortedBy}"
+                                 sortedDirection="{!v.sortedDirection}"          
+                                 />
+        </div>
+    </lightning:card>
+    <aura:if isTrue="{!v.BottoneOFreccetta}">
+        <!--<lightning:button onclick="{!c.insertRow}">Inserisci Nuovo</lightning:button>-->
+        <lightning:button onclick="{!c.open}">Apri</lightning:button>
+    </aura:if>
+    
+</aura:component>

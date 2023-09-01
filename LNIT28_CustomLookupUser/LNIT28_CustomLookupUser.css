@@ -1,0 +1,71 @@
+.THIS .slds-button__icon{  
+    float:right;
+    /*margin-right:4.5rem;*/
+}
+.THIS .bigContainer{
+    padding-top: 0.5rem;
+    padding-right: 0.75rem;
+    padding-bottom: 0.5rem;
+    padding-left: 0.5rem;
+}
+.THIS .slds-col{
+	padding-right : 0.30rem;
+    padding-left : 0.30rem;
+} 
+.THIS .slds-grid{
+	/*margin-right : 2rem;*/
+    margin-right : 5%;
+} 
+.THIS .slds-pill{
+    width:100%
+}
+.THIS .rotator{
+    /* transition: 0.4s; */
+    transition: 0.8s;
+    -webkit-transition: 0.8s;
+    -moz-transition: 0.8s;
+    -o-transition: 0.8s;
+    -ms-transition: 0.8s;
+    transform: rotateZ(360deg);
+    -webkit-transform: rotateZ(360deg);
+    -moz-transform: rotateZ(360deg);
+    -o-transform: rotateZ(360deg);
+    -ms-transform: rotateZ(360deg);
+}
+.THIS .buttonStyle:hover .iconStyle svg{
+    fill: #d62718;
+}
+.THIS .expandable {
+  background: #fff;
+  overflow: hidden;
+  transition: all .5s ease-in-out;
+  line-height: 0;
+  padding: 0 1em;
+  color: transparent;
+}
+.THIS .expandable:target {
+  line-height: 1.5;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  color: black;
+}
+.THIS .clsrpRg{
+    top:.5rem;
+    /* font-weight: bold; */
+}
+.THIS #rp ::placeholder{
+    /* color: cornflowerblue !important; */
+    font-size: .8rem !important;
+    font-style: italic;
+}
+.THIS .clsrp1{
+    color: cornflowerblue !important;
+    margin-left: -5%;
+}
+.THIS .clsrp2{
+    color: cornflowerblue !important;
+    /* margin-left: -10%; */
+}
+.THIS .clsrpClr2{
+    color: red !important;
+}

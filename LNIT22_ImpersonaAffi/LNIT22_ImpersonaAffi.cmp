@@ -1,0 +1,103 @@
+<aura:component controller="APIT35_ImpersonaAffiController" implements="force:hasSObjectName,force:lightningQuickActionWithoutHeader,force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,lightning:actionOverride" access="GLOBAL">
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+
+    <lightning:workspaceAPI aura:id="workspaceAPI" />
+    
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="sObjectName" type="String" />
+    <aura:attribute name="codCli" type="String" />
+    <aura:attribute name="codLoc" type="String" />
+    <aura:attribute name="codUtenteSF" type="String"/>
+    <aura:attribute name="circCd" type="String" />
+    <aura:attribute name="portalUser" type="List"/>
+    <aura:attribute name="employeeUser" type="List"/>
+    <aura:attribute name="boolPersonAcc" type="Boolean"/>
+    <aura:attribute name="boolBenCase" type="Boolean"/>
+    
+    <aura:attribute name="pageNumber" type="Integer" default='1'/>
+    
+    <aura:attribute name="options" type="List"/>
+    <aura:attribute name="value" type="String"/>
+    
+    <aura:attribute name="portali" type="List" />
+    <aura:attribute name="selectedPortal" type="String"/>
+        
+    <aura:attribute name="users" type="List"/>
+    <aura:attribute name="selectedUser" type="String"/>
+    
+    <aura:if isTrue="{!v.pageNumber==1}">
+        <div class="slds-text-heading_medium slds-p-around_small">Seleziona Portale</div>
+        <div class="slds-p-around_small">
+            <lightning:radioGroup name="radioGroup"
+                                  options="{! v.options }"
+                                  value="{! v.value }"
+                                  type="radio"
+                                  class="slds-size_large"/>
+        </div>
+        <div aura:id="actionButtonBar" class="slds-clearfix slds-p-top_medium">
+            <div class="slds-float_right">
+                <lightning:button aura:id="Next" label="Next"
+                                  variant="brand" onclick="{!c.onButtonPressed}" />
+            </div>
+        </div>
+    </aura:if> 
+    
+    <aura:if isTrue="{!v.pageNumber==2}">
+        <div class="slds-text-heading_medium slds-p-around_small">Seleziona Funzionalità</div>
+        <div class="slds-p-around_small">
+            <lightning:radioGroup name="radioGroup"
+                                  options="{! v.portali }"
+                                  value="{! v.selectedPortal }"
+                                  type="radio"
+                                  class="slds-size_large"/>
+        </div>
+        <div aura:id="actionButtonBar" class="slds-clearfix slds-p-top_medium">
+            <div class="slds-float_right">
+                <lightning:button aura:id="Back" label="Back"
+                                  variant="brand" onclick="{!c.onButtonPressed2}" />
+                <lightning:button aura:id="Next" label="Next"
+                                  variant="brand" onclick="{!c.onButtonPressed1}" />
+                
+            </div>
+        </div>
+    </aura:if> 
+        
+    <aura:if isTrue="{!v.pageNumber==3}">
+        <div class="slds-text-heading_medium slds-p-around_small">Seleziona Parametro</div>
+        <div class="slds-p-around_small">
+            <lightning:radioGroup name="radioGroup"
+                                  options="{!v.users}"
+                                  value="{!v.selectedUser}"
+                                  type="radio"
+                                  class="slds-size_large"/>
+        </div>
+        <div aura:id="actionButtonBar" class="slds-clearfix slds-p-top_medium">
+            <div class="slds-float_right">
+                <lightning:button aura:id="Back" label="Back"
+                                  variant="brand" onclick="{!c.onButtonPressed2}" />
+                <lightning:button aura:id="Impersona" label="Impersona"
+                                  variant="brand" onclick="{!c.impersona}" />
+            </div>
+        </div>
+    </aura:if>
+
+    <aura:if isTrue="{!v.pageNumber==4}">
+        <div class="slds-text-heading_medium slds-p-around_small">Seleziona Funzionalità</div>
+        <div class="slds-p-around_small">
+            <lightning:radioGroup name="radioGroup"
+                                  options="{!v.portali}"
+                                  value="{!v.selectedPortal}"
+                                  type="radio"
+                                  class="slds-size_large"/>
+        </div>
+        <div aura:id="actionButtonBar" class="slds-clearfix slds-p-top_medium">
+            <div class="slds-float_right">
+                <lightning:button aura:id="Back" label="Back"
+                                  variant="brand" onclick="{!c.onButtonPressed3}" />
+                                  <lightning:button aura:id="Open" label="Open"
+                                  variant="brand" onclick="{!c.impersona}" />
+            </div>
+        </div>
+    </aura:if>
+
+</aura:component>

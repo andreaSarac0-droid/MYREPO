@@ -1,0 +1,432 @@
+<!-- CustomLookUpComp -->  
+<aura:component controller="APIT47_UserLookupController"
+implements="lightning:availableForFlowScreens,lightning:availableForFlowActions,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+access="global">
+<lightning:notificationsLibrary aura:id="notifLib"/>
+<!-- <aura:component implements="lightning:availableForFlowScreens,lightning:availableForFlowActions,force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName" -->
+<!--<force:recordData aura:id="case" recordUpdated="{!c.doInit}" recordId="{!v.recordId}" fields="ContactId,SuppliedPhone,SuppliedEmail" targetFields="{!v.CaseRecord}" targetError="{!v.recordLoadError}"/>
+    Main attributes Start -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+<aura:attribute name="uniqueName" type="String" required="true" default="lookup1"/>
+<aura:attribute name="iconName" type="String" default="standard:account" required="true"/>
+<aura:attribute name="methodName" type="String" default="c.lookUp" required="true"/>
+<aura:attribute name="sObject" type="String" default="Account"/>
+<aura:attribute name="selectedAcc" type="Map[]"/>
+<aura:attribute name="selectedProd" type="Map[]"/> 
+<aura:attribute name="selectedCRMEmail" type="String"/>
+<aura:attribute name="selectedCRMPhone" type="String"/>
+<aura:attribute name="EmployeeIdCase" type="Id"/>
+    <!-- <aura:attribute name="selectedEmployee" type="Map[]"/> -->
+<aura:attribute name="selectedAsset" type="Map[]"/>
+<aura:attribute name="selectedIndividual" type="Map[]"/>
+<!-- flow -->
+<aura:attribute name="isModalOpen" type="boolean" default="false"/>
+<aura:attribute name="responsFlow" type="Object"/>
+<aura:attribute name="selectedEmployeeNew" type="String"/>
+<aura:attribute name="assetEmployeeNew" type="String"/>
+<aura:attribute name="EmplRecordEmailNEW" type="String"/>
+<aura:attribute name="EmplRecordPhoneNEW" type="String"/>
+<aura:attribute name="daFlowIndivNEW" type="String"/>
+<aura:attribute name="assetCiruit" type="String"/>
+<aura:attribute name="CaseRecord" type="Object"/> 
+<aura:attribute name="CaseRecordEmail" type="String"/>
+<aura:attribute name="CaseRecordPhone" type="String"/>
+<aura:attribute name="EmplRecordEmail" type="String"/>
+<aura:attribute name="EmplRecordPhone" type="String"/>
+<aura:attribute name="flgComeEmpl" type="boolean" default="true"/>
+<lightning:workspaceAPI aura:id="workspace"/>
+<!-- Main attributes End -->
+<aura:attribute name="EmailPhone" type="string" default=""/>
+<aura:attribute name="sTermAcc" type="string" default=""/>
+<aura:attribute name="sTermProd" type="string" default=""/>
+<!-- <aura:attribute name="sTermEmployee" type="string" default=""/> -->
+<aura:attribute name="sTermAsset" type="string" default=""/>
+<aura:attribute name="sTermIndividual" type="string" default=""/>
+<aura:attribute name="sTermCRMEmail" type="string" default=""/>
+<aura:attribute name="sTermCRMPhone" type="string" default=""/>
+<aura:attribute name="RecordTypeIdCase" type="string"/>
+<aura:attribute name="accList" type="Map[]"/>
+<aura:attribute name="prodList" type="Map[]"/>
+<aura:attribute name="prodListDflt" type="List" default='[ {"Id":"PPP","Label":"BUONO PASTO - CARTACEO","Name":"SALESFORCE"},{"Id":"PPP","Label":"BUONO PASTO - ELETTRONICO","Name":"ETR"},{"Id":"PPP","Label":"TICKET COMPLIMENTS - CARTACEO","Name":"ETC"},{"Id":"PPP","Label":"TICKET COMPLIMENTS - ELETTRONICO","Name":"TCW"},{"Id":"PPP","Label":"WELFARE - ELETTRONICO","Name":"WEL"},{"Id":"PPP","Label":"CANTEEN - ELETTRONICO","Name":"TRC"},{"Id":"PPP","Label":"VOUCHER SOCIALE - CARTACEO","Name":"DTS"},{"Id":"PPP","Label":"VOUCHER SOCIALE - ELETTRONICO","Name":"BENEF"},{"Id":"PPP","Label":"UTA","Name":"UTA"},{"Id":"PPP","Label":"EXPENDIA","Name":"EXP"} ]'/>
+<aura:attribute name="assetList" type="Map[]"/>
+<aura:attribute name="individualList" type="Map[]"/>
+<aura:attribute name="conList" type="Map[]"/>
+<aura:attribute name="blurTimeout" type="Integer"/>
+<aura:attribute name="timer" type="Integer"/>
+<!-- Register Final value Event -->
+<aura:registerEvent name="LEVIT01_CustomLookUpFinalValueEvent" type="c:LEVIT01_CustomLookUpFinalValueEvent"/>
+<!-- Handlers -->
+<aura:handler name="LEVIT02_LookupEventToParent" event="c:LEVIT02_LookupEventToParent" action="{!c.handleEvent}"/>
+<!-- Method to send pre-populate lookUp value to the requested component: parent to lookup-->
+<aura:method name="prePopulateMethod" action="{!c.render}">
+    <aura:attribute name="populatedRecord" type="Map[]"/>
+</aura:method>
+<aura:html tag="style">.toastMessage.forceActionsText{white-space : pre-line !important;}</aura:html>
+<div class="slds-card">
+    <div class="bigContainer">
+        <div class="slds-grid ">
+            <!-- 1 -->
+            <div class="slds-col slds-size_5-of-12">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <div class="slds-combobox_container slds-has-selection">
+                            <div aura:id="toOpenIndividual"
+                                class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"
+                                aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                                <div class=" slds-input-has-icon slds-input-has-icon_right" role="none">
+                                    <div>
+                                        <div aura:id="inputIndividual" class="slds-p-top_none">
+                                            <lightning:input class="slds-p-top_none" variant="label-hidden" 
+                                            name="Search" value="{!v.sTermIndividual}" onblur="{!c.onblur}"
+                                            onclick="{!c.onfocusIndividual}" onchange="{!c.onchange}"
+                                            placeholder="Select Individual > Nome Cognome"/>
+                                            <span   
+                                                class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right ">
+                                                <span
+                                                    class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default"
+                                                    aria-hidden="true">
+                                                    <lightning:icon class="" iconName="utility:search"
+                                                        size="x-small" alternativeText="Search"/>
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <aura:if isTrue="{!v.selectedIndividual}">
+                                            <div aura:id="lookup-pillIndividual" class="slds-pill_container slds-hide">
+                                                <aura:iteration items="{!v.selectedIndividual}" var="l">
+                                                    <lightning:pill class="pillSize" label="{!l.Name}" name="{!l}"
+                                                        onremove="{!c.handleRemoveIndividual}">
+                                                        <aura:set attribute="media">
+                                                            <lightning:icon iconName="standard:individual"
+                                                                alternativeText="standard:individual"/>
+                                                        </aura:set>
+                                                    </lightning:pill>
+                                                </aura:iteration>
+                                            </div>
+                                        </aura:if>
+                                    </div>
+                                </div>
+                                <div onfocus="{!c.onfocus}" id="listbox-id-1"
+                                    class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid"
+                                    role="listbox">
+                                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                        <aura:iteration items="{!v.individualList}" var="listItem">
+                                        <aura:if isTrue="{!not(listItem.cf)}">
+                                            <span>
+                                                <c:LNIT05_CustomLookupChild Individual="{!listItem}"
+                                                    icon="standard:individual" object="{!v.sObject}"/></span>
+                                            <aura:set attribute="else">
+                                            <span>
+                                                <c:LNIT05_CustomLookupChild Individual="{!listItem}"
+                                                    icon="standard:tax_treatment" object="{!v.sObject}"/></span>
+                                            </aura:set>
+                                        </aura:if>
+                                        </aura:iteration>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-size_3-of-12">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <div class="slds-combobox_container slds-has-selection">
+                            <div aura:id="toOpenProd"
+                                class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"
+                                aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                                <div class=" slds-input-has-icon slds-input-has-icon_right" role="none">
+                                    <div>
+                                        <div aura:id="inputProd" class="slds-p-top_none">
+                                            <lightning:input class="slds-p-top_none" variant="label-hidden"
+                                                name="Search" value="{!v.sTermProd}" onblur="{!c.onblur}"
+                                                onclick="{!c.onfocusProd}" onchange="{!c.onchange}"
+                                                placeholder="Select Product"/>
+                                            <span
+                                                class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right ">
+                                                <span
+                                                    class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default"
+                                                    aria-hidden="true">
+                                                    <lightning:icon class="" iconName="utility:search"
+                                                        size="x-small" alternativeText="Search"/>
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <aura:if isTrue="{!v.selectedProd}">
+                                            <div aura:id="lookup-pillProd" class="slds-pill_container slds-hide">
+                                                <aura:iteration items="{!v.selectedProd}" var="l">
+                                                    <lightning:pill class="pillSize" label="{!l.Label}" name="{!l}"
+                                                        onremove="{!c.handleRemoveOnly}">
+                                                        <aura:set attribute="media">
+                                                            <lightning:icon iconName="standard:product_service_campaign_item"
+                                                                alternativeText="standard:product_service_campaign_item"/>
+                                                        </aura:set>
+                                                    </lightning:pill>
+                                                </aura:iteration>
+                                            </div>
+                                        </aura:if>
+                                    </div>
+                                </div>
+                                <div onfocus="{!c.onfocus}" id="listbox-id-1"
+                                    class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid "
+                                    role="listbox">
+                                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                        <aura:iteration items="{!v.prodList}" var="listItem">
+                                            <span>
+                                                <c:LNIT05_CustomLookupChild Product="{!listItem}"
+                                                    icon="standard:product_service_campaign_item" object="{!v.sObject}"/></span>
+                                        </aura:iteration>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-size_4-of-12">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <div class="slds-combobox_container slds-has-selection">
+                            <div aura:id="toOpenAcc"
+                                class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"
+                                aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                                <div class=" slds-input-has-icon slds-input-has-icon_right" role="none">
+                                    <div>
+                                        <div aura:id="inputAcc" class="slds-p-top_none">
+                                            <lightning:input class="slds-p-top_none" variant="label-hidden"
+                                                name="Search" value="{!v.sTermAcc}" onblur="{!c.onblur}"
+                                                onclick="{!c.onfocusAcc}" onchange="{!c.onchange}"
+                                                placeholder="Select Account"/>
+                                            <span
+                                                class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right ">
+                                                <span
+                                                    class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default"
+                                                    aria-hidden="true">
+                                                    <lightning:icon class="" iconName="utility:search"
+                                                        size="x-small" alternativeText="Search"/>
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <aura:if isTrue="{!v.selectedAcc}">
+                                            <div aura:id="lookup-pillAcc" class="slds-pill_container slds-hide">
+                                                <aura:iteration items="{!v.selectedAcc}" var="l">
+                                                    <lightning:pill class="pillSize" label="{!l.Name}" name="{!l}"
+                                                        onremove="{!c.handleRemoveOnly }">
+                                                        <aura:set attribute="media">
+                                                            <lightning:icon iconName="standard:account"
+                                                                alternativeText="standard:account"/>
+                                                        </aura:set>
+                                                    </lightning:pill>
+                                                </aura:iteration>
+                                            </div>
+                                        </aura:if>
+                                    </div>
+                                </div>
+                                <div onfocus="{!c.onfocus}" id="listbox-id-1"
+                                    class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid "
+                                    role="listbox">
+                                    <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                        <aura:iteration items="{!v.accList}" var="listItem">
+                                            <span>
+                                                <c:LNIT05_CustomLookupChild myContact="{!listItem}"
+                                                    icon="standard:account" object="{!v.sObject}"/></span>
+                                        </aura:iteration>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col slds-size_2-of-12">
+                <button aura:id = "collapseButton" class="slds-button slds-button_icon slds-button_icon-border-filled slds-path__trigger buttonStyle" onclick= "{!c.onSubmit}">
+                    <lightning:icon iconName="utility:refresh" alternativeText="Refresh" size="x-small" aura:id="iconRef" class="iconStyle"/>
+                    <span class="slds-assistive-text">Refresh</span>
+                </button>
+            </div>
+        </div>
+        <br/>
+        <div class="slds-grid ">
+            <!-- 2 -->
+            <div class="slds-col slds-size_12-of-12">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control">
+                        <div class="slds-combobox_container slds-has-selection ">
+                            <div aura:id="toOpenAsset"
+                                class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"
+                                aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                                <div class=" slds-input-has-icon slds-input-has-icon_right" role="none">
+                                    <div>
+                                        <div aura:id="inputAsset" class="slds-p-top_none">
+                                            <lightning:input class="slds-p-top_none" variant="label-hidden"
+                                                name="Search" value="{!v.sTermAsset}" onblur="{!c.onblur}"
+                                                onclick="{!c.onfocusAsset}" onchange="{!c.onchange}"
+                                                placeholder="Select Asset &nbsp;> Circuito, Circuito-Tessera, Tessera, Tessera (spazio) Cognome, Circ.(spazio) Cognome"/>
+                                            <span
+                                                class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right ">
+                                                <span
+                                                    class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default"
+                                                    aria-hidden="true">
+                                                    <lightning:icon class="" iconName="utility:search"
+                                                        size="x-small" alternativeText="Search"/>
+                                                </span>
+                                            </span>
+                                        </div>
+                                        <aura:if isTrue="{!v.selectedAsset}">
+                                            <div aura:id="lookup-pillAsset" class="slds-pill_container slds-hide">
+                                                <aura:iteration items="{!v.selectedAsset}" var="l">
+                                                    <lightning:pill class="pillSize" label="{!l.Name}" name="{!l}"
+                                                        onremove="{!c.handleRemoveOnly }">
+                                                        <aura:set attribute="media">
+                                                            <lightning:icon iconName="standard:asset_object"
+                                                            alternativeText="standard:asset_object"/>
+                                                        </aura:set>
+                                                    </lightning:pill>
+                                                </aura:iteration>
+                                            </div>
+                                        </aura:if>
+                                    </div>
+                                </div>
+                                <div onfocus="{!c.onfocus}" id="listbox-id-1"
+                                class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid "
+                                role="listbox">
+                                <ul class="slds-listbox slds-listbox_vertical " role="presentation">
+                                    <aura:iteration items="{!v.assetList}" var="listItem">
+                                        <span>
+                                            <c:LNIT05_CustomLookupChild Asset="{!listItem}"
+                                            icon="standard:asset_object" object="{!v.sObject}"/></span>
+                                        </aura:iteration>
+                                    </ul>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <div class="slds-grid ">
+            <!-- 3 -->
+            <div class="slds-col slds-size_8-of-12">
+                <div class="slds-form-element">
+                    Case &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;Email : &nbsp;{!v.CaseRecordEmail}
+                </div>
+            </div>
+            <div class="slds-col slds-size_4-of-12">
+                <div class="slds-form-element">
+                    Phone : &nbsp;{!v.CaseRecordPhone}
+                </div>
+            </div>
+        </div>
+        <aura:if isTrue="{!or(v.EmplRecordEmail,v.EmplRecordPhone)}">
+            <br/>
+            <!-- 4 -->
+            <div class="slds-grid ">
+                <div class="slds-col slds-size_8-of-12">
+                    <div class="slds-form-element">
+                        Employee Email : &nbsp;{!v.EmplRecordEmail}
+                    </div>
+                </div>
+                <div class="slds-col slds-size_4-of-12">
+                    <div class="slds-form-element">
+                        Phone : &nbsp;{!v.EmplRecordPhone}
+                    </div>
+                </div>
+            </div>                      
+        </aura:if>
+        <aura:if isTrue="{!v.flgComeEmpl}">
+            <br/>
+            <div class="slds-grid ">
+            <!-- 5 -->
+                <div class="slds-col slds-size_2-of-12">
+                    <aura:if isTrue="{! v.sTermCRMEmail}">
+                        <div class="slds-form-element clsrpRg">
+                            CRM &nbsp; &nbsp; &nbsp; &nbsp; Email :
+                        </div>
+                        <aura:set attribute="else">
+                            <div class="slds-form-element clsrpRg">
+                            CRM
+                        </div>
+                    </aura:set>
+                    </aura:if>
+                </div>
+                <div class="slds-col slds-size_6-of-12">
+                    <div class="slds-form-element clsrp1">
+                        <div class="slds-form-element__control">
+                            <div class="slds-combobox_container slds-has-selection">
+                                <div aura:id="toOpenCRMEmail" 
+                                    class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"
+                                    aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                                    <div class=" slds-input-has-icon slds-input-has-icon_right" role="none">
+                                        <div id="rp">
+                                            <div aura:id="inputCRMEmail" class="slds-p-top_none">
+                                                <lightning:input class="slds-p-top_none" variant="label-hidden" 
+                                                name="Search2" value="{!v.sTermCRMEmail}" onblur="{!c.onblur}"
+                                                onclick="{!c.onfocusCRMEmail}" 
+                                                placeholder="Email CRM"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col slds-size_1-of-12">
+                    <aura:if isTrue="{!v.sTermCRMPhone}">
+                    <div class="slds-form-element clsrpRg">
+                        Phone :
+                    </div>
+                    </aura:if>
+                </div>
+                <div class="slds-col slds-size_3-of-12">
+                    <div class="slds-form-element clsrp2">
+                        <div class="slds-form-element__control">
+                            <div class="slds-combobox_container slds-has-selection">
+                                <div aura:id="toOpenCRMEPhone"
+                                    class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"
+                                    aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                                    <div class=" slds-input-has-icon slds-input-has-icon_right" role="none">
+                                        <div id="rp">
+                                            <div aura:id="inputCRMPhone" class="slds-p-top_none">
+                                                <lightning:input class="slds-p-top_none" variant="label-hidden" 
+                                                name="Search3" value="{!v.sTermCRMPhone}" onblur="{!c.onblur}"
+                                                onclick="{!c.onfocusCRMPhone}" 
+                                                placeholder="Phone CRM"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </aura:if>        
+    </div>                      
+</div>
+<!-- modal exec flow -->
+<div class="slds-m-around_medium">
+    <aura:if isTrue="{!v.isModalOpen}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <lightning:buttonIcon iconName="utility:close"
+                                        onclick="{!c.closeModel }"
+                                        alternativeText="close"
+                                        variant="bare-inverse"
+                                        class="slds-modal__close"/>
+                <header class="slds-modal__header">
+                    <h4 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Inserimento :</h4>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Individual e Employee</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <lightning:flow aura:id="flow" onstatuschange="{!c.statusChange}"/>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+</div>
+</aura:component>

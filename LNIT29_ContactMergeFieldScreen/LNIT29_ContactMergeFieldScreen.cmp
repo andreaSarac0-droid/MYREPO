@@ -1,0 +1,170 @@
+<aura:component controller = "APIT48_ContactMergeController"
+                implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction,lightning:availableForFlowScreens,lightning:availableForFlowActions"
+                access="global">
+    <!--<force:recordData aura:id="case" recordUpdated="{!c.doInit}" recordId="{!v.recordId}" fields="ContactId,SuppliedPhone,SuppliedEmail" targetFields="{!v.CaseRecord}" targetError="{!v.recordLoadError}"/>
+    
+     Main attributes Start-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> 
+    <aura:attribute name="masterContactId" type="String" />
+    <aura:attribute name="slaveContactId" type="String" />
+    <aura:attribute name="masterContact" type="Object" />
+    <aura:attribute name="slaveContact" type="Object" />
+    
+    <aura:attribute name="masterFirstName" type="Boolean" default = "true" />
+    <aura:attribute name="masterLastName" type="Boolean" default = "true" />
+    <aura:attribute name="masterEmail" type="Boolean" default = "true" />
+    <aura:attribute name="masterPhone" type="Boolean" default = "true" />
+    <aura:attribute name="masterFax" type="Boolean" default = "true" />
+    <aura:attribute name="masterPec" type="Boolean" default = "true" />
+    <aura:attribute name="masterMobile" type="Boolean" default = "true" />
+    <aura:attribute name="slaveFirstName" type="Boolean" default = "false" />
+    <aura:attribute name="slaveLastName" type="Boolean" default = "false" />
+    <aura:attribute name="slaveEmail" type="Boolean" default = "false" />
+    <aura:attribute name="slavePhone" type="Boolean" default = "false" />
+    <aura:attribute name="slaveFax" type="Boolean" default = "false" />
+    <aura:attribute name="slavePec" type="Boolean" default = "false" />
+    <aura:attribute name="slaveMobile" type="Boolean" default = "false" />
+    
+    <aura:attribute name="chosenFirstName" type="String"  />
+    <aura:attribute name="chosenLastName" type="String"  />
+    <aura:attribute name="chosenEmail" type="String"  />
+    <aura:attribute name="chosenPhone" type="String"  />
+    <aura:attribute name="chosenFax" type="String"  />
+    <aura:attribute name="chosenPec" type="String"  />
+    <aura:attribute name="chosenMobile" type="String"  />
+    
+    
+    <!-- START BORDERLESS TABLE -->    
+    <table class="slds-table slds-table_cell-buffer slds-table_header-hidden slds-table_bordered">
+        <thead class="slds-assistive-text">
+            <tr class="slds-line-height_reset">
+                <th class="" scope="col">
+                    <div class="slds-truncate" title="FieldName">FieldName</div>
+                </th>
+                <th class="" scope="col">
+                    <div class="slds-truncate" title="MasterField">MasterField</div>
+                </th>
+                <th class="" scope="col">
+                    <div class="slds-truncate" title="SlaveField">SlaveField</div>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="slds-hint-parent">
+                <th data-label="FieldName" scope="row">
+                    <div class="slds-truncate" title="Cloudhub">
+                        <a href="javascript:void(0);" tabindex="-1"></a>
+                    </div>
+                </th>
+                <td data-label="MasterField">
+                    <div class="slds-truncate" title="MasterName">{!v.masterContact.Name}<br/><a href="javascript:void(0);" onclick="{!c.selectAllMaster}" tabindex="-1">Seleziona Tutto</a></div>
+                </td>
+                <td data-label="SlaveField">
+                    <div class="slds-truncate" title="SlaveName">{!v.slaveContact.Name}<br/><a href="javascript:void(0);" onclick="{!c.selectAllSlave}" tabindex="-1">Seleziona Tutto</a></div>
+                </td>
+            </tr>
+            <tr class="slds-hint-parent">
+                <th data-label="FieldName" scope="row">
+                    <div class="slds-truncate" title="Cloudhub">
+                        <b>NOME</b>
+                    </div>
+                </th>
+                <td data-label="MasterField">
+                    <div class="slds-truncate" title="MasterName"><ui:inputCheckbox aura:id="" label=""  change="{!c.masterFirstName}" value = "{!v.masterFirstName}"/>&nbsp;&nbsp; {!v.masterContact.FirstName}</div>
+                </td>
+                <td data-label="SlaveField">
+                    <div class="slds-truncate" title="SlaveName"><ui:inputCheckbox aura:id="" label=""  change="{!c.slaveFirstName}" value = "{!v.slaveFirstName}"/>&nbsp;&nbsp; {!v.slaveContact.FirstName}</div>
+                </td>
+            </tr>
+            <tr class="slds-hint-parent">
+                <th data-label="FieldName" scope="row">
+                    <div class="slds-truncate" title="Cloudhub">
+                        <b>COGNOME</b>
+                    </div>
+                </th>
+                <td data-label="MasterField">
+                    <div class="slds-truncate" title="MasterName"><ui:inputCheckbox aura:id="" label="" change="{!c.masterLastName}" value = "{!v.masterLastName}"/>&nbsp;&nbsp; {!v.masterContact.LastName}</div>
+                </td>
+                <td data-label="SlaveField">
+                    <div class="slds-truncate" title="SlaveName"><ui:inputCheckbox aura:id="" label="" change="{!c.slaveLastName}" value = "{!v.slaveLastName}"/>&nbsp;&nbsp; {!v.slaveContact.LastName}</div>
+                </td>
+            </tr>
+            <tr class="slds-hint-parent">
+                <th data-label="FieldName" scope="row">
+                    <div class="slds-truncate" title="Cloudhub">
+                        <b>EMAIL</b>
+                    </div>
+                </th>
+                <td data-label="MasterField">
+                    <div class="slds-truncate" title="MasterName"><ui:inputCheckbox aura:id="" label="" change="{!c.masterEmail}" value = "{!v.masterEmail}"/>&nbsp;&nbsp; {!v.masterContact.Email}</div>
+                </td>
+                <td data-label="SlaveField">
+                    <div class="slds-truncate" title="SlaveName"><ui:inputCheckbox aura:id="" label="" change="{!c.slaveEmail}" value = "{!v.slaveEmail}"/>&nbsp;&nbsp; {!v.slaveContact.Email}</div>
+                </td>
+            </tr>
+            <tr class="slds-hint-parent">
+                <th data-label="FieldName" scope="row">
+                    <div class="slds-truncate" title="Cloudhub">
+                        <b>TELEFONO</b>
+                    </div>
+                </th>
+                <td data-label="MasterField">
+                    <div class="slds-truncate" title="MasterName"><ui:inputCheckbox aura:id="" label="" change="{!c.masterPhone}" value = "{!v.masterPhone}"/>&nbsp;&nbsp; {!v.masterContact.Phone}</div>
+                </td>
+                <td data-label="SlaveField">
+                    <div class="slds-truncate" title="SlaveName"><ui:inputCheckbox aura:id="" label="" change="{!c.slavePhone}" value = "{!v.slavePhone}"/>&nbsp;&nbsp; {!v.slaveContact.Phone}</div>
+                </td>
+            </tr>
+            <tr class="slds-hint-parent">
+                <th data-label="FieldName" scope="row">
+                    <div class="slds-truncate" title="Cloudhub">
+                        <b>FAX</b>
+                    </div>
+                </th>
+                <td data-label="MasterField">
+                    <div class="slds-truncate" title="MasterName"><ui:inputCheckbox aura:id="" label="" change="{!c.masterFax}" value = "{!v.masterFax}"/>&nbsp;&nbsp; {!v.masterContact.Fax}</div>
+                </td>
+                <td data-label="SlaveField">
+                    <div class="slds-truncate" title="SlaveName"><ui:inputCheckbox aura:id="" label="" change="{!c.slaveFax}" value = "{!v.slaveFax}"/>&nbsp;&nbsp; {!v.slaveContact.Fax}</div>
+                </td>
+            </tr>
+            <tr class="slds-hint-parent">
+                <th data-label="FieldName" scope="row">
+                    <div class="slds-truncate" title="Cloudhub">
+                        <b>CELLULARE</b>
+                    </div>
+                </th>
+                <td data-label="MasterField">
+                    <div class="slds-truncate" title="MasterName"><ui:inputCheckbox aura:id="" label="" change="{!c.masterMobile}" value = "{!v.masterMobile}"/>&nbsp;&nbsp; {!v.masterContact.MobilePhone}</div>
+                </td>
+                <td data-label="SlaveField">
+                    <div class="slds-truncate" title="SlaveName"><ui:inputCheckbox aura:id="" label="" change="{!c.slaveMobile}" value = "{!v.slaveMobile}"/>&nbsp;&nbsp; {!v.slaveContact.MobilePhone}</div>
+                </td>
+            </tr>
+            <tr class="slds-hint-parent">
+                <th data-label="FieldName" scope="row">
+                    <div class="slds-truncate" title="Cloudhub">
+                        <b>PEC</b>
+                    </div>
+                </th>
+                <td data-label="MasterField">
+                    <div class="slds-truncate" title="MasterName"><ui:inputCheckbox aura:id="" label="" change="{!c.masterPec}" value = "{!v.masterPec}"/>&nbsp;&nbsp; {!v.masterContact.IT_PEC__c}</div>
+                </td>
+                <td data-label="SlaveField">
+                    <div class="slds-truncate" title="SlaveName"><ui:inputCheckbox aura:id="" label="" change="{!c.slavePec}" value = "{!v.slavePec}"/>&nbsp;&nbsp; {!v.slaveContact.IT_PEC__c}</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div aura:id="actionButtonBar" class="slds-clearfix slds-p-top_medium">
+        <div class="slds-float_right">
+            <lightning:button aura:id="BACK" label="Previous"
+                              variant="neutral" onclick="{!c.onButtonPressed}" />
+            <lightning:button aura:id="NEXT" label="Next" 
+                              variant="brand" onclick="{!c.onButtonPressed}" />
+        </div>
+    </div>
+    
+    <!-- END BORDERLESS TABLE -->
+    
+</aura:component>

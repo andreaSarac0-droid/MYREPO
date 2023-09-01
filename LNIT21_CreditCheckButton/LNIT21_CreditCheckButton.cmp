@@ -1,0 +1,10 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:appHostable,force:LightningQuickAction,lightning:isUrlAddressable" controller="APIT46_CreditCheckController">
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    
+    <lightning:button class="slds-button slds-button--neutral" label="Credit Check" title="Credit Check" onclick="{!c.myAction}"/>
+         <!--       <ui:button class="slds-button slds-button-?-neutral" label="Credit Check" press="{!c.myAction}"  /> --> 
+  	<aura:if isTrue="{! v.loaded }">
+            <lightning:spinner alternativeText="Loading" />
+        </aura:if>
+</aura:component>

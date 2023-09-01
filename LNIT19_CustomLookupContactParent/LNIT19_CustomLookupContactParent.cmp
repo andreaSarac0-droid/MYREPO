@@ -1,0 +1,132 @@
+<aura:component controller="APIT10_CustomLookupController"
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    access="global">
+     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="LEVIT03_LookupContactEventToParent" event="c:LEVIT03_LookupContactEventToParent" action="{!c.handleEvent}" />
+    <aura:attribute name="blurTimeout" type="Integer" />
+    <aura:attribute name="CaseRecord" type="Object" />
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="contactName" type="String"/>
+    <aura:attribute name="contactEmail" type="String"/>
+    <aura:attribute name="contactPhone" type="String"/>
+    <aura:attribute name="initContactId" type="String"/>
+    <aura:attribute name="selectedContact" type="map[]"/>
+    <aura:attribute name="sObject" type="String" default="Contact" />
+    <aura:attribute name="conList" type="Map[]" />
+    <aura:method name="doInit" action="{!c.doInit}" access="PUBLIC"/>
+    <lightning:navigation aura:id="navService"/>
+    <aura:attribute name="pageReference" type="Object"/>
+    
+    <div class="slds-card">
+        <div class="bigContainer">
+            <div class="slds-grid ">
+                <div class="slds-col slds-size_4-of-12">
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control">
+                            <div class="slds-combobox_container slds-has-selection ">
+                                <div aura:id="toOpenContact"
+                                    class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"
+                                    aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                                    <div class=" slds-input-has-icon slds-input-has-icon_right" role="none">
+                                        <div>
+                                            <div aura:id="input" class="slds-p-top_none ">
+                                                <lightning:input class="slds-p-top_none" variant="label-hidden"
+                                                   	onblur="{!c.onBlur}"
+                                                    onclick="{!c.onfocus}"
+                                                    name="Search" value="{!v.contactName}" 
+                                                     onchange="{!c.onchange}"
+                                                    placeholder="Insert Contact Name " />
+                                                <span
+                                                    class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right ">
+                                                    <span
+                                                        class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default"
+                                                        aria-hidden="true">
+                                                        <lightning:icon class="" iconName="utility:search"
+                                                            size="x-small" alternativeText="Search" />
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        <aura:if isTrue="{!v.selectedContact}">
+                                                <div aura:id="lookup-pill" class="slds-pill-container slds-hide">
+                                                    <aura:iteration items="{!v.selectedContact}" var="l">
+                                                        <lightning:pill class="pillSize" label="{!l.Name}" name="{!l}"
+                                                            onremove="{! c.Remove }" onclick="{! c.clickPill}">
+                                                            <aura:set attribute="media">
+                                                                <lightning:icon iconName="standard:contact"
+                                                                    alternativeText="standard:contact" />
+                                                            </aura:set>
+                                                        </lightning:pill>
+                                                    </aura:iteration>
+                                                </div>
+                                            </aura:if>
+                                        </div>
+                                    </div>
+                                    <div onfocus="{!c.onfocus}" id="listbox-id-1"
+                                        class="slds-dropdown slds-dropdown_length-with-icon-7 slds-dropdown_fluid slds-is-open"
+                                        role="listbox">
+                                        <ul class="slds-listbox slds-listbox_vertical " role="presentation">
+                                            <aura:iteration items="{!v.conList}" var="listItem">
+                                                <span>
+                                                    <c:LNIT05_CustomLookupChild Contact="{!listItem}"
+                                                        icon="standard:contact" object="Contact" /></span>
+                                            </aura:iteration>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                 <div class="slds-col slds-size_4-of-12">
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control">
+                            <div class="slds-combobox_container slds-has-selection ">
+                                <div 
+                                    class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"
+                                    aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                                    <div class="" role="none">
+                                            <div aura:id="input1" class="slds-p-top_none">
+                                                <lightning:input class="slds-p-top_none" variant="label-hidden"
+                                                    name="Search" value="{!v.contactEmail}" 
+                                                    disabled="true"
+                                                    placeholder="Insert Email" />
+                                              
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slds-col slds-size_4-of-12">
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control">
+                            <div class="slds-combobox_container slds-has-selection ">
+                                <div 
+                                    class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click"
+                                    aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                                    <div class=" " role="none">
+                                            <div aura:id="input2" class="slds-p-top_none">
+                                                <lightning:input class="slds-p-top_none" variant="label-hidden"
+                                                    name="Search" value="{!v.contactPhone}" 
+                                                    disabled="true"
+                                                    placeholder="Insert Phone" />
+                                              
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+    
+    
+    
+	
+</aura:component>

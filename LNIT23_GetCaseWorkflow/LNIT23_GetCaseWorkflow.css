@@ -1,0 +1,21 @@
+.THIS .datatable{
+    max-height:170px;  
+     text-align: center;
+     border-bottom: 0px;
+     overflow-x: auto !important;
+ }
+ .THIS .data{
+     width:500px;
+     max-height:170px;  
+     text-align: center;
+     box-sizing: content-box;
+ 
+ }
+.THIS .rotator{
+    transition: 0.4s;
+    transform: rotateZ(360deg);
+}
+
+.THIS .buttonStyle:hover .iconStyle svg{ 
+    fill: #d62718;
+}

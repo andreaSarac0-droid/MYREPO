@@ -1,0 +1,6 @@
+<design:component>
+	<design:attribute name="NomeOggetto" label="Nome Oggetto" />
+    <design:attribute name="NomeCampo" label="Nome Campo" />
+    <design:attribute name="labelOggetto" label="Label Oggetto" />
+    <design:attribute name="choisesId" label="Lista di choise" />
+</design:component>

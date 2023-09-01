@@ -1,0 +1,30 @@
+<design:component>  
+      
+    <design:attribute name="title" label="Title" required="true"/>  
+    <design:attribute name="parentFieldName" label="Parent Field API Name" required="true"/>  
+    <design:attribute name="sobjectName" label="Object API Name" required="true"/>  
+    <design:attribute name="criteria" label="Additonal Criteria"/>  
+    <design:attribute name="childRelName" label="Child Relationship Name" required="true"/>  
+    <design:attribute name="iconName" label="Icon Name" required="true"/>  
+    <design:attribute name="field1" label="Field 1" required="true"/>  
+    <design:attribute name="field2" label="Field 2" required="false"/>  
+    <design:attribute name="field3" label="Field 3" required="false"/>  
+    <design:attribute name="field4" label="Field 4" required="false"/>  
+    <design:attribute name="field5" label="Field 5" required="false"/>  
+    <design:attribute name="field6" label="Field 6" required="false"/>  
+    <design:attribute name="field7" label="Field 7" required="false"/>  
+    <design:attribute name="field8" label="Field 8" required="false"/>  
+    <design:attribute name="field9" label="Field 9" required="false"/>  
+    <design:attribute name="field10" label="Field 10" required="false"/>  
+    <design:attribute name="AccountHierarchy" label="AccountHierarchy" required="false"/> 
+    <design:attribute name="label1" label="label1" required="true"/>  
+    <design:attribute name="label2" label="label2" required="false"/>  
+    <design:attribute name="label3" label="label3" required="false"/>  
+    <design:attribute name="label4" label="label4" required="false"/> 
+    <design:attribute name="label5" label="label5" required="false"/> 
+    <design:attribute name="label6" label="label6" required="false"/> 
+    <design:attribute name="label7" label="label7" required="false"/> 
+    <design:attribute name="label8" label="label8" required="false"/> 
+    <design:attribute name="label9" label="label9" required="false"/> 
+    <design:attribute name="label10" label="label10" required="false"/>  
+</design:component>

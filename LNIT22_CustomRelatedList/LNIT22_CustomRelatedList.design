@@ -1,0 +1,12 @@
+<design:component>
+	<design:attribute name="NomeOggetto" label="Nome Oggetto" />
+    <design:attribute name="CampoLookup" label="Campo Lookup" />
+    <design:attribute name="LabelComponente" label="Label Componente" />
+    <design:attribute name="NumeroColonne" label="Numero Colonne" />
+    <design:attribute name="BottoneOFreccetta" label="Bottone O Freccetta" />
+    <design:attribute name="whereCondition" label="Where Condition" />
+    <design:attribute name="AltraLookup" label="Id Altra Lookup" />
+    <design:attribute name="OrderBy" label="Ordina Per" />
+    <design:attribute name="OrderDirection" label="Direzione Ordinamento (asc o desc)" />
+	<design:attribute name="ReadOnly" label="Read Only" />
+</design:component>
