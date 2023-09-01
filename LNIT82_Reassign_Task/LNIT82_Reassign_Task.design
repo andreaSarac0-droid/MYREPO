@@ -1,0 +1,6 @@
+<design:component>
+    <design:attribute name="user" label="User"/>
+    <design:attribute name="value" label="User"/>
+    <design:attribute name="selectedPicklist" label="selectedPicklist"/>
+    <design:attribute name="myBool" label="MyBool"/>
+</design:component>

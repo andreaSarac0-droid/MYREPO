@@ -1,0 +1,25 @@
+<aura:component implements="force:hasRecordId,force:hasSObjectName,force:lightningQuickActionWithoutHeader,force:appHostable,lightning:actionOverride,lightning:availableForFlowScreens,lightning:availableForFlowActions"
+                access="global" >
+                <!-- controller="APIT115_Reassign_Case" access="global" > -->
+    <aura:attribute name="value" type="String"/>
+    <aura:attribute name="user" type="String"/>
+    <aura:attribute name="selectedPicklist" type="String"/>
+    <aura:attribute name="myBool" type="Boolean" default="false"/>
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+    <div class="divTotale " >         
+        <div class="divTitle">
+        Cambia Assegnatario Task:
+        </div>
+            <div class="lookup">
+            <c:LNIT56_LookupReferentiMASTER 
+                objectName="User" 
+                fieldName="Name" 
+                label="Utente" 
+                iconName="standard:user" 
+                placeholder="Enter Value" 
+                value="{!v.user}"/>
+                <b/>
+                <!--<ui:inputCheckbox aura:id="checkbox" label="Inviare notifica email " change="{!c.onCheck}" value="{!v.myBool}"/>-->
+            </div>
+    </div>
+</aura:component>

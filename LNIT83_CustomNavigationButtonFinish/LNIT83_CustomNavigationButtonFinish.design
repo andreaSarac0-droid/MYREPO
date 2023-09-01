@@ -1,0 +1,8 @@
+<design:component >
+    <design:attribute name="label" label="Label"/>
+    <design:attribute name="direction" label="direction"/>
+    <design:attribute name="flgClick" label="flgClick"/>
+    <design:attribute name="variant2" label="variant2"/>
+    <design:attribute name="icon2" label="icon:"/>
+    <design:attribute name="iconPos" label="iconPos:"/>
+</design:component>

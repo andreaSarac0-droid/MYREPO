@@ -1,0 +1,7 @@
+<design:component>
+	<design:attribute name="recordId" label="recordId" /> 
+    <design:attribute name="objectName" label="objectName"/>
+    <design:attribute name="emailAddressTo" label="emailAddressTo" /> 
+    <design:attribute name="emailAddressFrom" label="emailAddressFrom"/>
+    <design:attribute name="isFlow" label="isFlow"/>
+</design:component>
