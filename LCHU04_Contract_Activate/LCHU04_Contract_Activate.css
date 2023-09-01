@@ -1,0 +1,48 @@
+.THIS.errorList {
+    margin-top:10px;
+}
+
+.THIS.headerTitle {
+    font-weight:bold;
+}
+
+.THIS.errorBlock {
+    margin-top:14px;
+}
+
+.THIS .errorMessage {
+    color:red;
+}
+
+.THIS.errorMessage a {
+    color:red;
+    text-decoration:underline;
+}
+
+.THIS .okMessage {
+    color:green;
+}
+
+.THIS.tableErrors {
+    /*margin-top:10px;*/
+}
+
+.THIS.okBlock {
+    margin-top:14px;
+}
+
+.THIS.toggle {
+    display: none;
+}
+
+.THIS .toggleHeader {
+    display: none;
+}
+
+.THIS .btnSpace {
+    padding-right: 10px;
+    /*margin-right: 10px;*/
+}
+.THIS .toggle {
+    display: none;
+}

@@ -1,0 +1,36 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" controller="APER04_Opportunity_Management" >
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="opportunity" type="Opportunity" />
+    
+    <aura:html tag="style">
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }       
+        .slds-modal__content{
+        overflow-y:hidden !important;
+        height:unset !important;
+        max-height:unset !important;
+        }
+    </aura:html>
+    <lightning:spinner aura:id="mySpinner" variant="brand" size="large" class="slds-hide"/>
+    <div class="modal-header slds-modal__header">
+        
+        <h2 class="title slds-text-heading--medium" id="title_43:1732;a">Discard amendment</h2>
+        
+    </div>
+    <div class="slds-modal__content" style="padding: 1rem;">
+        Are you sure ?
+    </div>
+    <div class="modal-footer slds-modal__footer">
+        <div>
+            <ui:button class="slds-button slds-button_neutral" label="Cancel" press="{! c.cancel}" /> 
+            <ui:button class="slds-button slds-button--brand"  label="Discard amendment" press="{!c.DiscardAmendment}"/>
+        </div>
+    </div>
+</aura:component>

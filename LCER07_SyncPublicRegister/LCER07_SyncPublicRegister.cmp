@@ -1,0 +1,96 @@
+<aura:component controller="APCZ04_AresByIdController" implements="force:lightningQuickActionWithoutHeader,force:hasRecordId">
+    
+    <aura:attribute name="businessUnit" type="String" />
+    <aura:attribute name="sId" type="String" />
+    <aura:attribute name="sExistingNace" type="String" />
+    <aura:attribute name="listNace" type="Object[]" />
+    <aura:attribute name="listNaceSeleced" type="Array[]" />
+    <aura:attribute name="isSelectAll" type="boolean" default="false"/>
+    <aura:attribute name="isSelectAllNace" type="boolean" default="false"/>
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    <aura:attribute name="loadedall" type="Boolean" default="false" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <aura:html tag="style">
+        .cuf-content {
+        padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+        padding: 0rem !important;
+        }       
+        .slds-modal__content{
+        overflow-y:hidden !important;
+        height:unset !important;
+        max-height:unset !important;
+        padding: 1rem;
+        }
+    </aura:html>
+    
+    <div class="modal-header slds-modal__header" style="font-weight:bold;">
+        <div style="display: inline-block;"> {!v.businessUnit}: {!$Label.c.LAB_SF_PublicRegister_Title} : "{!v.sId}"</div>
+        <div style="display: inline-block;"><lightning:icon iconName="" size="small" aura:id="iconState" name="iconState" /></div>
+    </div>
+    <div class="modal-header slds-modal__content">
+        <aura:if isTrue="{! v.loadedall }">
+            <br></br>
+            <aura:if isTrue="{! v.loaded }">
+                <div style="border:0px;box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0);float:right;">
+                    <ui:inputCheckbox aura:id="chkCheckAll" value="{!v.isSelectAll}" label="{!$Label.c.LAB_SF_PublicRegister_CheckAll}" change="{!c.checkAll}" class="checkAll"/>
+                </div>    
+                <!-- NAME-->
+                <div class="slds-grid slds-wrap slds-grid_vertical-align-end" style="clear:both;">
+                    <div class="slds-col slds-size_1-of-12 slds-grid_align-center"><span style="display:block;height:25px;"><ui:inputCheckbox aura:id="chkName" value="false" label=""/></span></div>
+                    <div class="slds-col slds-size_11-of-12"><lightning:input aura:id="txtName" name="txtName" label="{!$Label.c.LAB_SF_PublicRegister_CompanyName}" value=""/></div>
+                </div>   
+                <!-- DIC-->
+                <div class="slds-grid slds-wrap slds-grid_vertical-align-end">   
+                    <div class="slds-col slds-size_1-of-12 slds-grid_align-center"><span style="display:block;height:25px;"><ui:inputCheckbox aura:id="chkVatNumber" value="false" label=""/></span></div>
+                    <div class="slds-col slds-size_11-of-12"><lightning:input aura:id="txtVatNumber" name="txtVatNumber" label="{!$Label.c.LAB_SF_PublicRegister_DIC}" value=""/></div>
+                </div>
+                <!-- Legal Form--> 
+                <div class="slds-grid slds-wrap slds-grid_vertical-align-end">     
+                    <div class="slds-col slds-size_1-of-12"><span style="display:block;height:25px;"><ui:inputCheckbox aura:id="chkLegalForm" value="false" label=""/></span></div>    
+                    <div class="slds-col slds-size_11-of-12"><lightning:input aura:id="txtLegalForm" name="txtLegalForm" label="{!$Label.c.LAB_SF_PublicRegister_LegalForm}" value=""/> </div>     
+                </div>    
+                <!-- Street--> 
+                <div class="slds-grid slds-wrap slds-grid_vertical-align-end">       
+                    <div class="slds-col slds-size_1-of-12"><span style="display:block;height:25px;"><ui:inputCheckbox aura:id="chkStreet" value="false" label=""/></span></div>
+                    <div class="slds-col slds-size_11-of-12"><lightning:input aura:id="txtStreet" name="txtStreet" label="{!$Label.c.LAB_SF_PublicRegister_Street}" value=""/></div>     
+                </div>    
+                <!-- Zip Code-->    
+                <div class="slds-grid slds-wrap slds-grid_vertical-align-end">
+                    <div class="slds-col slds-size_1-of-12"><span style="display:block;height:25px;"><ui:inputCheckbox aura:id="chkZipCode" value="false" label=""/></span></div>  
+                    <div class="slds-col slds-size_11-of-12"><lightning:input aura:id="txtZipCode" name="txtZipCode" label="{!$Label.c.LAB_SF_PublicRegister_ZipCode}" value=""/> </div>
+                </div>     
+                <!--City-->   
+                <div class="slds-grid slds-wrap slds-grid_vertical-align-end">  
+                    <div class="slds-col slds-size_1-of-12"><span style="display:block;height:25px;"><ui:inputCheckbox aura:id="chkCity" value="false" label=""/></span></div>   
+                    <div class="slds-col slds-size_11-of-12"><lightning:input aura:id="txtCity" name="txtCity" label="{!$Label.c.LAB_SF_PublicRegister_City}" value=""/></div>
+                </div>
+                <br></br>
+                <div style="border:0px;box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0);float:right;">
+                    <ui:inputCheckbox aura:id="chkCheckAllNace" value="{!v.isSelectAllNace}" label="{!$Label.c.LAB_SF_PublicRegister_CheckAllNace}" change="{!c.checkAllNace}" class="checkAll" disabled="{!v.listNace.length==0}"/>
+                </div>       
+                <table class="slds-table">    
+                    <aura:iteration items="{!v.listNace}" var="rowNace">
+                        <tr>
+                            <td style="padding-left: 0px;"><ui:inputCheckbox aura:id="checkNace" value="{!rowNace.isSelected}" text="{!rowNace.n04_NACE}" change="{!c.checkboxSelect}"/></td> <td><b>{!rowNace.n04_NACE}</b></td><td>{!rowNace.n04_Nazev}</td>
+                        </tr>
+                    </aura:iteration>
+                </table>
+                <aura:set attribute="else">
+                    <lightning:spinner aura:id="mySpinner" variant="brand" size="medium" />
+                </aura:set>
+            </aura:if> 
+        </aura:if> 
+    </div>
+    <div class="modal-footer slds-modal__footer">   
+        <div style="float:left">
+            <lightning:button label="{!$Label.c.LAB_SF_PublicRegister_Cancel}" onclick="{!c.closePopUp}" class="slds-button slds-button_neutral" /> 
+        </div>
+        <div>
+            <lightning:button label="{!$Label.c.LAB_SF_PublicRegister_Update}" onclick="{!c.bindAres}" variant="brand" class="slds-button slds-button_brand" aura:id="btnUpdate" name="btnUpdate" disabled="true"/>
+        </div>
+    </div>
+</aura:component>

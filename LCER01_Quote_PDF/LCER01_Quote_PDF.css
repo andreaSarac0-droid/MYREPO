@@ -1,0 +1,13 @@
+@media (max-width: 1024px) {
+    .THIS.footerContent {
+        /*position: fixed;
+        width: 90%;
+        bottom: 20px;  */ 
+    }
+}
+.THIS .slds-modal__container {
+    /*width: 100%;*/
+}
+.THIS .slds-modal__content {
+    /*height: 100%;*/
+}

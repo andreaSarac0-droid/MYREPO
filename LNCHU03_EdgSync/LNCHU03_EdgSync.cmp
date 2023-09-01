@@ -1,0 +1,67 @@
+<aura:component controller="APHU11_EdgSyncCallout" implements="force:lightningQuickActionWithoutHeader,force:hasRecordId">
+  	<!-- parent Account -->
+    <aura:attribute name="acc" type="Account" />
+  
+    <!-- create 2 aura handler with waiting and donewaiting events-->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>
+    <aura:attribute name="hasErrors" type="String[]" description="Indicate whether there process were failures or not" />
+    <aura:attribute name="errorList" type="String[]"/>
+    <aura:attribute name="errorMessage" type="String"/>
+
+
+       <!-- Display a header with details about the opp -->
+    <div class="slds-page-header" role="banner">
+        <h1 class="slds-page-header__title slds-m-right_small slds-truncate slds-align-left">Company Creation in Sys Ops</h1>
+        <p class="slds-text-heading_label">Account: {!v.acc.Name}</p>
+        
+    </div> 
+    
+  <!--create a component attributs -->
+    <aura:attribute name="Spinner" type="boolean" default="false"/>
+    
+  <!--loading spinner start... style=Brand Medium (blue dots)-->
+     <aura:if isTrue="{!v.Spinner}">
+        <div aura:id="spinnerId" class="slds-spinner_container slds-is-relative">
+           <div class="slds-spinner slds-spinner_large" role="alert">
+             <span class="slds-assistive-text">Loading</span>
+             <div class="slds-spinner__dot-a"></div>
+             <div class="slds-spinner__dot-b"></div>
+           </div>
+        </div>
+     </aura:if>
+<!-- Loading spinner end-->
+    
+<div aura:id="errorDiv" class="errorBlock">
+<p aura:id="errorInfoP">
+    <b>{!v.errorMessage}</b>
+</p>
+<table class="slds-table slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols" role="grid">
+<thead aura:id="errorHeader">
+<tr class="slds-line-height_reset">
+<td role="gridcell">Error</td>
+<td role="gridcell">Section</td>
+</tr>
+</thead>
+ <aura:iteration var="row" items="{!v.errorList}">
+    <tr class="slds-line-height_reset">
+        <td role="gridcell"><div class="slds-truncate" title="{!row.sObjName + ' / ' + row.sName}"><a href="{!row.sLink}">{!row.sMessage}</a></div></td>
+         <td role="gridcell"><div class="slds-truncate">{!row.sSection}</div></td>
+     </tr>
+</aura:iteration> 
+    </table>
+     <lightning:button label="Close" onclick="{!c.closePopUp}" class="slds-m-top_medium slds-align_absolute-center" aura:id="btnClose"/>
+</div><!--errorDiv-->
+    
+<div aura:id="okDiv" class="okBlock">
+    <p style="margin-top:25px;"><b>&nbsp;Do you really want to save "{!v.acc.Name}" in Sys Ops?</b></p>	
+   <lightning:button label="Cancel" onclick="{!c.closePopUp}" class="slds-float_right" aura:id="btnCancel"/>
+   <div class="slds-float_right" style="width:4px;">&nbsp;</div>
+   <lightning:button label="Save" onclick="{!c.saveEdg}" variant="brand" class="slds-float_right" aura:id="btnSave"/>
+</div>
+
+
+    
+   
+</aura:component>

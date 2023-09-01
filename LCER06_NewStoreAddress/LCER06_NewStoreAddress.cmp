@@ -1,0 +1,108 @@
+<aura:component implements="lightning:actionOverride,flexipage:availableForAllPageTypes,force:appHostable,force:hasRecordId" access="global" controller="APER16_StoreAddressController">
+    <aura:handler name="init" value="this" action="{!c.doInit}"/>
+    <aura:attribute name="parentRecordId" type="String" />
+    <aura:attribute name="selectedOption" type="String"/>
+    <aura:attribute name="predictions" type="String[]"/>
+    <aura:attribute name="searchString" type="String"/>
+    <aura:attribute name="googleRoute" type="String" />
+    <aura:attribute name="googlePostalCode" type="String" />
+    <aura:attribute name="googleCity" type="String" />
+    <aura:attribute name="googleCountry" type="String" />
+    <aura:attribute name="googleLongitude" type="String" />
+    <aura:attribute name="googleLatitude" type="String" />
+    <aura:attribute name="googleProvince" type="String" />
+    <aura:attribute name="eshop" type="boolean" default="false"/>
+    <aura:attribute name="isOpen" type="boolean" default="true"/>
+     <lightning:workspaceAPI aura:id="workspace"/>
+    <aura:if isTrue="{!v.isOpen}">
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+    <div class="slds-modal__container" >
+     <header class="slds-modal__header">
+        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Address Informations :</h2>
+        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{! c.closeModel }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/> 
+      </header>    
+    <div class="slds-box slds-theme_default">    
+    <div class="slds-form-element">
+        <div class="slds-form-element__control">
+            <div class="slds-combobox_container slds-has-inline-listbox">
+                <div class="slds-combobox slds-combobox-lookup slds-dropdown-trigger slds-dropdown-trigger_click " aura:id="searchLookup"
+                     aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_left" aura:id="iconPosition">
+                        <ui:inputText updateOn="keyup"
+                                      keyup="{!c.KeyUpHandler}"
+                                      class="slds-input slds-combobox__input"
+                                      value="{!v.searchString}"
+                                      placeholder="Enter a location"/>
+                        <aura:if isTrue="{!empty(v.selectedOption)}">
+                            <span class="slds-icon_container slds-input__icon">
+                                <div class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default icon" >
+                                    <!--lightning:icon iconName="utility:checkin" size="x-small"/-->
+                                </div>
+                            </span>
+                            <aura:set attribute="else">
+                                <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" onclick="{!c.clear}">
+                                    <div class="slds-button__icon">
+                                        <lightning:icon iconName="utility:close" size="x-small"/>
+                                    </div>
+                                </button>
+                            </aura:set>
+                        </aura:if>
+                    </div>
+
+                    <div role="listbox">                   
+                        <ul class="slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid">
+                            <aura:iteration items="{!v.predictions}" var="option">
+                                <li class="slds-listbox__item" role="presentation" onclick="{!c.selectOption}" data-value="{!option.value}" data-record="{!option.label}">
+                                    <span class="slds-media slds-listbox__option slds-listbox__option_entity " role="option">
+                                        <span class="slds-media__body">
+                                            <span class="slds-listbox__option-text slds-listbox__option-text_entity">{!option.label}</span>
+                                        </span>
+                                    </span>
+                                </li>
+                            </aura:iteration>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="margin: 5px 60px;">
+        <ui:inputText class="slds-input" value="{!v.googleRoute}" label="Street" disabled="false"/>
+    </div>
+
+    <div style="margin: 5px 60px;">
+        <ui:inputText class="slds-input" value="{!v.googlePostalCode}" label="Postal Code" disabled="false"/>
+    </div>
+    <div style="margin: 5px 60px;">
+        <ui:inputText class="slds-input" value="{!v.googleProvince}" label="State/Province" disabled="false"/>
+    </div>    
+    <div style="margin: 5px 60px;">
+        <ui:inputText class="slds-input" value="{!v.googleCity}" label="City" disabled="fase"/>
+    </div>
+    <div style="margin: 5px 60px;">
+        <ui:inputText class="slds-input" value="{!v.googleCountry}" label="Country" disabled="false"/>
+    </div>
+    <div style="margin: 10px 60px;">
+        <ui:inputCheckbox value="{!v.eshop}" label="E-Shop" />
+    </div>    
+    </div>    
+    <footer class="slds-modal__footer">
+                        
+                        <lightning:button variant="Neutral" 
+                                          label="Cancel"
+                                          onclick="{! c.CancelClose}"/>
+                        <lightning:button variant="brand" 
+                                          label="Next" 
+                                          onclick="{!c.createRecord}" />
+            
+    </footer>    
+    </div>    
+        
+   </section>
+   <div class="slds-backdrop slds-backdrop_open"></div>
+   </aura:if>     
+</aura:component>

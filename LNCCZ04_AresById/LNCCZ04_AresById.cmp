@@ -1,0 +1,87 @@
+<aura:component controller="APCZ04_AresByIdController" implements="force:lightningQuickActionWithoutHeader,force:hasRecordId">
+    <aura:attribute name="sId" type="String" />
+    <aura:attribute name="sExistingNace" type="String" />
+    
+    <aura:attribute name="listNace" type="Object[]" />
+    <aura:attribute name="listNaceSeleced" type="Array[]" />
+    
+    <aura:attribute name="isSelectAll" type="boolean" default="false"/>
+    <aura:attribute name="isSelectAllNace" type="boolean" default="false"/>
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    <aura:attribute name="loadedall" type="Boolean" default="false" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+   <div class="slds-page-header slds-theme_shade" role="banner" style="font-weight:bold;">    
+        <div style="display: inline-block;width:480px;"> Address from Public Registration for id : "{!v.sId}"</div>
+        <div style="display: inline-block;"><lightning:icon iconName="" size="small" aura:id="iconState" name="iconState" /></div>
+    </div>
+<aura:if isTrue="{! v.loadedall }">
+    <!--24745391-->
+    <!--<lightning:input aura:id="txtId" name="txtId" label="Ares Id" value="{!v.sId}" />-->
+
+    <br></br>
+  <aura:if isTrue="{! v.loaded }">
+ <div style="border:0px;box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0);float:right;">
+<ui:inputCheckbox aura:id="chkCheckAll" value="{!v.isSelectAll}" label="&nbsp;Check All" change="{!c.checkAll}" class="checkAll"/>
+ </div>    
+    
+  <!-- NAME-->
+ <div class="slds-grid slds-wrap slds-grid_vertical-align-end" style="clear:both;">
+ <div class="slds-col slds-size_1-of-12 slds-grid_align-center"><span style="display:block;height:25px;"><ui:inputCheckbox aura:id="chkName" value="false" label=""/></span></div>
+ <div class="slds-col slds-size_11-of-12"><lightning:input aura:id="txtName" name="txtName" label="Company Name" value=""/></div>
+ </div>   
+    
+<!-- DIC-->
+<div class="slds-grid slds-wrap slds-grid_vertical-align-end">   
+ <div class="slds-col slds-size_1-of-12 slds-grid_align-center"><span style="display:block;height:25px;"><ui:inputCheckbox aura:id="chkVatNumber" value="false" label=""/></span></div>
+ <div class="slds-col slds-size_11-of-12"><lightning:input aura:id="txtVatNumber" name="txtVatNumber" label="DIC (Vat Number)" value=""/></div>
+</div>
+ 
+<!-- Legal Form--> 
+ <div class="slds-grid slds-wrap slds-grid_vertical-align-end">     
+ <div class="slds-col slds-size_1-of-12"><span style="display:block;height:25px;"><ui:inputCheckbox aura:id="chkLegalForm" value="false" label=""/></span></div>    
+ <div class="slds-col slds-size_11-of-12"><lightning:input aura:id="txtLegalForm" name="txtLegalForm" label="Legal Form" value=""/> </div>     
+</div>    
+   
+
+<!-- Street--> 
+<div class="slds-grid slds-wrap slds-grid_vertical-align-end">       
+<div class="slds-col slds-size_1-of-12"><span style="display:block;height:25px;"><ui:inputCheckbox aura:id="chkStreet" value="false" label=""/></span></div>
+<div class="slds-col slds-size_11-of-12"><lightning:input aura:id="txtStreet" name="txtStreet" label="Street" value=""/></div>     
+</div>    
+  
+<!-- Zip Code-->    
+<div class="slds-grid slds-wrap slds-grid_vertical-align-end">
+<div class="slds-col slds-size_1-of-12"><span style="display:block;height:25px;"><ui:inputCheckbox aura:id="chkZipCode" value="false" label=""/></span></div>  
+<div class="slds-col slds-size_11-of-12"><lightning:input aura:id="txtZipCode" name="txtZipCode" label="Zip Code" value=""/> </div>
+</div>     
+    
+<!--City-->   
+<div class="slds-grid slds-wrap slds-grid_vertical-align-end">  
+<div class="slds-col slds-size_1-of-12"><span style="display:block;height:25px;"><ui:inputCheckbox aura:id="chkCity" value="false" label=""/></span></div>   
+<div class="slds-col slds-size_11-of-12"><lightning:input aura:id="txtCity" name="txtCity" label="City" value=""/></div>
+</div>
+    
+<br></br>
+    
+ <div style="border:0px;box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0);float:right;">
+<ui:inputCheckbox aura:id="chkCheckAllNace" value="{!v.isSelectAllNace}" label="&nbsp;Check All Nace" change="{!c.checkAllNace}" class="checkAll"/>
+ </div>       
+    
+<table class="slds-table">    
+<aura:iteration items="{!v.listNace}" var="rowNace">
+    <tr>
+        <td><ui:inputCheckbox aura:id="checkNace" value="{!rowNace.isSelected}" text="{!rowNace.n04_NACE}" change="{!c.checkboxSelect}"/></td> <td><b>{!rowNace.n04_NACE}</b></td><td>{!rowNace.n04_Nazev}</td>
+    </tr>
+</aura:iteration>
+</table>
+<aura:set attribute="else">
+<lightning:spinner alternativeText="Loading" />
+</aura:set>
+</aura:if> 
+    <footer class="slds-modal__footer slds-theme_default" style="border:0px;box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0);">
+    <lightning:button label="Cancel" onclick="{!c.closePopUp}" class="slds-button slds-button_neutral" />
+    <lightning:button label="Update from Ares" onclick="{!c.bindAres}" variant="brand" class="slds-button slds-button_brand" aura:id="btnUpdate" name="btnUpdate" disabled="true"/>
+    </footer>   
+</aura:if>     
+</aura:component>

@@ -1,0 +1,10 @@
+.THIS.toggle {
+    border: 1px solid red;
+    /*display: none;*/
+}
+
+.THIS .checkAll{
+  display: inline-block;
+  float: left;
+  margin-right: .5rem;
+}

@@ -1,0 +1,14 @@
+<aura:event type="COMPONENT" description="Event template">
+    <aura:attribute name="FinCenter" type="Map"/>
+    <aura:attribute name="Circuit" type="Map"/>
+    <aura:attribute name="selectedItem" type="Map"/>
+    <aura:attribute name="Store" type="Map"/>
+    <aura:attribute name="Pos" type="Map"/>
+    <aura:attribute name="Contact" type="Map"/>
+    <aura:attribute name="Asset" type="Map"/>
+    <aura:attribute name="Employee" type="Map"/>
+    <aura:attribute name="Product" type="Map"/>
+    <aura:attribute name="Individual" type="Map"/>
+    <aura:attribute name="User" type="Map"/>
+    <!--SelectedItem = Account-->
+</aura:event>
