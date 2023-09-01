@@ -1,0 +1,26 @@
+<aura:component implements="force:hasSObjectName,force:lightningQuickActionWithoutHeader,force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:actionOverride,lightning:availableForFlowScreens,lightning:availableForFlowActions" 
+                controller="APIT00_BalanceController"
+                access="global" >
+    
+    <aura:attribute name="data" type="List"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="prod_TR" type="String"/>
+    
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+    
+    <lightning:card>
+            <div class="slds-m-around_x-small" style="padding-left:5px"><b></b></div>
+            <div class="slds-m-around_x-small" >
+                <lightning:datatable
+                                     aura:id="datatable"                 
+                                     columns="{! v.columns }"
+                                     data="{! v.data }"
+                                     keyField="Id"
+                                     hideCheckboxColumn="true"
+                                     onsort="{!c.updateColumnSorting_present}"
+                                     sortedBy="{!v.sortedBy_present}"
+                                     sortedDirection="{!v.sortedDirection_present}"
+                                     />
+            </div>
+    </lightning:card>
+</aura:component>

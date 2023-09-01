@@ -1,0 +1,28 @@
+<aura:component implements ="force:lightningQuickActionWithoutHeader,force:hasRecordId,lightning:actionOverride,flexipage:availableForAllPageTypes" controller="VFCIT00_CustomReportPowerBI">
+    <aura:attribute name="ReportName" type="String" default="false"/>  
+    <aura:attribute name="reportURL" type="String"/>
+    
+    <!-- <aura:attribute name="iframeUrl" type="String" /> -->
+    <aura:attribute name="width" type="String" />
+    <aura:attribute name="height" type="String" />
+    <aura:attribute name="scrolling" type="String" />
+    <aura:attribute name="frameBorder" type="String" />
+    <aura:attribute name="style" type="String" />
+    <aura:attribute name="sandbox" type="String" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <div style = "float:right">
+        <ui:button  label="Open in New window" press="{!c.openActionWindow}"/>
+    </div>
+    
+    <iframe src="{!v.reportURL}"
+            width="{!v.width}"
+            height="{!v.height}"
+            style="{!v.style}"
+            frameBorder="{!v.frameBorder}"
+            sandbox="{!v.sandbox}"
+            scrolling="{!v.scrolling}"/>
+    
+
+    
+</aura:component>

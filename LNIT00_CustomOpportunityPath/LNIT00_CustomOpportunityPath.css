@@ -1,0 +1,8 @@
+.THIS {
+}
+.THIS .slds-path {
+    padding: 0px 12px;
+}
+.THIS .slds-grid .slds-path__action {
+    margin: 8px 0px
+}

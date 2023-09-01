@@ -1,0 +1,39 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName">    
+   <!--<aura:handler event="force:refreshView" action="{!c.isRefreshed}" />-->
+
+    <aura:attribute name="showModal"    type="Boolean"      default="false"></aura:attribute>
+    <aura:attribute name="flow"         type="Object"></aura:attribute>
+<aura:attribute name="FlowName" type="String" default=""/>
+<aura:attribute name="FlowLabel" type="String" default=""/>
+    <aura:attribute name="InputRecordId" type="Boolean" default="false"/>
+        <aura:attribute name="Icon" type="Boolean" default="false"/>
+    <div class="{! v.showModal ? 'slds-show' : 'slds-hide' }">
+        <section class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header slds-modal__header_empty">
+                                                            <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{!c.closeModal}"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    {! v.body }
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+
+    <aura:if isTrue="{!v.Icon}">
+           <lightning:buttonicon name="{!v.FlowName}"
+                      iconName="utility:add"
+                      onclick="{! c.runFlow }"/>
+        <aura:set attribute="else">
+           <lightning:button name="{!v.FlowName}"
+                      label="{!v.FlowLabel}"
+                      onclick="{! c.runFlow }"/>
+    </aura:set>
+  </aura:if> 
+  <!--   Icon="Utility:add"-->
+</aura:component>

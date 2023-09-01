@@ -1,0 +1,49 @@
+<aura:component implements="lightning:availableForFlowScreens,force:appHostable,force:hasRecordId,force:hasSObjectName" access="global" controller="APIT00_AmendGroupController">
+    
+    <aura:attribute name="dataArr" type="String[]"/>
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="columnsStr" type="String"/> 
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="preSelectedRows" type="List"/>
+    <aura:attribute name="maxRowSelection" type="Integer" default="1"/>
+    <aura:attribute name="Output" type="String" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="KeyField" type="String"  default="utility:add"/>
+    <aura:attribute name="PickVal" type="String" default= ""/>
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    <aura:attribute name="Frame" type="Boolean" />
+    <aura:attribute name="FrameParent" type="Boolean" default="false"/>
+    <aura:attribute name="selectedValueProduct" type="String"/>
+    <aura:attribute name="GroupId" type="String" default= ""/>
+    <aura:attribute name="FrameParentId" type="String" default= ""/> 
+    <aura:attribute name="contactId" type="String"/>
+    <aura:attribute name="mktgAction" type="String"/>
+    <aura:attribute name="IsFlexbenefit" type="boolean"/>
+    <aura:attribute name="isParent" type="boolean"/> 
+    <aura:attribute name="fcFrame" type="String"/>
+	<aura:attribute name="myRows" type="List"/>
+	<aura:attribute name="tableSize" type="Integer"/>    
+	<aura:attribute name="frameCount" type="Integer"/> 
+    <aura:attribute name="serviceExpDate" type="Date" />
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    <aura:handler name="init" value="{!this }" action="{! c.doInit }"/>
+    
+    <!--<div style="height: 300px"> -->
+    <lightning:datatable keyField="Id"
+                         aura:id="linesTable"
+                         data="{! v.data }"
+                         columns="{! v.columns }"
+                        
+                         onrowaction="{! c.handleRowAction }"
+                         maxRowSelection="40"
+                         
+						 onrowselection="{! c.updateSelectedRows }"
+                         />
+    <div>
+        <aura:if isTrue="{! v.loaded }">
+            <lightning:spinner alternativeText="Loading" />
+        </aura:if>
+    </div>
+    <lightning:button label="Crea Opportunità" title="Crea Opportunità" onclick="{! c.cloneOpportunities}"/>
+    <lightning:button label="Aggiorna" title="Refresh" onclick="{! c.doInit}"/>
+</aura:component>

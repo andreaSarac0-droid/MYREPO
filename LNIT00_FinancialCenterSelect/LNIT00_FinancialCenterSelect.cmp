@@ -1,0 +1,18 @@
+<aura:component controller="APIT00_FinancialCenterSelect">
+
+	<aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+	
+	<aura:attribute name="recordId" type="String" />
+	<aura:attribute name="value" type="String"/>
+	<aura:attribute name="financialCenters" type="List"/>
+	
+	<aura:attribute name="onChangeCallback" type="Object"/>
+
+	<lightning:select name="select-financial-center" label="Financial Center" value="{!v.value}" onchange="{!c.onChange}">
+        <option value="">Please choose an option</option>
+	    <aura:iteration items="{!v.financialCenters}" var="option">
+	    	<option value="{!option.IT_Financial_Center__c}">{!option.Name}</option>
+	    </aura:iteration>
+	</lightning:select>
+
+</aura:component>

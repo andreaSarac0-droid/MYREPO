@@ -1,0 +1,63 @@
+<aura:component implements="lightning:isUrlAddressable,force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName" 
+                access="global"
+                controller="APIT00_OpportunityActivation">
+                
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    <aura:attribute name="merchant" type="Boolean" default="false" />
+    <aura:attribute name="disable" type="boolean" default="false"/>
+    <aura:attribute name="disable2" type="boolean" default="true"/>
+    <aura:attribute name="disable3" type="boolean" default="true"/>
+    <aura:attribute name="disableDocu" type="boolean" default="false"/>
+    <aura:attribute name="activationVar" type="boolean" default="false"/>
+    <aura:attribute name="revisioneVar" type="boolean" default="false"/>
+    <aura:attribute name="revisioneMerchantVar" type="boolean" default="false"/>
+    <aura:attribute name="buttonLabel" type="String" default="{!$Label.c.IT_Email_Onboarding_Button}" />
+    <aura:attribute name="buttonLabelDocu" type="String" default="{!$Label.c.IT_Invia_Contratto_Docusign}" />
+    <aura:attribute name="showDocuSignButton" type="boolean"/>
+    <aura:attribute name="hideResendLink" type="boolean"/>
+    <!--<aura:commandLink action="{!URLFOR('/apex/dfsle__gendocumentgenerator')}"/>-->
+    <aura:attribute name="SendLink" type="boolean" default="false"/>
+    <aura:attribute name="ResendLink" type="boolean" default="false"/>
+    <aura:attribute name="DocuSign" type="boolean" default="false"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+    
+    <div class="slds-button-group" role="group" >
+        <aura:if isTrue="{!v.SendLink}">
+            <lightning:button class="slds-button slds-button-neutral" 
+                      label="{!v.buttonLabel}" 
+                      title="Activation" 
+                      onclick="{!c.onClick}"
+                      disabled="{!v.disable}"
+                      aura:id="button"/>
+        </aura:if>
+    
+        <aura:if isTrue="{!v.hideResendLink}">
+            <aura:if isTrue="{!v.ResendLink}">
+                <lightning:button class="slds-button slds-button-neutral" 
+                          label="Rimanda Link Onboarding" 
+                          title="Rimanda Link Onboarding" 
+                          onclick="{!c.resendOnboarding}"
+                          disabled="{!v.disable3}"
+                          aura:id="button2"/>
+            </aura:if>
+        </aura:if>
+        
+        <aura:if isTrue="{!v.DocuSign}">
+            <aura:if isTrue="{!v.showDocuSignButton}">
+                <lightning:button class="slds-button slds-button-neutral" 
+                      label="{!v.buttonLabelDocu}" 
+                      title="Docusign" 
+                      onclick="{!c.onClickDocu}"
+                      disabled="{!v.disableDocu}"
+                      aura:id="buttonDocu"/>
+            </aura:if>
+        </aura:if>
+    </div>
+    <div>
+        <aura:if isTrue="{! v.loaded }">
+            <lightning:spinner alternativeText="Loading" />
+        </aura:if>
+    </div>
+</aura:component>

@@ -1,0 +1,11 @@
+<design:component>
+	
+<design:attribute name="dataArr" label="Data Array" required="true"/>
+<design:attribute name="columnsStr" label="Columns" required="true"/>
+<design:attribute name="recordId" label="Record Id" />
+<design:attribute name="Output" label="Output" />
+<design:attribute name="OutputArray" label="Array Output" />
+<design:attribute name="KeyField" label="KeyField" />
+<design:attribute name="maxRowSelection" label="Numero massimo di righe selezionabili" />
+
+</design:component>

@@ -1,0 +1,4 @@
+<design:component>
+	<design:attribute name="opportunities" label="Opportunity Id" />
+	<design:attribute name="showAddProd" label="Show AddOpportunityProduct" />
+</design:component>

@@ -1,0 +1,94 @@
+<aura:component
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName,lightning:availableForFlowScreens,lightning:availableForFlowActions"
+    controller="APIT00_FlexBenefitController">
+
+    <aura:attribute type="Opportunity[]" name="acctList" />
+    <aura:attribute name="mycolumns" type="List" />
+    <aura:attribute name="options" type="List" />
+    <aura:attribute name="selectedValue" type="String" />
+    <aura:attribute name="groupId" type="String" />
+    <aura:attribute name="spinner" type="Boolean" default="true" />
+    <aura:attribute name="showModal" type="Boolean" default="false"></aura:attribute>
+    <aura:attribute name="isAmendedFlex" type="Boolean" default="false" />  
+    
+    <aura:attribute name="showAddProduct" type="Boolean" default="false"></aura:attribute>
+    <aura:attribute name="metadataList" type="List"></aura:attribute>
+    <aura:attribute name="selectedMetadata" type="List"></aura:attribute>
+    <aura:attribute name="metadataColumns" type="List"></aura:attribute>
+
+    <aura:handler name="init" value="{!this}" action="{!c.Init}" />
+	<aura:handler event="force:refreshView" action="{!c.Init}" />
+    <aura:handler name="componentEventFired" event="c:IT00_FlexbenefitAddProductDismiss" action="{!c.handleEvent}"></aura:handler> <!-- Handler for custom event -->
+
+    <lightning:notificationsLibrary aura:id="notifLib" />
+    
+    <div class="{! v.showModal ? 'slds-show' : 'slds-hide' }">
+        <section class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header slds-modal__header_empty">
+                    <lightning:buttonIcon iconName="utility:close" onclick="{!c.closeModal}" alternativeText="close"
+                        variant="bare-inverse" class="slds-modal__close" />
+                </header>
+                <div aura:id="ModalDiv" class="slds-modal__content slds-p-around_medium">
+                    {! v.body }
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+    <div>
+        <lightning:select name="OppPadre" label="Scegli opportunità sulla quale modificare condizioni" aura:id="Padre"
+            onchange="{!c.onChangeSelect}" value="{!v.selectedValue}">
+            <aura:iteration items="{!v.options}" var="option">
+                <option text="{!option.Name}" value="{!option.Id}" selected="{!option.selected}" />
+            </aura:iteration>
+        </lightning:select>
+    </div>
+    <div class="slds-button-group" role="group">
+        <lightning:button name="EstendiaGruppo" label="Estendi a Gruppo" onclick="{! c.extendToGroup}" disabled="{!v.isAmendedFlex}"/>
+        <lightning:button name="AddProdotti" label="Aggiungi prodotti" onclick="{! c.addProduct }" />
+        
+        <lightning:buttonIcon class="slds-m-horizontal_medium" iconName="utility:refresh" onclick="{! c.Init }"
+            alternativeText="Refresh" title="Refresh" />
+
+
+    </div>
+    <aura:renderIf isTrue="{!v.showAddProduct}">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    Select Products
+                </header>
+                <!--c:LNIT00_FlexBenefitAddProducts opportunityId="{!v.selectedValue}" /-->
+                <div aura:id="TableDiv" >
+                    {! v.body }
+                </div> 
+                <!--<div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <lightning:datatable    data="{!v.metadataList}" 
+                                            columns="{! v.metadataColumns }" 
+                                            keyField="Id" 
+                                            hideCheckboxColumn="false"
+                                            onrowselection="{!c.handleAddProductSelection}"
+                                          	onrowaction="{! c.handleRowAction }"/>
+                    
+                    <!-<lightning:checkboxGroup    name="Seleziona"
+                            label="Seleziona"
+                            options="{!v.metadataList}"
+                            value="{!v.selectedMetadata}"
+                            onchange="{!v.handleAddProductNext}"
+                            disabled="false"
+                            />
+                    ->
+                </div>-->
+            </div>
+        </section>
+        
+    </aura:renderIf>
+    <div class="slds-m-around_x-small " style="height:330px;">
+    	<lightning:datatable data="{! v.acctList }" columns="{! v.mycolumns }" keyField="Id" hideCheckboxColumn="false"
+        onrowaction="{! c.handleRowAction }" onsave="{! c.handleSave }" />
+    </div>
+    
+
+
+</aura:component>

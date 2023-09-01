@@ -1,0 +1,5 @@
+<design:component>
+	<design:attribute name="SendLink" label="Send Link" required="false"/>  
+    <design:attribute name="ResendLink" label="Resend Link" required="false"/>
+    <design:attribute name="DocuSign" label="Docu Sign" required="false"/>
+</design:component>

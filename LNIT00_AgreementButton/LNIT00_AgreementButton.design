@@ -1,0 +1,6 @@
+<design:component>
+        <design:attribute name="FlowName" label="FlowName" required="false"/>	
+     <design:attribute name="FlowLabel" label="FlowName" required="false"/>	
+        <design:attribute name="InputRecordId" label="InputRecordId" required="false"/>
+     <design:attribute name="Icon" label="Icon" required="false"/>
+</design:component>

@@ -1,0 +1,151 @@
+<aura:component implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" controller="APIT00_CustomOpportunityPathController">
+
+    <lightning:notificationsLibrary aura:id="notifLib" />
+
+    <aura:attribute name="picklistField" type="object" />
+    <aura:attribute name="customer_ref" type="String" />
+    <aura:attribute name="contractId" type="String" />
+    <aura:attribute name="isModalOpen" type="boolean" default="false" />
+    <aura:attribute name="isModalCaseOpen" type="boolean" default="false" />
+    <aura:attribute name="automatic" type="boolean" default="false" />
+    <aura:attribute name="caseProv" type="boolean" default="false" />
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    <aura:attribute name="createCase" type="Boolean" default="false" />
+    <aura:attribute name="creditCheckRequired" type="Boolean" default="false" />
+    <aura:attribute name="isModalDataFirmaOpen" type="Boolean" default="false" />
+    <aura:attribute name="dataFirma" type="Date" default="null" />
+    <aura:attribute name="noSignAct" type="Boolean" default="false" />
+
+    <!--aura:attribute name="pageReference" type="Object"/>
+    <aura:attribute name="url" type="String"/>
+    <lightning:navigation aura:id="navId"/-->
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+
+    <!--Force Record Data to update picklist value-->
+    <force:recordData aura:id="record" layoutType="FULL" recordId="{!v.recordId}" targetFields="{!v.picklistField}" mode="EDIT" />
+
+    <div class="slds-card">
+        <div class="slds-path">
+            <div class="slds-grid slds-path__track">
+                <!--For changing from left-to-right use dir="ltr" and from to right-to-left use dir="rtl"-->
+                <div class="slds-grid slds-path__scroller-container" dir="ltr">
+                    <div class="slds-path__scroller" style="">
+                        <div class="slds-path__scroller_inner">
+                            <!--Lightning Picklist Path For Applicatin Status-->
+                            <lightning:picklistPath recordId="{!v.recordId}" variant="linear" picklistFieldApiName="StageName" onselect="{!c.handleSelect}" />
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-grid slds-path__action runtime_sales_pathassistantPathAssistantHeader">
+                    <lightning:button class="slds-button slds-button_brand slds-path__mark-complete" label="{!$Label.c.IT_Custom_Path_Button}" title="{!$Label.c.IT_Custom_Path_Button}" onclick="{!c.onClick2}" iconName="utility:check" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal attivazione automatica -->
+    <aura:if isTrue="{!v.isModalOpen}">
+
+        <!-- Modal/Popup Box starts here-->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box Header Starts here-->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeModel }" alternativeText="close" variant="bare-inverse" class="slds-modal__close" />
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"></h2>
+                </header>
+                <!--Modal/Popup Box Body Starts here-->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p><b>
+                            <!--Sei sicuro di voler procedere senza attivazione automatica?--> Vuoi fare l'attivazione
+                            automatica?
+                        </b>
+                    </p>
+                </div>
+                <!--Modal/Popup Box Footer Starts here-->
+                <footer class="slds-modal__footer slds-modal__footer_directional">
+                    <lightning:button variant="neutral" label="No" title="No" onclick="{!c.postWon2}" />
+                    <!-- FFF -->
+                    <lightning:button variant="brand" label="Sì" title="Sì" onclick="{!c.setAutomatic}" />
+                    <!--<lightning:button variant="neutral"
+                                          label="No"
+                                          title="No"
+                                          onclick="{! c.closeModel }"/>
+                        <lightning:button variant="brand"
+                                          label="Sì"
+                                          title="Sì"
+                                          onclick="{!c.postWon2}"/>-->
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+    <!-- Modal caso provisioning -->
+    <aura:if isTrue="{!v.isModalCaseOpen}">
+
+        <!-- Modal/Popup Box starts here-->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box Header Starts here-->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close" onclick="{! c.closeCaseModal }" alternativeText="close" variant="bare-inverse" class="slds-modal__close" />
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"></h2>
+                </header>
+                <!--Modal/Popup Box Body Starts here-->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p><b>
+                            <!--Sei sicuro di voler procedere senza attivazione automatica?--> Vuoi creare un caso di
+                            Provisioning?
+                        </b>
+                    </p>
+                </div>
+                <!--Modal/Popup Box Footer Starts here-->
+                <footer class="slds-modal__footer slds-modal__footer_directional">
+                    <lightning:button variant="neutral" label="No" title="No" onclick="{! c.wonWithoutCase }" />
+                    <lightning:button variant="brand" label="Sì" title="Sì" onclick="{!c.setCreateCaseProvisioning}" />
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+
+    <!-- Modal data firma -->
+    <aura:if isTrue="{!v.isModalDataFirmaOpen}">
+        <!-- Modal/Popup Box starts here-->
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- Modal/Popup Box Header Starts here-->
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon iconName="utility:close" onclick="{!c.closedModalDataFirma }" alternativeText="close" variant="bare-inverse" class="slds-modal__close" />
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate"></h2>
+                    <p><b>Selezionare :  </b> <i> Data Firma</i> <b> o </b> <i>Attivazione contratto senza firma</i> </p>
+                </header>
+                <!-- PPP -->
+                <!--Modal/Popup Box Body Starts here-->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <!-- <p><b>Data Firma: </b></p> -->
+                    <lightning:input type="date" name="input1" label="Data Firma" value="{!v.dataFirma}" displayDatePicker="true" />
+                </div>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <!-- <p><b>No Richiesta Firma: </b></p> -->
+                    <lightning:input type="checkbox" label="Attivazione contratto senza firma" name="force_firm" checked="{!v.noSignAct}" />
+                    <br></br>
+                </div>
+
+                <!--Modal/Popup Box Footer Starts here-->
+                <footer class="slds-modal__footer slds-modal__footer_directional">
+                    <!--lightning:button variant="neutral"
+                                          label="No"
+                                          title="No"
+                                          onclick="{! c.wonWithoutCase }"/-->
+                    <lightning:button variant="brand" label="Next" title="Next" onclick="{!c.setDataFirma}" />
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+    <div>
+        <aura:if isTrue="{! v.loaded }">
+            <lightning:spinner alternativeText="Loading" />
+        </aura:if>
+    </div>
+</aura:component>

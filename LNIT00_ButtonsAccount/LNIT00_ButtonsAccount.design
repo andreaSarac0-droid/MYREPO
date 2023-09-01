@@ -1,0 +1,17 @@
+<design:component>
+	<design:attribute name="ModificaIndirizzo" label="ModificaIndirizzo" required="false"/>  
+    <design:attribute name="Lince" label="Lince" required="false"/>  
+    <design:attribute name="BusinessPlan" label="BusinessPlan" required="false"/>  
+    <design:attribute name="CreditCheck" label="CreditCheck" required="false"/>
+    <design:attribute name="SyncQuote" label="SyncQuote" required="false"/>    
+    <design:attribute name="Agreement" label="Agreement" required="false"/> 
+    <design:attribute name="ChangeVAT" label="ChangeVAT" required="false"/>
+    <design:attribute name="AddFrame" label="AddFrame" required="false"/>
+    <design:attribute name="DefaultConfigs" label="DefaultConfigs" required="false"/>
+    <design:attribute name="Activation" label="Activation" required="false"/>
+    <design:attribute name="AddCharge" label="AddCharge" required="false"/>
+    <design:attribute name="SendToCommittee" label="SendToCommittee" required="false"/>
+    <design:attribute name="Combine" label="Combine" required="false"/>
+    <design:attribute name="GestCred" label="GestCred" required="false"/>
+    <design:attribute name="LeadDocusignContract" label="LeadDocusignContract" required="false"/>
+</design:component>

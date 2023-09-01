@@ -1,0 +1,12 @@
+.THIS .slds-th__action_form span {
+
+display: none;
+
+}
+
+.THIS .slds-th__action_form:after{
+
+content: ''; 
+
+
+}

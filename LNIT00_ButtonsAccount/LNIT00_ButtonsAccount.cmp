@@ -1,0 +1,69 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" controller="APIT57_ButtonsAccount">    
+    <aura:attribute name="ModificaIndirizzo" type="Boolean" default="false"/>  
+    <aura:attribute name="Lince" type="Boolean" default="false"/>  
+    <aura:attribute name="BusinessPlan" type="Boolean" default="false"/>  
+    <aura:attribute name="CreditCheck" type="Boolean" default="false"/>
+    <aura:attribute name="SyncQuote" type="Boolean" default="false"/>
+    <aura:attribute name="Agreement" type="Boolean" default="false"/>
+    <aura:attribute name="ChangeVAT" type="Boolean" default="false"/>
+    <aura:attribute name="AddFrame" type="Boolean" default="false"/>
+    <aura:attribute name="DefaultConfigs" type="Boolean" default="false"/>
+    <aura:attribute name="Activation" type="Boolean" default="false"/>
+    <aura:attribute name="AddCharge" type="Boolean" default="false"/>
+    <aura:attribute name="recId" type="string" default="{!v.recordId}"/>
+    <aura:attribute name="SendToCommittee" type="Boolean" default="false"/>
+    <aura:attribute name="Combine" type="Boolean" default="false"/> 
+    <aura:attribute name="GestCred" type="Boolean" default="false"/>
+	<aura:attribute name="showGestCredButton" type="Boolean" default="false"/>
+    <aura:attribute name="LeadDocusignContract" type="Boolean" default="false"/>
+    <aura:handler name="init" value="{! this }" action="{! c.oninit }"/>
+    
+    <!--    <aura:if isTrue="{!v.Agreement}">
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    </aura:if> -->
+    <!--   <div class="slds-button-group" role="group" align="right"> -->  <!--style="margin:12px"-->
+    <div class="slds-button-group" role="group" >   
+        <aura:if isTrue="{!v.ModificaIndirizzo}">
+            <c:LNIT18_ModificaIndirizzo recordId="{!v.recordId}" sObjectName="{!v.sObjectName}" />
+        </aura:if>
+        <aura:if isTrue="{!v.DefaultConfigs}">
+            <c:LNIT00_DefaultConfigsButton recordId="{!v.recordId}" />
+        </aura:if>
+        <aura:if isTrue="{!v.SyncQuote}">
+            <c:LNIT00_SyncQuoteWithOpportunity recordId="{!v.recordId}"/>
+        </aura:if>
+        <aura:if isTrue="{!v.BusinessPlan}">
+            <c:LNIT00_KamOpportunityModal recordId="{!v.recordId}" sObjectName="{!v.sObjectName}" debug="false"/>
+        </aura:if>
+        <aura:if isTrue="{!v.Lince}">
+            <c:LNIT00_GetCervedDocsButton recordId="{!v.recordId}"/>
+        </aura:if>
+        <aura:if isTrue="{!v.CreditCheck}">
+            <c:LNIT21_CreditCheckButton recordId="{!v.recordId}"/>
+        </aura:if>
+        <aura:if isTrue="{!v.Agreement}">
+            <c:LNIT00_AgreementButton recordId="{!v.recordId}" FlowName="IT_New_Agreement" FlowLabel="Nuova Convenzione" />
+        </aura:if>
+        <aura:if isTrue="{!v.ChangeVAT}">
+            <c:LNIT00_AgreementButton aura:Id="ChangeVat" recordId="{!v.recordId}" FlowName="IT56_ChangeVat" FlowLabel="{!$Label.c.IT_Change_VAT_Button}" />
+        </aura:if>
+        <aura:if isTrue="{!v.AddFrame}">
+            <c:LNIT00_AgreementButton recordId="{!v.recordId}" FlowName="IT_AddToFrame" FlowLabel="Aggiungi a Quadro" />
+        </aura:if>
+        <aura:if isTrue="{!v.AddCharge}">
+            <c:LNIT00_AgreementButton recordId="{!v.recordId}" FlowName="IT97_AccountQuoteAddCharge" FlowLabel="Aggiungi Multi/Extra Sconto" />
+        </aura:if>
+        <aura:if isTrue="{!v.SendToCommittee}">
+            <c:LNIT39_SendToCommittee recordId="{!v.recordId}" />
+        </aura:if>
+        <aura:if isTrue="{!v.Combine}">
+            <c:LNIT00_AgreementButton recordId="{!v.recordId}" FlowName="IT134_CombineLeads" FlowLabel="Combina Lead"/>
+        </aura:if>
+        <aura:if isTrue="{!and(v.GestCred, v.showGestCredButton)}">          
+            <c:LNIT00_AgreementButton aura:Id="ChangeVat" recordId="{!v.recordId}" FlowName="IT231_GestCredRecuperaDati" FlowLabel="Recupera Dati Cerved" />
+        </aura:if>
+        <aura:if isTrue="{!v.LeadDocusignContract}">          
+            <c:lWCIT22_DocusignTeleselling recordId="{!v.recordId}"></c:lWCIT22_DocusignTeleselling>
+        </aura:if>
+    </div>
+</aura:component>

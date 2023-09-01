@@ -1,0 +1,160 @@
+<aura:component implements ="force:lightningQuickActionWithoutHeader,force:hasRecordId,lightning:actionOverride,flexipage:availableForAllPageTypes" controller="APIT00_AmendContractButtonClass">
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    <aura:attribute name="options" type="List" access="PRIVATE"/>
+    <aura:attribute name="pickObject" type="Object[]"/>
+    <aura:attribute name="pickObjectProduct" type="Object[]"/>
+    <aura:attribute name="selectedDate" type="Date"/>
+    <aura:attribute name="todayDate" type="Date"/>
+    <aura:attribute name="selectedValue" type="String"/>
+    <aura:attribute name="mycolumns" type="List" />
+    <aura:attribute name="FCList" type="List" />
+    <aura:attribute name="selectedValueProduct" type="String"/> 
+    <aura:attribute name="ClientCode" type="String"/>
+    <aura:attribute name="productViewer" type="Boolean" default= "false"/>
+    <aura:attribute name="truthy" type="Boolean" default= "true"/>
+    <aura:attribute name="Group" type="Boolean" default= "false"/>
+    <aura:attribute name="Frame" type="Boolean" default= "false"/>
+    <aura:attribute name="Wizard" type="Boolean" default= "false"/>
+    <aura:attribute name="AccountId" type="String" default= ""/>
+    <aura:attribute name="IsFlexbenefit" type="boolean" default= "false"/>
+    <!--<aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>-->
+    <aura:attribute name="toggleSpinner" type="boolean" default="false"/>
+    <aura:attribute name="CapoQuadro" type="boolean" default="false"/>
+   <aura:attribute name="selectedRecord" type="String" /> 
+   <aura:attribute name="selectedRecord2" type="String" /> 
+   <aura:attribute name="selectedRecord3" type="String" /> 
+    <aura:attribute name="Product" type="String" /> 
+        <aura:attribute name="ParentCode" type="String" /> 
+    <aura:attribute name="ParentId" type="String" /> 
+        <aura:attribute name="ContractType" type="String" /> 
+            <aura:attribute name="Owner" type="String" /> 
+    <aura:attribute name="today" type="Date" />                     <!--rf 25/05/22 IL-000493-->
+     <aura:attribute name="userId" type="String" />
+    <aura:attribute name="serviceExpRequired" type="Boolean" /> <!-- FC -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+     <aura:handler name="oSelectedRecordEvent" event="c:LNIT00_LookupEvent" action="{!c.handleComponentEvent}"/>
+    <aura:html tag="style">
+        .cloneOppy {
+        display: flex;
+        margin-top: 3rem;
+        justify-content: center;
+        }
+        
+        .cloneOppyChangeProduct {
+        display: flex;
+        margin-top: 1rem;
+        justify-content: center;
+        }
+        <!--.slds-modal__container{ 
+        height : 100%; width: 80%; max-width: 90vh;
+        
+        }-->
+        .slds-modal__container{
+         height : 100% !important;
+         max-width: 90vh !important;
+         width:80% !important;
+        }
+
+        <!--.modal-body{ 
+        height : 55vh !important; 
+        max-height: 55vh !important; 
+        } 
+        .slds-modal__footer{ 
+        display: inline !important; 
+        }-->
+        
+        
+    </aura:html>
+    <div class="modal-header slds-modal__header slds-size_1-of-1">
+        <!--  <h4 class="title slds-text-heading-medium" >Clone Opportunity</h4> -->
+    </div>
+    
+    
+    <aura:handler name="change" value="{!v.status}" action="{!c.handleChange}"/>
+    <div style="height : 100%;align-items: center;">
+    <aura:if isTrue="{!not(v.Wizard)}">
+        <lightning:select name="pickListValues" label="" aura:id="pickListValues" onchange="{!c.onChangeSelect}" value="{!v.selectedValue}" required="true">
+            <option value="">Please choose one option</option>
+            <aura:iteration items="{!v.pickObject}" var="singleP">
+                <option text="{!singleP.getLabel}" value="{!singleP.getValue}"/>
+            </aura:iteration>
+        </lightning:select>
+        <aura:if isTrue="{!v.productViewer}">
+            <lightning:select name="productList" label="" aura:id="productList" onchange="{!c.onChangeSelectProduct}" value="{!v.selectedValueProduct}" required="true">
+                <option value="">Please choose one option</option>
+                <aura:iteration items="{!v.pickObjectProduct}" var="singleProduct">
+                    <option text="{!singleProduct.getName}" value="{!singleProduct.getID}"/>
+                </aura:iteration>
+            </lightning:select>  
+            <lightning:input type="date" name="serviceExpDate" label="Data Prevista Partenza Servizio" value="{!v.selectedDate}" min="{!v.todayDate}" required="{!v.serviceExpRequired}"/> <!--rf 25/05/22 IL-000493-->
+        </aura:if> 
+          <ui:inputCheckbox aura:id="checkbox" label="Opportunità di gruppo" change="{!c.onCheck}"/>    
+        
+        <c:LNIT00_CustomLookup objectName="Contact" fieldName="Name,Account.Name" label="Referente" iconName="standard:contact" placeholder="Enter Value" AdditionalFilter="{! 'and AccountId=' + '\''+ v.AccountId +'\' and IT_Type__c != \'Soc\''}"/>
+        <c:LNIT00_CustomLookup objectName="Campaign" fieldName="Name" label="Azione di Marketing" iconName="standard:campaign" placeholder="Enter Value" />
+             
+    <aura:if isTrue="{!v.IsFlexbenefit}">
+   
+    <aura:set attribute="else">
+        <div aura:id="LookupDiv" >
+            {! v.body }
+        </div>
+      <ui:inputCheckbox aura:id="checkbox" label="Capo Quadro" value="{!v.CapoQuadro}" change="{!c.onCheckFrame}"/>
+    </aura:set>
+  </aura:if>    
+      
+        <!--  </aura:if>  -->
+        <aura:if isTrue="{!v.toggleSpinner}">
+            <div class="slds-spinner_container slds-is-relative">
+                <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </aura:if>   
+      <!--  <aura:if isTrue="{!v.IsFlexbenefit}">
+            <lightning:datatable data="{! v.FCList }" columns="{! v.mycolumns }" keyField="Id" hideCheckboxColumn="false"
+                                 onrowaction="{! c.handleRowAction }" onsave="{! c.handleSave }" />
+        <aura:set attribute="else"> -->
+        	<aura:if isTrue="{!and(v.truthy,not(v.Group))}">
+            <div id="buttoncloneOppy" class="cloneOppy">
+                <lightning:button  variant="brand" label="{!$Label.c.IT_AmentContract}" title="Clone Opportunity" onclick="{! c.handleClick }" disabled = "{!v.selectedValue==''}" />
+            </div>
+            <aura:set attribute="else"> 
+                <aura:if isTrue="{!or(v.IsFlexbenefit,v.Group)}">
+                    <div id="buttoncloneOppy" class="cloneOppy">
+                        <lightning:button  variant="brand" label="Avanti" title="Clone Opportunity" onclick="{! c.MostraGruppo }" disabled = "{!v.selectedValue==''}"/>
+                    </div>
+                    <aura:set attribute="else"> 
+                        <div id="cloneOppyChangeProduct" class="cloneOppyChangeProduct">
+                            <lightning:button  variant="brand" label="{!$Label.c.IT_AmentContract}" title="Clone Opportunity" onclick="{! c.handleClickProduct }" disabled = "{!v.selectedValue==''}" />
+                        </div>
+                    </aura:set> </aura:if>
+            </aura:set> </aura:if> <!--</aura:set>
+        </aura:if> -->
+        
+	
+    </aura:if> 
+
+           <!-- <lightning:datatable data="{! v.FCList }" columns="{! v.mycolumns }" keyField="Id" hideCheckboxColumn="false"
+                                 onrowaction="{! c.handleRowAction }" onsave="{! c.handleSave }" /> -->
+        
+	 </div>
+       <aura:if isTrue="{!v.Wizard}">
+        
+        <div> <c:LNIT00_AmendGroup recordId="{!v.recordId}"
+                                   PickVal="{!v.selectedValue}"    
+                                   selectedValueProduct="{!v.selectedValueProduct}"  
+                                   Frame="{!v.CapoQuadro}"
+                                   contactId="{!v.selectedRecord}"
+    							   mktgAction="{!v.selectedRecord2}"
+    							   fcFrame="{!v.selectedRecord3}"
+                                   IsFlexbenefit="{!v.IsFlexbenefit}"
+                                   serviceExpDate="{!v.selectedDate}"
+                                 />
+        </div> 
+        
+    </aura:if>  
+</aura:component>

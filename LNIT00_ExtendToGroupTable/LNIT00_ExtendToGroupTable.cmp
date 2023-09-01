@@ -1,0 +1,34 @@
+<aura:component implements="lightning:availableForFlowScreens,force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" access="global" controller="APIT00_CloneQuote">
+
+<aura:attribute name="dataArr" type="String[]"/>
+<aura:attribute name="data" type="Object"/>
+<aura:attribute name="columnsStr" type="String"/>
+<aura:attribute name="columns" type="List"/>
+<aura:attribute name="maxRowSelection" type="Integer" default="1"/>
+<aura:attribute name="Output" type="String" />
+<aura:attribute name="recordId" type="String" />
+<aura:attribute name="KeyField" type="String"  default="utility:add"/>
+<aura:attribute name="loaded" type="Boolean" default="false" />
+<aura:attribute name="myRows" type="List"/>
+<aura:attribute name="quoteTypeIsTrue" type="Boolean" default="false" />
+    
+<aura:handler name="init" value="{!this }" action="{! c.doInit }"/>
+
+  <!--<div style="height: 300px"> -->
+<lightning:datatable
+aura:id="AcctsDataTable"
+keyField="Id"
+data="{! v.data }"
+columns="{! v.columns }"
+hideCheckboxColumn="{!v.quoteTypeIsTrue}" 
+onrowaction="{! c.handleRowAction }"
+maxRowSelection="40"
+onrowselection="{! c.updateSelectedRows }"
+/>
+        <div>
+        <aura:if isTrue="{! v.loaded }">
+            <lightning:spinner alternativeText="Loading" />
+        </aura:if>
+    </div>
+    <lightning:button label="Avanti" title="cloneQuoteFuture" onclick="{! c.CloneQuoteFuture}"/>
+</aura:component>

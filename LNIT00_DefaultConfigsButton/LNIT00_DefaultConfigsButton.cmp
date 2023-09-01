@@ -1,0 +1,20 @@
+<aura:component implements="force:appHostable,lightning:isUrlAddressable,flexipage:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName" 
+                access="global"
+                controller="APIT00_DefaultConfigsButtonController">
+	<lightning:notificationsLibrary aura:id="notifLib"/>
+    
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    <aura:attribute name="show" type="boolean" default="false"/>
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/> 
+    
+    <lightning:button class="slds-button slds-button--neutral" 
+                      label="{!$Label.c.IT_Assign_Default_Values_Button}" 
+                      title="Default values" 
+                      onclick="{!c.onClick}"
+                      disabled="{!v.show}"/>
+    <div>
+        <aura:if isTrue="{! v.loaded }">
+            <lightning:spinner alternativeText="Loading" />
+        </aura:if>
+    </div>
+</aura:component>

@@ -1,0 +1,8 @@
+<design:component>
+		<design:attribute name="recordId" label="Record Id" />
+    	<design:attribute name="PickVal" label="Picklist" />
+    <design:attribute name="selectedValueProduct" label="Product" />
+    <design:attribute name="serviceExpDate" label="Service Exp Date" />
+    <design:attribute name="Frame" label="Frame"/>
+    <design:attribute name="IsFlexbenefit" label="IsFlexbenefit"/>
+</design:component>
